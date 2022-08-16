@@ -1,0 +1,414 @@
+[
+  {
+    "Name": "ace_type",
+    "Values": [
+      {
+        "Flag": "XD",
+        "Constant": "SDDL_CALLBACK_ACCESS_DENIED",
+        "Description": "Callback Access Denied"
+      },
+      {
+        "Flag": "TL",
+        "Constant": "SDDL_PROCESS_TRUST_LABEL",
+        "Description": "Process Trust Label"
+      },
+      {
+        "Flag": "AU",
+        "Constant": "SDDL_AUDIT",
+        "Description": "Audit"
+      },
+      {
+        "Flag": "A",
+        "Constant": "SDDL_ACCESS_ALLOWED",
+        "Description": "Access Allowed"
+      },
+      {
+        "Flag": "AL",
+        "Constant": "SDDL_ALARM",
+        "Description": "Alarm"
+      },
+      {
+        "Flag": "D",
+        "Constant": "SDDL_ACCESS_DENIED",
+        "Description": "Access Denied"
+      },
+      {
+        "Flag": "OD",
+        "Constant": "SDDL_OBJECT_ACCESS_DENIED",
+        "Description": "Object Access Denied"
+      },
+      {
+        "Flag": "ZA",
+        "Constant": "SDDL_CALLBACK_OBJECT_ACCESS_ALLOWED",
+        "Description": "Callback Object Access Allowed"
+      },
+      {
+        "Flag": "FL",
+        "Constant": "SDDL_ACCESS_FILTER",
+        "Description": "Access Filter"
+      },
+      {
+        "Flag": "XU",
+        "Constant": "SDDL_CALLBACK_AUDIT",
+        "Description": "SDDL_CALLBACK_AUDIT"
+      },
+      {
+        "Flag": "RA",
+        "Constant": "SDDL_RESOURCE_ATTRIBUTE",
+        "Description": "Resource Attribute"
+      },
+      {
+        "Flag": "OA",
+        "Constant": "SDDL_OBJECT_ACCESS_ALLOWED",
+        "Description": "Object Access Allowed"
+      },
+      {
+        "Flag": "SP",
+        "Constant": "SDDL_SCOPED_POLICY_ID",
+        "Description": "Scoped Policy ID"
+      },
+      {
+        "Flag": "ML",
+        "Constant": "SDDL_MANDATORY_LABEL",
+        "Description": "Mandatory Level"
+      },
+      {
+        "Flag": "OU",
+        "Constant": "SDDL_OBJECT_AUDIT",
+        "Description": "Object Audit"
+      },
+      {
+        "Flag": "OL",
+        "Constant": "SDDL_OBJECT_ALARM",
+        "Description": "Object Alarm"
+      },
+      {
+        "Flag": "XA",
+        "Constant": "SDDL_CALLBACK_ACCESS_ALLOWED",
+        "Description": "Callback Access Allowed"
+      }
+    ]
+  },
+  {
+    "Name": "ace_flags",
+    "Values": [
+      {
+        "Flag": "ID",
+        "Constant": "SDDL_INHERITED",
+        "Description": "Inherited"
+      },
+      {
+        "Flag": "OI",
+        "Constant": "SDDL_OBJECT_INHERIT",
+        "Description": "Object Inherit"
+      },
+      {
+        "Flag": "CI",
+        "Constant": "SDDL_CONTAINER_INHERIT",
+        "Description": "Container Inherit"
+      },
+      {
+        "Flag": "IO",
+        "Constant": "SDDL_INHERIT_ONLY",
+        "Description": "Inherit Only"
+      },
+      {
+        "Flag": "FA",
+        "Constant": "SDDL_AUDIT_FAILURE",
+        "Description": "Audit Failure"
+      },
+      {
+        "Flag": "NP",
+        "Constant": "SDDL_NO_PROPAGATE",
+        "Description": "No Propagate"
+      },
+      {
+        "Flag": "TP",
+        "Constant": "SDDL_TRUST_PROTECTED_FILTER",
+        "Description": "Trust Protected Filter"
+      },
+      {
+        "Flag": "SA",
+        "Constant": "SDDL_AUDIT_SUCCESS",
+        "Description": "Audit Success"
+      }
+    ]
+  },
+  {
+    "Name": "rights",
+    "Values": [
+      {
+        "Flag": "WD",
+        "Constant": "SDDL_WRITE_DAC",
+        "Description": "Write DAC",
+        "Permissions": [
+          "ChangePermissions"
+        ]
+      },
+      {
+        "Flag": "CC",
+        "Constant": "SDDL_CREATE_CHILD",
+        "Description": "Create Child",
+        "Permissions": [
+          "ListDirectory"
+        ]
+      },
+      {
+        "Flag": "SW",
+        "Constant": "SDDL_SELF_WRITE",
+        "Description": "Self Write",
+        "Permissions": [
+          "ReadExtendedAttributes"
+        ]
+      },
+      {
+        "Flag": "FR",
+        "Constant": "SDDL_FILE_READ",
+        "Description": "File Read",
+        "Permissions": [
+          "ListDirectory",
+          "Read",
+          "ReadAttributes",
+          "ReadExtendedAttributes",
+          "ReadPermissions",
+          "Synchronize"
+        ]
+      },
+      {
+        "Flag": "RC",
+        "Constant": "SDDL_READ_CONTROL",
+        "Description": "Read Control",
+        "Permissions": [
+          "ReadPermissions"
+        ]
+      },
+      {
+        "Flag": "LC",
+        "Constant": "SDDL_LIST_CHILDREN",
+        "Description": "List Children",
+        "Permissions": [
+          "CreateDirectories"
+        ]
+      },
+      {
+        "Flag": "WP",
+        "Constant": "SDDL_WRITE_PROPERTY",
+        "Description": "Write Property",
+        "Permissions": [
+          "Traverse"
+        ]
+      },
+      {
+        "Flag": "RP",
+        "Constant": "SDDL_READ_PROPERTY",
+        "Description": "Read Property",
+        "Permissions": [
+          "WriteExtendedAttributes"
+        ]
+      },
+      {
+        "Flag": "FX",
+        "Constant": "SDDL_FILE_EXECUTE",
+        "Description": "File Execute",
+        "Permissions": [
+          "ReadAttributes",
+          "ReadPermissions",
+          "Synchronize",
+          "Traverse"
+        ]
+      },
+      {
+        "Flag": "KX",
+        "Constant": "SDDL_KEY_EXECUTE",
+        "Description": "Key Execute",
+        "Permissions": [
+          "ExecuteKey",
+          "ListDirectory",
+          "ReadExtendedAttributes",
+          "ReadPermissions",
+          "WriteExtendedAttributes"
+        ]
+      },
+      {
+        "Flag": "LO",
+        "Constant": "SDDL_LIST_OBJECT",
+        "Description": "List Object",
+        "Permissions": [
+          "ReadAttributes"
+        ]
+      },
+      {
+        "Flag": "CR",
+        "Constant": "SDDL_CONTROL_ACCESS",
+        "Description": "Control Access",
+        "Permissions": [
+          "WriteAttributes"
+        ]
+      },
+      {
+        "Flag": "KR",
+        "Constant": "SDDL_KEY_READ",
+        "Description": "Key Read",
+        "Permissions": [
+          "ExecuteKey",
+          "ListDirectory",
+          "ReadExtendedAttributes",
+          "ReadPermissions",
+          "WriteExtendedAttributes"
+        ]
+      },
+      {
+        "Flag": "DC",
+        "Constant": "SDDL_DELETE_CHILD",
+        "Description": "Delete Child",
+        "Permissions": [
+          "WriteData"
+        ]
+      },
+      {
+        "Flag": "FA",
+        "Constant": "SDDL_FILE_ALL",
+        "Description": "File All",
+        "Permissions": [
+          "ChangePermissions",
+          "CreateDirectories",
+          "Delete",
+          "DeleteSubdirectoriesAndFiles",
+          "ExecuteKey",
+          "FullControl",
+          "FullControl",
+          "FullControl",
+          "FullControl",
+          "GenericAll",
+          "GenericExecute",
+          "GenericRead",
+          "GenericWrite",
+          "ListDirectory",
+          "Modify",
+          "Read",
+          "ReadAndExecute",
+          "ReadAttributes",
+          "ReadExtendedAttributes",
+          "ReadPermissions",
+          "Synchronize",
+          "TakeOwnership",
+          "Traverse",
+          "Write",
+          "WriteAttributes",
+          "WriteData",
+          "WriteExtendedAttributes",
+          "WriteKey"
+        ]
+      },
+      {
+        "Flag": "SD",
+        "Constant": "SDDL_STANDARD_DELETE",
+        "Description": "Standard Delete",
+        "Permissions": [
+          "Delete"
+        ]
+      },
+      {
+        "Flag": "FW",
+        "Constant": "SDDL_FILE_WRITE",
+        "Description": "File Write",
+        "Permissions": [
+          "CreateDirectories",
+          "GenericExecute",
+          "ReadPermissions",
+          "Synchronize",
+          "Write",
+          "WriteAttributes",
+          "WriteData",
+          "WriteExtendedAttributes",
+          "WriteKey"
+        ]
+      },
+      {
+        "Flag": "KA",
+        "Constant": "SDDL_KEY_ALL",
+        "Description": "Key All",
+        "Permissions": [
+          "ChangePermissions",
+          "CreateDirectories",
+          "Delete",
+          "ExecuteKey",
+          "FullControl",
+          "GenericExecute",
+          "GenericWrite",
+          "ListDirectory",
+          "ReadExtendedAttributes",
+          "ReadPermissions",
+          "TakeOwnership",
+          "Traverse",
+          "WriteData",
+          "WriteExtendedAttributes",
+          "WriteKey"
+        ]
+      },
+      {
+        "Flag": "KW",
+        "Constant": "SDDL_KEY_WRITE",
+        "Description": "Key Write",
+        "Permissions": [
+          "CreateDirectories",
+          "GenericExecute",
+          "ReadPermissions",
+          "WriteData",
+          "WriteKey"
+        ]
+      },
+      {
+        "Flag": "DT",
+        "Constant": "SDDL_DELETE_TREE",
+        "Description": "Delete Tree",
+        "Permissions": [
+          "DeleteSubdirectoriesAndFiles"
+        ]
+      },
+      {
+        "Flag": "WO",
+        "Constant": "SDDL_WRITE_OWNER",
+        "Description": "Write Owner",
+        "Permissions": [
+          "TakeOwnership"
+        ]
+      }
+    ]
+  },
+  {
+    "Name": "resource_attribute",
+    "Values": [
+      {
+        "Flag": "TB",
+        "Constant": "SDDL_BOOLEAN",
+        "Description": "BOOLEAN"
+      },
+      {
+        "Flag": "TS",
+        "Constant": "SDDL_WSTRING",
+        "Description": "WSTRING"
+      },
+      {
+        "Flag": "TI",
+        "Constant": "SDDL_INT",
+        "Description": "INT"
+      },
+      {
+        "Flag": "TU",
+        "Constant": "SDDL_UINT",
+        "Description": "UINT"
+      },
+      {
+        "Flag": "TD",
+        "Constant": "SDDL_SID",
+        "Description": "SID"
+      },
+      {
+        "Flag": "TX",
+        "Constant": "SDDL_BLOB",
+        "Description": "BLOB"
+      }
+    ]
+  }
+]
