@@ -1,3 +1,10 @@
+
+| :warning: WARNING          |
+|:---------------------------|
+| This module is currently in development and is considered pre-release software. Please use with caution!      |
+
+
+
 # Project
 
 > This repo has been populated by an initial template to help get you started. Please
