@@ -101,9 +101,9 @@ FunctionsToExport = @(# GET
                       'New-SMBSecOwner',
                       'New-SMBSecGroup',
                       # CONVERT
-                      'ConvertTo-SMBSecSDDLString',                     
-                      'Convert-SMBSecString2DACL',
-                      'Convert-SMBSecDesc2Binary',
+                      #'ConvertTo-SMBSecSDDLString',                     
+                      #'Convert-SMBSecString2DACL',
+                      #'Convert-SMBSecDesc2Binary',
                       # ADD/REMOVE
                       'Add-SMBSecDACL',
                       'Remove-SMBSecDACL',

@@ -10,6 +10,16 @@ using namespace System.Security.Principal
 
 <#
 
+TO-DO:
+
+- Fix SMBSecurityDescriptor ToString output.
+
+
+#>
+
+
+<#
+
 GENERAL MODULE GUIDELINES AND INFORMATION:
 
     - Err on the side of caution. When in doubt, fail the command and output an error.    
@@ -2639,6 +2649,6 @@ Export-ModuleMember -Function Backup-SMBSecurity
 Export-ModuleMember -Function Restore-SMBSecurity
 
 # auxillery functions
-Export-ModuleMember -Function ConvertTo-SMBSecSDDLString
-Export-ModuleMember -Function Convert-SMBSecString2DACL
-Export-ModuleMember -Function Convert-SMBSecDesc2Binary
+#Export-ModuleMember -Function ConvertTo-SMBSecSDDLString
+#Export-ModuleMember -Function Convert-SMBSecString2DACL
+#Export-ModuleMember -Function Convert-SMBSecDesc2Binary
