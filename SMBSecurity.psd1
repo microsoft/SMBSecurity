@@ -85,28 +85,28 @@ ScriptsToProcess = @('.\bin\class.ps1',
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @(# GET
                       'Get-SMBSecurity',
-                      'Get-SMBSecDescriptorNames',
-                      'Get-SMBSecDescriptorRights',
-                      'Get-SMBSecDescription',
+                      'Get-SMBSecurityDescriptorNames',
+                      'Get-SMBSecurityDescriptorRights',
+                      'Get-SMBSecurityDescription',
                       # SET
-                      'Set-SMBSecOwner',
-                      'Set-SMBSecGroup',
-                      'Set-SMBSecDACL', 
-                      'Set-SmbSecDescriptorDACL',
+                      'Set-SMBSecurityOwner',
+                      'Set-SMBSecurityGroup',
+                      'Set-SMBSecurityDACL', 
+                      'Set-SmbSecurityDescriptorDACL',
                       # COPY
-                      'Copy-SMBSecDACL',
+                      'Copy-SMBSecurityDACL',
                       # NEW
-                      'New-SMBSecDACL',
-                      'New-SMBSecDescriptor',
-                      'New-SMBSecOwner',
-                      'New-SMBSecGroup',
+                      'New-SMBSecurityDACL',
+                      'New-SMBSecurityDescriptor',
+                      'New-SMBSecurityOwner',
+                      'New-SMBSecurityGroup',
                       # CONVERT
                       #'ConvertTo-SMBSecSDDLString',                     
                       #'Convert-SMBSecString2DACL',
                       #'Convert-SMBSecDesc2Binary',
                       # ADD/REMOVE
-                      'Add-SMBSecDACL',
-                      'Remove-SMBSecDACL',
+                      'Add-SMBSecurityDACL',
+                      'Remove-SMBSecurityDACL',
                       # SAVE/BACKUP/RESTORE
                       'Save-SMBSecurity',
                       'Backup-SMBSecurity',

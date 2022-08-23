@@ -49,7 +49,7 @@ BeforeAll {
     Pop-Location
 }
 
-Describe 'Add-SMBSecDACL' {
+Describe 'Add-SMBSecurityDACL' {
     Context " Add a new DACL to a SecurityDescriptor" {
         It " Authenticated Users." {
             $DACLSplat = @{
@@ -60,9 +60,9 @@ Describe 'Add-SMBSecDACL' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat
+            $DACL = New-SMBSecurityDACL @DACLSplat
 
-            Add-SMBSecDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL
+            Add-SMBSecurityDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL
 
             $sdDACL = $SMBSec.DACL[-1]
 
@@ -84,9 +84,9 @@ Describe 'Add-SMBSecDACL' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat
+            $DACL = New-SMBSecurityDACL @DACLSplat
 
-            $DACL | Add-SMBSecDACL -SecurityDescriptor $Script:SMBSec
+            $DACL | Add-SMBSecurityDACL -SecurityDescriptor $Script:SMBSec
 
             $sdDACL = $SMBSec.DACL[-1]
 
@@ -99,14 +99,14 @@ Describe 'Add-SMBSecDACL' {
     }
 }
 
-Describe 'Remove-SMBSecDACL' {
+Describe 'Remove-SMBSecurityDACL' {
     Context " Remove a DACL from a SecurityDescriptor" {
         It " Authenticated Users." {
             $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL[4]
 
-            Remove-SMBSecDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL
+            Remove-SMBSecurityDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL
 
             $Script:SMBSec.DACL.Account.Username | Should -Not -Contain $DACL.Account.Username
 
@@ -117,7 +117,7 @@ Describe 'Remove-SMBSecDACL' {
 
             $DACL = $Script:SMBSec.DACL | Where-Object {$_.Account.Username -eq "Everyone"}
 
-            $DACL | Remove-SMBSecDACL -SecurityDescriptor $Script:SMBSec
+            $DACL | Remove-SMBSecurityDACL -SecurityDescriptor $Script:SMBSec
 
             $Script:SMBSec.DACL.Account.Username | Should -Not -Contain $DACL.Account.Username
 

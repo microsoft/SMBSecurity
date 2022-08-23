@@ -80,17 +80,17 @@ Describe 'Get-SMBSecurity' {
 }
 
 
-Describe 'Get-SMBSecDescriptorNames' {
+Describe 'Get-SMBSecurityDescriptorNames' {
     It "Given no parameters, it will list all 14 SMB Security Descriptor names as a string list without descriptions." {
-        $SMBSec = Get-SMBSecDescriptorNames
+        $SMBSec = Get-SMBSecurityDescriptorNames
         $SMBSec.Count | Should -Be 14
     }
 }
 
 
-Describe 'Get-SMBSecDescription' {
+Describe 'Get-SMBSecurityDescription' {
     It "Given no parameters, it will list all 14 SMB Security Descriptors with descriptions." {
-        $SMBSec = Get-SMBSecDescription
+        $SMBSec = Get-SMBSecurityDescription
         $SMBSec.Count | Should -Be 14
     }
 
@@ -113,14 +113,14 @@ Describe 'Get-SMBSecDescription' {
         ) {
             param ($Filter, $Expected)
 
-            $SMBSec = Get-SMBSecDescription -SecurityDescriptor $Filter
+            $SMBSec = Get-SMBSecurityDescription -SecurityDescriptor $Filter
             $SMBSec | Should -Be $Expected
         }
     }
 }
 
 
-Describe 'Get-SMBSecDescriptorRights' {
+Describe 'Get-SMBSecurityDescriptorRights' {
     Context "Filter by SecurityDescriptor" {
         It "Given a valid -SecurityDescriptor '<SecurityDescriptor>', it returns a hashtable of available rights." -TestCases @(
             @{ Filter = 'SrvsvcDefaultShareInfo'  ; Expected = 3},
@@ -140,7 +140,7 @@ Describe 'Get-SMBSecDescriptorRights' {
         ) {
             param ($Filter, $Expected)
 
-            $SMBSec = Get-SMBSecDescriptorRights -SecurityDescriptor $Filter
+            $SMBSec = Get-SMBSecurityDescriptorRights -SecurityDescriptor $Filter
             $SMBSec.Count | Should -Be $Expected
         }
     }

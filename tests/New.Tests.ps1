@@ -47,11 +47,11 @@ BeforeAll {
 
 
 
-Describe 'New-SMBSecOwner' {
+Describe 'New-SMBSecurityOwner' {
     Context 'Create an SMBSecAccount for a SecurityDescriptor Owner using LOCAL accounts.' {
         It 'Using SYSTEM' {
             $account = "SYSTEM"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             $Owner.Account.Value | Should -Be "NT AUTHORITY\SYSTEM"
             $Owner.Username | Should -Be "SYSTEM"
@@ -61,7 +61,7 @@ Describe 'New-SMBSecOwner' {
 
         It 'Using NT AUTHORITY\SYSTEM' {
             $account = "NT AUTHORITY\SYSTEM"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             $Owner.Account.Value | Should -Be "NT AUTHORITY\SYSTEM"
             $Owner.Username | Should -Be "SYSTEM"
@@ -71,7 +71,7 @@ Describe 'New-SMBSecOwner' {
 
         It 'Using Administrator' {
             $account = "Administrator"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\Administrator"
             $Owner.Username | Should -Be "Administrator"
@@ -81,7 +81,7 @@ Describe 'New-SMBSecOwner' {
 
         It 'Using `$ENV:COMPUTERNAME\Administrator' {
             $account = "$ENV:COMPUTERNAME\Administrator"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\Administrator"
             $Owner.Username | Should -Be "Administrator"
@@ -93,7 +93,7 @@ Describe 'New-SMBSecOwner' {
     Context 'Using LocalTest local account.' {
         It 'Using LocalTest' {
             $account = "LocalTest"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\LocalTest"
             $Owner.Username | Should -Be "LocalTest"
@@ -103,7 +103,7 @@ Describe 'New-SMBSecOwner' {
 
         It 'Using `$ENV:COMPUTERNAME\LocalTest' {
             $account = "$ENV:COMPUTERNAME\LocalTest"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\LocalTest"
             $Owner.Username | Should -Be "LocalTest"
@@ -115,7 +115,7 @@ Describe 'New-SMBSecOwner' {
     Context 'Using DomainTest domain account.' {
         It 'Using DomainTest' {
             $account = "DomainTest"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             $Owner.Account.Value | Should -Be "TEST\DomainTest"
             $Owner.Username | Should -Be "DomainTest"
@@ -125,7 +125,7 @@ Describe 'New-SMBSecOwner' {
 
         It 'Using `$ENV:COMPUTERNAME\DomainTest' {
             $account = "$ENV:COMPUTERNAME\DomainTest"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             $Owner.Account.Value | Should -Be "TEST\DomainTest"
             $Owner.Username | Should -Be "DomainTest"
@@ -136,11 +136,11 @@ Describe 'New-SMBSecOwner' {
 }
 
 
-Describe 'New-SMBSecGroup' {
+Describe 'New-SMBSecurityGroup' {
     Context 'Create an SMBSecAccount for a SecurityDescriptor Group using LOCAL USER accounts.' {
         It 'Using SYSTEM' {
             $account = "SYSTEM"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "NT AUTHORITY\SYSTEM"
             $Owner.Username | Should -Be "SYSTEM"
@@ -150,7 +150,7 @@ Describe 'New-SMBSecGroup' {
 
         It 'Using NT AUTHORITY\SYSTEM' {
             $account = "NT AUTHORITY\SYSTEM"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "NT AUTHORITY\SYSTEM"
             $Owner.Username | Should -Be "SYSTEM"
@@ -160,7 +160,7 @@ Describe 'New-SMBSecGroup' {
 
         It 'Using Administrator' {
             $account = "Administrator"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\Administrator"
             $Owner.Username | Should -Be "Administrator"
@@ -170,7 +170,7 @@ Describe 'New-SMBSecGroup' {
 
         It 'Using `$ENV:COMPUTERNAME\Administrator' {
             $account = "$ENV:COMPUTERNAME\Administrator"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\Administrator"
             $Owner.Username | Should -Be "Administrator"
@@ -182,7 +182,7 @@ Describe 'New-SMBSecGroup' {
     Context 'Using LocalTest local account.' {
         It 'Using LocalTest' {
             $account = "LocalTest"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\LocalTest"
             $Owner.Username | Should -Be "LocalTest"
@@ -192,7 +192,7 @@ Describe 'New-SMBSecGroup' {
 
         It 'Using `$ENV:COMPUTERNAME\LocalTest' {
             $account = "$ENV:COMPUTERNAME\LocalTest"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\LocalTest"
             $Owner.Username | Should -Be "LocalTest"
@@ -204,7 +204,7 @@ Describe 'New-SMBSecGroup' {
     Context 'Using DomainTest domain account.' {
         It 'Using DomainTest' {
             $account = "DomainTest"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "TEST\DomainTest"
             $Owner.Username | Should -Be "DomainTest"
@@ -214,7 +214,7 @@ Describe 'New-SMBSecGroup' {
 
         It 'Using `$TEST\DomainTest' {
             $account = "TEST\DomainTest"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "TEST\DomainTest"
             $Owner.Username | Should -Be "DomainTest"
@@ -226,7 +226,7 @@ Describe 'New-SMBSecGroup' {
     Context 'Using LocalGroup.' {
         It 'Account name LocalGroup' {
             $account = "LocalGroup"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\LocalGroup"
             $Owner.Username | Should -Be "LocalGroup"
@@ -236,7 +236,7 @@ Describe 'New-SMBSecGroup' {
 
         It 'Account name `$ENV:COMPUTERNAME\LocalGroup' {
             $account = "$ENV:COMPUTERNAME\LocalGroup"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "$ENV:COMPUTERNAME\LocalGroup"
             $Owner.Username | Should -Be "LocalGroup"
@@ -248,7 +248,7 @@ Describe 'New-SMBSecGroup' {
     Context 'Using DomainGroup' {
         It 'Account name DomainGroup' {
             $account = "DomainGroup"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "TEST\DomainGroup"
             $Owner.Username | Should -Be "DomainGroup"
@@ -258,7 +258,7 @@ Describe 'New-SMBSecGroup' {
 
         It 'Account name `TEST\DomainGroup' {
             $account = "TEST\DomainGroup"
-            $Owner = New-SMBSecGroup -Account $account
+            $Owner = New-SMBSecurityGroup -Account $account
 
             $Owner.Account.Value | Should -Be "TEST\DomainGroup"
             $Owner.Username | Should -Be "DomainGroup"
@@ -269,7 +269,7 @@ Describe 'New-SMBSecGroup' {
 }
 
 
-Describe 'New-SMBSecDACL' {  
+Describe 'New-SMBSecurityDACL' {  
     Context 'Creates a DACL that can be added to a SecurityDescriptor object.' {
         It 'Creating a DACL for SrvsvcDefaultShareInfo' {
             
@@ -281,7 +281,7 @@ Describe 'New-SMBSecDACL' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat
+            $DACL = New-SMBSecurityDACL @DACLSplat
 
             $DACL.SecurityDescriptor | Should -Be "SrvsvcDefaultShareInfo"
             $DACL.SecurityDescriptor.GetType().Name | Should -Be 'SMBSecurityDescriptor'
@@ -289,7 +289,7 @@ Describe 'New-SMBSecDACL' {
             $DACL.Access | Should -Be "Allow"
             $DACL.Access.GetType().Name | Should -Be 'SMBSecAccess'
 
-            Write-Verbose "New-SMBSecDACL - Count: $($DACL.Right.Count), Value(s): $($DACL.Right -join '", ')"
+            Write-Verbose "New-SMBSecurityDACL - Count: $($DACL.Right.Count), Value(s): $($DACL.Right -join '", ')"
             $DACL.Right.Count | Should -Be 2
             $DACL.Right | Should -Contain "Change"
             $DACL.Right | Should -Contain "Read"
@@ -309,7 +309,7 @@ Describe 'New-SMBSecDACL' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat
+            $DACL = New-SMBSecurityDACL @DACLSplat
 
             $DACL.SecurityDescriptor | Should -Be "SrvsvcDefaultShareInfo"
             $DACL.SecurityDescriptor.GetType().Name | Should -Be 'SMBSecurityDescriptor'
@@ -317,7 +317,7 @@ Describe 'New-SMBSecDACL' {
             $DACL.Access | Should -Be "Allow"
             $DACL.Access.GetType().Name | Should -Be 'SMBSecAccess'
 
-            Write-Verbose "New-SMBSecDACL - Count: $($DACL.Right.Count), Value(s): $($DACL.Right -join '", ')"
+            Write-Verbose "New-SMBSecurityDACL - Count: $($DACL.Right.Count), Value(s): $($DACL.Right -join '", ')"
             $DACL.Right.Count | Should -Be 1
             $DACL.Right | Should -Contain "FullControl"
             $DACL.Right.GetType().Name | Should -Be 'String[]'
@@ -339,7 +339,7 @@ Describe 'New-SMBSecDACL' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat -EA SilentlyContinue
+            $DACL = New-SMBSecurityDACL @DACLSplat -EA SilentlyContinue
 
             $DACL | Should -BeNullOrEmpty
         }
@@ -348,7 +348,7 @@ Describe 'New-SMBSecDACL' {
 }
 
 
-Describe 'New-SMBSecDescriptor' {
+Describe 'New-SMBSecurityDescriptor' {
     Context 'Creates SecurityDescriptor object which can be manipulated and saved to the system' {
         It ' New SD using objects and a single DACL.' {
             # create a DACL
@@ -360,16 +360,16 @@ Describe 'New-SMBSecDescriptor' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat
+            $DACL = New-SMBSecurityDACL @DACLSplat
 
             # create an owner
             $account = "NT AUTHORITY\SYSTEM"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             # create a group
-            $Group = New-SMBSecGroup -Account $account
+            $Group = New-SMBSecurityGroup -Account $account
 
-            $SD = New-SMBSecDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $Group -DACL $DACL
+            $SD = New-SMBSecurityDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $Group -DACL $DACL
 
             $SD.Owner.Account | Should -Be "NT AUTHORITY\SYSTEM"
             $SD.Group.Account | Should -Be "NT AUTHORITY\SYSTEM"
@@ -391,7 +391,7 @@ Describe 'New-SMBSecDescriptor' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat
+            $DACL = New-SMBSecurityDACL @DACLSplat
 
             $DACLSplat2 = @{
                 SecurityDescriptor = 'SrvsvcDefaultShareInfo'
@@ -401,7 +401,7 @@ Describe 'New-SMBSecDescriptor' {
             }
             
 
-            $DACL2 = New-SMBSecDACL @DACLSplat2
+            $DACL2 = New-SMBSecurityDACL @DACLSplat2
 
             $DACLs.Add($DACL)
             $DACLs.Add($DACL2)
@@ -409,12 +409,12 @@ Describe 'New-SMBSecDescriptor' {
 
             # create an owner
             $account = "SYSTEM"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             # create a group
-            $Group = New-SMBSecGroup -Account $account
+            $Group = New-SMBSecurityGroup -Account $account
 
-            $SD = New-SMBSecDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $Group -DACL $DACLs
+            $SD = New-SMBSecurityDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $Group -DACL $DACLs
 
             $SD.DACL.Count | Should -Be 2
             $SD.DACL.SecurityDescriptor[0] | Should -Be "SrvsvcDefaultShareInfo"
@@ -437,7 +437,7 @@ Describe 'New-SMBSecDescriptor' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat
+            $DACL = New-SMBSecurityDACL @DACLSplat
 
             $DACLSplat2 = @{
                 SecurityDescriptor = 'SrvsvcDefaultShareInfo'
@@ -447,7 +447,7 @@ Describe 'New-SMBSecDescriptor' {
             }
             
 
-            $DACL2 = New-SMBSecDACL @DACLSplat2
+            $DACL2 = New-SMBSecurityDACL @DACLSplat2
 
             $DACLs += $DACL
             $DACLs += $DACL2
@@ -455,12 +455,12 @@ Describe 'New-SMBSecDescriptor' {
 
             # create an owner
             $account = "SYSTEM"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             # create a group
-            $Group = New-SMBSecGroup -Account $account
+            $Group = New-SMBSecurityGroup -Account $account
 
-            $SD = New-SMBSecDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $Group -DACL $DACLs
+            $SD = New-SMBSecurityDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $Group -DACL $DACLs
 
             $SD.DACL.Count | Should -Be 2
             $SD.DACL.SecurityDescriptor[0] | Should -Be "SrvsvcDefaultShareInfo"
@@ -483,7 +483,7 @@ Describe 'New-SMBSecDescriptor' {
             }
             
 
-            $DACL = New-SMBSecDACL @DACLSplat
+            $DACL = New-SMBSecurityDACL @DACLSplat
 
             $DACLSplat2 = @{
                 SecurityDescriptor = 'SrvsvcDefaultShareInfo'
@@ -493,7 +493,7 @@ Describe 'New-SMBSecDescriptor' {
             }
             
 
-            $DACL2 = New-SMBSecDACL @DACLSplat2
+            $DACL2 = New-SMBSecurityDACL @DACLSplat2
 
             $DACLs.Add($DACL)
             $DACLs.Add($DACL2)
@@ -501,12 +501,12 @@ Describe 'New-SMBSecDescriptor' {
 
             # create an owner
             $account = "SYSTEM"
-            $Owner = New-SMBSecOwner -Account $account
+            $Owner = New-SMBSecurityOwner -Account $account
 
             # create a group
-            $Group = New-SMBSecGroup -Account $account
+            $Group = New-SMBSecurityGroup -Account $account
 
-            $SD = New-SMBSecDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $Group -DACL $DACLs
+            $SD = New-SMBSecurityDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $Group -DACL $DACLs
 
             $SD.DACL.Count | Should -Be 2
             $SD.DACL.SecurityDescriptor[0] | Should -Be "SrvsvcDefaultShareInfo"
@@ -520,7 +520,7 @@ Describe 'New-SMBSecDescriptor' {
         It 'New SD for using an SDDL string,' {
             $strSDDL = 'O:SYG:SYD:(A;;FA;;;WD)'
 
-            $SD = New-SMBSecDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -SDDLString $strSDDL
+            $SD = New-SMBSecurityDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -SDDLString $strSDDL
 
             $SD.Owner.Account | Should -Be "NT AUTHORITY\SYSTEM"
             $SD.Group.Account | Should -Be "NT AUTHORITY\SYSTEM"

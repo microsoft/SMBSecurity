@@ -53,7 +53,7 @@ Describe 'Add a DACL' {
             <#
             smbsec
             $SMBSec = Get-SMBSecurity SrvsvcDefaultShareInfo
-            Remove-SMBSecDACL $SMBSec $SMBSec.DACL[1]
+            Remove-SMBSecurityDACL $SMBSec $SMBSec.DACL[1]
             Save-SMBSecurity $SMBSec
             $SMBSec
             
@@ -68,7 +68,7 @@ Describe 'Add a DACL' {
                 Account            = "Authenticated Users"
             }
             
-            $newDACL = New-SMBSecDACL @DACLSplat
+            $newDACL = New-SMBSecurityDACL @DACLSplat
 
             # validating newDACL
             $newDACL.SecurityDescriptor | Should -Be "SrvsvcDefaultShareInfo"
@@ -91,7 +91,7 @@ Describe 'Add a DACL' {
             $SMBSec.Name | Should -Be 'SrvsvcDefaultShareInfo'
 
             # add the DACL to the SD
-            Add-SMBSecDACL -SecurityDescriptor $SMBSec -DACL $newDACL
+            Add-SMBSecurityDACL -SecurityDescriptor $SMBSec -DACL $newDACL
 
             # validate SD after add
             $fndDACL = $SMBSec.DACL | Where-Object { $_.Account.Account.Value -eq 'NT AUTHORITY\Authenticated Users' }
@@ -109,10 +109,6 @@ Describe 'Add a DACL' {
             $fndDACL.Account.Account.Value | Should -Be "NT AUTHORITY\Authenticated Users"
             $fndDACL.Account.GetType().Name | Should -Be 'SMBSecAccount'
 
-
-            # mark the time for later
-            $preSaveTime = Get-Date
-            
             # save the SD
             Save-SMBSecurity $SMBSec
 
