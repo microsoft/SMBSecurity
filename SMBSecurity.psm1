@@ -133,7 +133,7 @@ function Get-SMBSecurity
 
     if (-NOT [string]::IsNullOrEmpty($SecurityDescriptor) -and $SecurityDescriptor -notin ([SMBSecurityDescriptor].GetEnumNames()))
     {
-        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecDescriptorNames) -join ', ')"
+        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorNames) -join ', ')"
         return $null
     }
     
@@ -145,7 +145,7 @@ function Get-SMBSecurity
     {
         Write-Verbose "Get-SMBSecurity - Single descriptor."
         Write-Debug "Get-SMBSecurity - Processing: $SecurityDescriptor"
-        $null = $results.Add((Read-SMBSecDescriptor $SecurityDescriptor))
+        $null = $results.Add((Read-SMBSecurityDescriptor $SecurityDescriptor))
     }
     else
     {
@@ -154,7 +154,7 @@ function Get-SMBSecurity
         foreach ($name in [SMBSecurityDescriptor].GetEnumNames())
         {
             Write-Debug "Get-SMBSecurity - Processing: $SecurityDescriptor"
-            $null = $results.Add((Read-SMBSecDescriptor $name))
+            $null = $results.Add((Read-SMBSecurityDescriptor $name))
         }
     }
 
@@ -168,7 +168,7 @@ function Get-SMBSecurity
 PURPOSE:  Matches an SD value to a readable description
 EXPORTED: YES
 #>
-function Get-SMBSecDescription
+function Get-SMBSecurityDescription
 {
     [CmdletBinding()]
     param (
@@ -181,7 +181,7 @@ function Get-SMBSecDescription
     # test for a valid descriptor name
     if (-NOT [string]::IsNullOrEmpty($SecurityDescriptor) -and $SecurityDescriptor -notin ([SMBSecurityDescriptor].GetEnumNames()))
     {
-        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecDescriptorNames) -join ', ')"
+        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorNames) -join ', ')"
         return $null
     }
 
@@ -241,7 +241,7 @@ function Get-SMBSecDescription
 PURPOSE:  Matches an well-known SID to a readable account description
 EXPORTED: NO
 #>
-function Get-SMBSecAccount
+function Get-SMBSecurityAccount
 {
     [CmdletBinding()]
     param (
@@ -249,18 +249,18 @@ function Get-SMBSecAccount
         [string]
         $SID
     )
-    Write-Verbose "Get-SMBSecAccount - Begin"
+    Write-Verbose "Get-SMBSecurityAccount - Begin"
     if (-NOT [string]::IsNullOrEmpty($SID))
     {
         $accnt = Find-UserAccount $SID
 
-        Write-Verbose "Get-SMBSecAccount - Returning: $accnt"
-        Write-Verbose "Get-SMBSecAccount - End"
+        Write-Verbose "Get-SMBSecurityAccount - Returning: $accnt"
+        Write-Verbose "Get-SMBSecurityAccount - End"
         return $accnt
     }
     
-    Write-Verbose "Get-SMBSecAccount - The SID was null or empty. Returning Unknown."
-    Write-Verbose "Get-SMBSecAccount - End"
+    Write-Verbose "Get-SMBSecurityAccount - The SID was null or empty. Returning Unknown."
+    Write-Verbose "Get-SMBSecurityAccount - End"
     return "Unknown"
 }
 
@@ -268,7 +268,7 @@ function Get-SMBSecAccount
 PURPOSE:  Returns a list of SMB Security Descriptors and their descriptions.
 EXPORTED: YES
 #>
-function Get-SMBSecDescriptorNames
+function Get-SMBSecurityDescriptorNames
 {
     return ([List[string]]( [SMBSecurityDescriptor].GetEnumNames() ))
 }
@@ -277,7 +277,7 @@ function Get-SMBSecDescriptorNames
 PURPOSE:  Returns the available rights for a security descriptor.
 EXPORTED: YES
 #>
-function Get-SMBSecDescriptorRights
+function Get-SMBSecurityDescriptorRights
 {
     [CmdletBinding()]
     param (
@@ -288,7 +288,7 @@ function Get-SMBSecDescriptorRights
     # test for a valid descriptor name
     if (-NOT [string]::IsNullOrEmpty($SecurityDescriptor) -and $SecurityDescriptor -notin ([SMBSecurityDescriptor].GetEnumNames()))
     {
-        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecDescriptorNames) -join ', ')"
+        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorNames) -join ', ')"
         return $null
     }
 
@@ -310,7 +310,7 @@ function Get-SMBSecDescriptorRights
 PURPOSE:  Alters the owner of a SecurityDescriptor.
 EXPORTED: YES
 #>
-function Set-SMBSecOwner
+function Set-SMBSecurityOwner
 {
     [CmdletBinding()]
     param (
@@ -328,22 +328,22 @@ function Set-SMBSecOwner
 
     begin
     {
-        # Write-Verbose "Set-SMBSecOwner - "
-        Write-Verbose "Set-SMBSecOwner - Begin"
+        # Write-Verbose "Set-SMBSecurityOwner - "
+        Write-Verbose "Set-SMBSecurityOwner - Begin"
     }
     
     process
     {    
 
-        Write-Verbose "Set-SMBSecOwner - Validating $Account"
+        Write-Verbose "Set-SMBSecurityOwner - Validating $Account"
         try
         {    
-            $Owner = New-SMBSecOwner -Account $Account -EA Stop
-            #Write-Verbose "Set-SMBSecOwner - Found $($Owner.Account.Value)"
-            Write-Verbose "Set-SMBSecOwner - Setting the Security Descriptor to $Owner."
+            $Owner = New-SMBSecurityOwner -Account $Account -EA Stop
+            #Write-Verbose "Set-SMBSecurityOwner - Found $($Owner.Account.Value)"
+            Write-Verbose "Set-SMBSecurityOwner - Setting the Security Descriptor to $Owner."
 
             $SecurityDescriptor.Owner.SetOwner($Owner)
-            Write-Verbose "Set-SMBSecOwner - New owner set"
+            Write-Verbose "Set-SMBSecurityOwner - New owner set"
 
         }
         catch
@@ -354,7 +354,7 @@ function Set-SMBSecOwner
 
     end
     {
-        Write-Verbose "Set-SMBSecOwner - End"
+        Write-Verbose "Set-SMBSecurityOwner - End"
         if ($PassThru.IsPresent)
         {
             return $SecurityDescriptor
@@ -372,7 +372,7 @@ function Set-SMBSecOwner
 PURPOSE:  Alters a SD DACL.
 EXPORTED: YES
 #>
-function Set-SMBSecGroup
+function Set-SMBSecurityGroup
 {
     [CmdletBinding()]
     param (
@@ -391,20 +391,20 @@ function Set-SMBSecGroup
 
     begin
     {
-        # Write-Verbose "Set-SMBSecGroup - "
-        Write-Verbose "Set-SMBSecGroup - Begin"
+        # Write-Verbose "Set-SMBSecurityGroup - "
+        Write-Verbose "Set-SMBSecurityGroup - Begin"
     }
     
     process
     {    
-        Write-Verbose "Set-SMBSecGroup - Setting the Security Descriptor to $Account."
+        Write-Verbose "Set-SMBSecurityGroup - Setting the Security Descriptor to $Account."
         try 
         {
-            $Group = New-SMBSecGroup -Account $Account -EA Stop
-            Write-Verbose "Set-SMBSecOwner - Setting the Security Descriptor to $Group."
+            $Group = New-SMBSecurityGroup -Account $Account -EA Stop
+            Write-Verbose "Set-SMBSecurityOwner - Setting the Security Descriptor to $Group."
 
             $SecurityDescriptor.Group.SetGroup($Group)
-            Write-Verbose "Set-SMBSecOwner - New Group set"
+            Write-Verbose "Set-SMBSecurityOwner - New Group set"
         }
         catch 
         {
@@ -414,7 +414,7 @@ function Set-SMBSecGroup
 
     end
     {
-        Write-Verbose "Set-SMBSecGroup - End"
+        Write-Verbose "Set-SMBSecurityGroup - End"
         if ($PassThru.IsPresent)
         {
             return $SecurityDescriptor
@@ -430,7 +430,7 @@ function Set-SMBSecGroup
 PURPOSE:  Alters a single DACL. Used in conjunction with Set-SmbSecDescriptor to modify DACLs in an SD.
 EXPORTED: YES
 #>
-function Set-SMBSecDACL
+function Set-SMBSecurityDACL
 {
     [CmdletBinding()]
     param (
@@ -450,24 +450,24 @@ function Set-SMBSecDACL
         $PassThru
     )
 
-    Write-Verbose "Set-SMBSecDACL - Begin"
+    Write-Verbose "Set-SMBSecurityDACL - Begin"
 
     # Clone the DACL.
     # make changes to the clone and commit only once all changes are successful
-    Write-Verbose "Set-SMBSecDACL - Cloning DACL."
+    Write-Verbose "Set-SMBSecurityDACL - Cloning DACL."
     $copyDACL = $DACL
 
 
     # update the account
     if ($Account)
     {
-        Write-Verbose "Set-SMBSecDACL - Updating Account from $($copyDACL.Account.ToString()) to $($Account.ToString())."
+        Write-Verbose "Set-SMBSecurityDACL - Updating Account from $($copyDACL.Account.ToString()) to $($Account.ToString())."
         # Keep it simple, don't bother checking if it's the same as there are too many variables. The user will be trusted on that aspect.
         # Let [SMBSecDaclAce].SetAccount() do the work of validation.
         try 
         {
             $copyDACL.SetAccount($Account)
-            Write-Verbose "Set-SMBSecDACL - Account update successfully."
+            Write-Verbose "Set-SMBSecurityDACL - Account update successfully."
         }
         catch 
         {
@@ -478,12 +478,12 @@ function Set-SMBSecDACL
     # update the access
     if ($Access)
     {
-        Write-Verbose "Set-SMBSecDACL - Updating Access from $($copyDACL.Access) to $($Access.ToString())."
+        Write-Verbose "Set-SMBSecurityDACL - Updating Access from $($copyDACL.Access) to $($Access.ToString())."
         try 
         {
             # Let [SMBSecDaclAce].SetAccess() do the work
             $copyDACL.SetAccess($Access)
-            Write-Verbose "Set-SMBSecDACL - Access update successfully."
+            Write-Verbose "Set-SMBSecurityDACL - Access update successfully."
         }
         catch 
         {
@@ -494,7 +494,7 @@ function Set-SMBSecDACL
     # update rights
     if ($Right)
     {
-        Write-Verbose "Set-SMBSecDACL - Updating Right(s) from $($copyDACL.Right -join ',') to $($Right -join ',')."
+        Write-Verbose "Set-SMBSecurityDACL - Updating Right(s) from $($copyDACL.Right -join ',') to $($Right -join ',')."
         # add rights to the DACL
         # SetRights does all the validation work, rely on that rather than duplicating the code here.
         try 
@@ -508,7 +508,7 @@ function Set-SMBSecDACL
     }
 
     # return the modified DACL
-    Write-Verbose "Set-SMBSecDACL - End"
+    Write-Verbose "Set-SMBSecurityDACL - End"
     #return $copyDACL    
 }
 
@@ -516,10 +516,10 @@ function Set-SMBSecDACL
 
 
 <#
-PURPOSE:  Updates a single DACL in a SD. Used in conjunction with Set-SMBSecDACL, which modifies the DACL.
+PURPOSE:  Updates a single DACL in a SD. Used in conjunction with Set-SMBSecurityDACL, which modifies the DACL.
 EXPORTED: YES
 #>
-function Set-SmbSecDescriptorDACL
+function Set-SmbSecurityDescriptorDACL
 {
     [CmdletBinding()]
     param (
@@ -536,10 +536,10 @@ function Set-SmbSecDescriptorDACL
         $NewDACL
     )
 
-    Write-Verbose "Set-SmbSecDescriptorDACL - Begin"
+    Write-Verbose "Set-SmbSecurityDescriptorDACL - Begin"
     # find the index of the DACL in the SD
     $index = $SecurityDescriptor.DACL.IndexOf($DACL)
-    Write-Verbose "Set-SmbSecDescriptorDACL - Index of DACL: $index"
+    Write-Verbose "Set-SmbSecurityDescriptorDACL - Index of DACL: $index"
 
     if (-NOT $index -or $index -eq -1)
     {
@@ -548,11 +548,11 @@ function Set-SmbSecDescriptorDACL
 
     try 
     {
-        Write-Verbose "Set-SmbSecDescriptorDACL - Removing DACL."
+        Write-Verbose "Set-SmbSecurityDescriptorDACL - Removing DACL."
         # remove the DACL at the index
         $SecurityDescriptor.DACL.RemoveAt($index)
 
-        Write-Verbose "Set-SmbSecDescriptorDACL - Inserting updated ACL."
+        Write-Verbose "Set-SmbSecurityDescriptorDACL - Inserting updated ACL."
         # insert the new DACL in the same spot
         $SecurityDescriptor.DACL.Insert($index, $NewDACL)
     }
@@ -575,7 +575,7 @@ function Set-SmbSecDescriptorDACL
 PURPOSE:  Creates a [PSCustomObject] containing all the details of an SMB security descriptor.
 EXPORTED: NO
 #>
-function New-SMBSecDescriptor
+function New-SMBSecurityDescriptor
 {
     [CmdletBinding()]
     param (
@@ -598,43 +598,43 @@ function New-SMBSecDescriptor
         $DACL
     )
 
-    Write-Verbose "New-SMBSecDescriptor - Begin"
+    Write-Verbose "New-SMBSecurityDescriptor - Begin"
 
     # use the SDDL string over other params
     if (-NOT [string]::IsNullOrEmpty($SDDLString))
     {
         # convert the SDDL to human readable text
         $SDDL = ConvertFrom-SddlString $SDDLString
-        Write-Debug "New-SMBSecDescriptor - SecurityDescriptor Name: $SecurityDescriptor"
-        Write-Debug "New-SMBSecDescriptor - SDDLString: $strSDDL"
+        Write-Debug "New-SMBSecurityDescriptor - SecurityDescriptor Name: $SecurityDescriptor"
+        Write-Debug "New-SMBSecurityDescriptor - SDDLString: $strSDDL"
 
-        Write-Verbose "New-SMBSecDescriptor - Creating the DACL ACE object."
+        Write-Verbose "New-SMBSecurityDescriptor - Creating the DACL ACE object."
 
         $DACL = New-Object System.Collections.ArrayList
         # strip out the ACE string(s)
         [string[]]$ACEs = $SDDLString.Split(':')[-1].Split(')').Trim('(') | Where-Object { $_ -ne $null -and $_ -ne "" }
-        Write-Verbose "New-SMBSecDescriptor - ACEs: $($ACEs -join ', ')"
+        Write-Verbose "New-SMBSecurityDescriptor - ACEs: $($ACEs -join ', ')"
 
         # this is really ugly ... :{ ... but it works
         $DACL = New-Object System.Collections.ArrayList
         try 
         {
-            Write-Verbose "New-SMBSecDescriptor - First try."
+            Write-Verbose "New-SMBSecurityDescriptor - First try."
             $DACL += Convert-SMBSecString2DACL $SecurityDescriptor $ACEs
         }
         catch 
         {
-            Write-Verbose "New-SMBSecDescriptor - Second try."
+            Write-Verbose "New-SMBSecurityDescriptor - Second try."
             $DACL += Convert-SMBSecString2DACL $SecurityDescriptor $ACEs            
 
             #$null = $DACL.AddRange($tmpDACL)
         }
   
-        Write-Verbose "New-SMBSecDescriptor - DACL count: $($DACL.Count)"
+        Write-Verbose "New-SMBSecurityDescriptor - DACL count: $($DACL.Count)"
 
         if ($DACL)
         {
-            Write-Verbose "New-SMBSecDescriptor - DACL:`n$($DACL | Format-Table * | Out-String) "
+            Write-Verbose "New-SMBSecurityDescriptor - DACL:`n$($DACL | Format-Table * | Out-String) "
         }
         else
         {
@@ -665,7 +665,7 @@ function New-SMBSecDescriptor
         }
         else 
         {
-            return (Write-Error "New-SMBSecDescriptor - Unknown DACL type. The DACL must me an Array or ArrayList of, or a single, SMBSecDACL object (New-SMBSecDACL).")    
+            return (Write-Error "New-SMBSecurityDescriptor - Unknown DACL type. The DACL must me an Array or ArrayList of, or a single, SMBSecDACL object (New-SMBSecurityDACL).")    
         }
     }    
 
@@ -673,8 +673,8 @@ function New-SMBSecDescriptor
     # description
     try 
     {
-        Write-Verbose "New-SMBSecDescriptor - Get descriptor description."
-        $desc = Get-SMBSecDescription -SecurityDescriptor $SecurityDescriptor -EA Stop
+        Write-Verbose "New-SMBSecurityDescriptor - Get descriptor description."
+        $desc = Get-SMBSecurityDescription -SecurityDescriptor $SecurityDescriptor -EA Stop
     }
     catch 
     {
@@ -685,27 +685,27 @@ function New-SMBSecDescriptor
     # owner
     try 
     {
-        Write-Verbose "New-SMBSecDescriptor - Create owner."
+        Write-Verbose "New-SMBSecurityDescriptor - Create owner."
         if ( -NOT [string]::IsNullOrEmpty($SDDL.Owner) )
         {
-            Write-Debug "New-SMBSecDescriptor - Set Owner as part of SDDL: $($SDDL.Owner)"
-            $OwnAccount = New-SMBSecOwner $SDDL.Owner
+            Write-Debug "New-SMBSecurityDescriptor - Set Owner as part of SDDL: $($SDDL.Owner)"
+            $OwnAccount = New-SMBSecurityOwner $SDDL.Owner
             #$tmpowner = [SMBSecOwner]::New($OwnAccount.Account)
         }
         elseif ($Owner -is [SMBSecAccount])
         {
-            Write-Debug "New-SMBSecDescriptor - Manual set Owner as [SMBSecAccount]: $($Owner.ToString())"
-            $OwnAccount = New-SMBSecOwner $Owner
+            Write-Debug "New-SMBSecurityDescriptor - Manual set Owner as [SMBSecAccount]: $($Owner.ToString())"
+            $OwnAccount = New-SMBSecurityOwner $Owner
         }
         elseif ($Owner -is [SMBSecOwner])
         {
-            Write-Debug "New-SMBSecDescriptor - Manual set Owner as [SMBSecAccount]: $($Owner.ToString())"
+            Write-Debug "New-SMBSecurityDescriptor - Manual set Owner as [SMBSecAccount]: $($Owner.ToString())"
             $OwnAccount = $Owner
         }
         elseif ( -NOT [string]::IsNullOrEmpty($Owner))
         {
-            Write-Debug "New-SMBSecDescriptor - Manual set Owner as something else: $($Owner.ToString())"
-            $OwnAccount = New-SMBSecOwner $Owner
+            Write-Debug "New-SMBSecurityDescriptor - Manual set Owner as something else: $($Owner.ToString())"
+            $OwnAccount = New-SMBSecurityOwner $Owner
             #$tmpowner = [SMBSecOwner]::New($OwnAccount.Account)
         }
         else 
@@ -721,26 +721,26 @@ function New-SMBSecDescriptor
     # group
     try 
     {
-        Write-Verbose "New-SMBSecDescriptor - Create group."
+        Write-Verbose "New-SMBSecurityDescriptor - Create group."
         if ( -NOT [string]::IsNullOrEmpty($SDDL.Group) )
         {
-            Write-Debug "New-SMBSecDescriptor - Set Group as part of SDDL: $($SDDL.Group)"
-            $GrpAccount = New-SMBSecGroup $SDDL.Group
+            Write-Debug "New-SMBSecurityDescriptor - Set Group as part of SDDL: $($SDDL.Group)"
+            $GrpAccount = New-SMBSecurityGroup $SDDL.Group
             #$tmpgroup = [SMBSecGroup]::New($GrpAccount.Account)
         }
         elseif ($Group -is [SMBSecGroup])
         {
-            Write-Debug "New-SMBSecDescriptor - Manual set Group as [SMBSecAccount]: $($Group.ToString())"
+            Write-Debug "New-SMBSecurityDescriptor - Manual set Group as [SMBSecAccount]: $($Group.ToString())"
             $GrpAccount = $Group
         }
         elseif ($Group -is [SMBSecAccount])
         {
-            Write-Debug "New-SMBSecDescriptor - Manual set Group as [SMBSecAccount]: $($Group.ToString())"
-            $GrpAccount = New-SMBSecGroup $Group
+            Write-Debug "New-SMBSecurityDescriptor - Manual set Group as [SMBSecAccount]: $($Group.ToString())"
+            $GrpAccount = New-SMBSecurityGroup $Group
         }
         elseif ( -NOT [string]::IsNullOrEmpty($Group))
         {
-            Write-Debug "New-SMBSecDescriptor - Manual set Group as something else: $($Group.ToString())"
+            Write-Debug "New-SMBSecurityDescriptor - Manual set Group as something else: $($Group.ToString())"
             $GrpAccount = $Group
             #$tmpgroup = [SMBSecGroup]::New($GrpAccount.Account)
         }
@@ -759,7 +759,7 @@ function New-SMBSecDescriptor
         return (Write-Error "Failed to find or create a DACL." -EA Stop)
     }
 
-    Write-Verbose "New-SMBSecDescriptor - Create SMBSecurityDescriptor object."
+    Write-Verbose "New-SMBSecurityDescriptor - Create SMBSecurityDescriptor object."
     # create a results object
     $tmpObj = [PSCustomObject]@{
         PSTypeName       = 'SMBSec.Descriptor'
@@ -801,8 +801,8 @@ DACL        : {4}
                                                                                                                                                                                 $this.Group.Account.ToString(), `
                                                                                                                                                                                 "`n`t`t$(($this.DACL | ForEach-Object {$_.ToString()}) -join "`n`t`t")" } -Force
 
-    Write-Verbose "New-SMBSecDescriptor - Returning SMBSecurity object:`n $($tmpObj | Format-Table | Out-String)"
-    Write-Verbose "New-SMBSecDescriptor - End"
+    Write-Verbose "New-SMBSecurityDescriptor - Returning SMBSecurity object:`n $($tmpObj | Format-Table | Out-String)"
+    Write-Verbose "New-SMBSecurityDescriptor - End"
     return $tmpObj
 }
 
@@ -813,7 +813,7 @@ EXPORTED: YES
 TO-DO:
    - Find a dynamic way of creating the $Rights ValidateSet, possibly with a ValidateScript?
 #>
-function New-SMBSecDACL
+function New-SMBSecurityDACL
 {
     [CmdletBinding()]
     param (
@@ -842,13 +842,13 @@ function New-SMBSecDACL
         $Account
     )
 
-    # Write-Verbose "New-SMBSecDACL - "
+    # Write-Verbose "New-SMBSecurityDACL - "
     begin
     {
-        Write-Verbose "New-SMBSecDACL - Begin"
+        Write-Verbose "New-SMBSecurityDACL - Begin"
 
         # create a DACL object
-        Write-Verbose "New-SMBSecDACL - Create new SMBSecDaclAce."
+        Write-Verbose "New-SMBSecurityDACL - Create new SMBSecDaclAce."
 
         # tracks failures to ensure partial objects are not returned
         $failure = $false
@@ -859,7 +859,7 @@ function New-SMBSecDACL
 
     process
     {
-        Write-Verbose "New-SMBSecDACL - Process"
+        Write-Verbose "New-SMBSecurityDACL - Process"
 
         # loop through each parameter and add the value to the [SMBSecDaclAce] object.
         :key foreach ($key in $PSBoundParameters.Keys)
@@ -911,7 +911,7 @@ function New-SMBSecDACL
                             break
                         }
                         
-                        $SMBSecAccount = New-SmbSecAccount $Account
+                        $SMBSecAccount = New-SmbSecurityAccount $Account
                         
                         $tmpDACL.SetAccount($SMBSecAccount)
                     }
@@ -936,10 +936,10 @@ function New-SMBSecDACL
 
     end
     {
-        Write-Verbose "New-SMBSecDACL - End"
+        Write-Verbose "New-SMBSecurityDACL - End"
         if ($failure)
         {
-            Write-Verbose "New-SMBSecDACL - Returning NULL due to failure."
+            Write-Verbose "New-SMBSecurityDACL - Returning NULL due to failure."
             return $null
         }
         else
@@ -953,7 +953,7 @@ function New-SMBSecDACL
 PURPOSE:  Validates the account on the system or domain, then returns a [System.Security.Principal.NTAccount] object.
 EXPORTED: YES
 #>
-function New-SMBSecOwner
+function New-SMBSecurityOwner
 {
     [CmdletBinding()]
     param (
@@ -968,8 +968,8 @@ function New-SMBSecOwner
 
     begin
     {
-        # Write-Verbose "Set-SMBSecOwner - "
-        Write-Verbose "New-SMBSecOwner - Begin"
+        # Write-Verbose "Set-SMBSecurityOwner - "
+        Write-Verbose "New-SMBSecurityOwner - Begin"
 
         $skipCheck = $false
         if ($Account -is [System.Security.Principal.SecurityIdentifier] -or $Account -is [System.Security.Principal.NTAccount])
@@ -988,8 +988,8 @@ function New-SMBSecOwner
     
     process
     {    
-        Write-Verbose "New-SMBSecOwner - Process"
-        Write-Verbose "New-SMBSecOwner - Saving username as System.Security.Principal.NTAccount object."
+        Write-Verbose "New-SMBSecurityOwner - Process"
+        Write-Verbose "New-SMBSecurityOwner - Saving username as System.Security.Principal.NTAccount object."
         if ($skipCheck)
         {
             $fndAccount = $Account
@@ -1018,8 +1018,8 @@ function New-SMBSecOwner
 
     end
     {
-        Write-Verbose "New-SMBSecOwner - End"
-        Write-Verbose "New-SMBSecOwner - Returning: $($Owner.Account.Value)"
+        Write-Verbose "New-SMBSecurityOwner - End"
+        Write-Verbose "New-SMBSecurityOwner - Returning: $($Owner.Account.Value)"
         return $Owner
     } 
 }
@@ -1028,7 +1028,7 @@ function New-SMBSecOwner
 PURPOSE:  Validates the account on the system or domain, then returns a [System.Security.Principal.NTAccount] object.
 EXPORTED: YES
 #>
-function New-SMBSecGroup
+function New-SMBSecurityGroup
 {
     [CmdletBinding()]
     param (
@@ -1043,8 +1043,8 @@ function New-SMBSecGroup
 
     begin
     {
-        # Write-Verbose "New-SMBSecGroup - "
-        Write-Verbose "New-SMBSecGroup - Begin"
+        # Write-Verbose "New-SMBSecurityGroup - "
+        Write-Verbose "New-SMBSecurityGroup - Begin"
 
         $skipCheck = $false
         if ($Account -is [System.Security.Principal.SecurityIdentifier] -or $Account -is [System.Security.Principal.NTAccount])
@@ -1064,8 +1064,8 @@ function New-SMBSecGroup
     
     process
     {    
-        Write-Verbose "New-SMBSecGroup - Process"
-        Write-Verbose "New-SMBSecGroup - Saving username as System.Security.Principal.NTAccount object."
+        Write-Verbose "New-SMBSecurityGroup - Process"
+        Write-Verbose "New-SMBSecurityGroup - Saving username as System.Security.Principal.NTAccount object."
         if ($skipCheck)
         {
             $fndAccount = $Account
@@ -1094,8 +1094,8 @@ function New-SMBSecGroup
 
     end
     {
-        Write-Verbose "New-SMBSecGroup - Returning: $($Group.Account.Value)"
-        Write-Verbose "New-SMBSecGroup - End"
+        Write-Verbose "New-SMBSecurityGroup - Returning: $($Group.Account.Value)"
+        Write-Verbose "New-SMBSecurityGroup - End"
         return $Group
     } 
 }
@@ -1105,7 +1105,7 @@ function New-SMBSecGroup
 PURPOSE:  
 EXPORTED: 
 #>
-function New-SmbSecAccount
+function New-SmbSecurityAccount
 {
     [CmdletBinding()]
     param (
@@ -1135,10 +1135,10 @@ function New-SmbSecAccount
 
     #>
 
-    # Write-Debug "New-SmbSecAccount - "
-    # Write-Verbose "New-SmbSecAccount - "
+    # Write-Debug "New-SmbSecurityAccount - "
+    # Write-Verbose "New-SmbSecurityAccount - "
 
-    Write-Debug "New-SmbSecAccount - Creating the [SMBSecAccount] object."
+    Write-Debug "New-SmbSecurityAccount - Creating the [SMBSecAccount] object."
     
     # when there is no Server preset we let [SMBSecAccount] handle the work
     if ([string]::IsNullOrEmpty($Server))
@@ -1148,7 +1148,7 @@ function New-SmbSecAccount
     # use the ActiveDirectory when a Server is set
     elseif (-NOT [string]::IsNullOrEmpty($Server))
     {
-        Write-Verbose "New-SmbSecAccount - Server present. Using AD module method."
+        Write-Verbose "New-SmbSecurityAccount - Server present. Using AD module method."
         # make sure the ActiveDirectory module is available when $Server is present
         try 
         {
@@ -1156,7 +1156,7 @@ function New-SmbSecAccount
         }
         catch 
         {
-            return (Write-Error "New-SmbSecAccount - This feature requires the ActiveDirectory module. Please make sure ActiveDirectory is installed and try again: $_" -EA Stop)
+            return (Write-Error "New-SmbSecurityAccount - This feature requires the ActiveDirectory module. Please make sure ActiveDirectory is installed and try again: $_" -EA Stop)
         }
 
         # Get-AD[Group|User] doesn't seem to like NTAccounts, so convert that to string before continuing
@@ -1193,7 +1193,7 @@ function New-SmbSecAccount
             }
             else
             {
-                return (Write-Error "New-SmbSecAccount - The Server parameter requires either the Group or User switch be set." -EA Stop)
+                return (Write-Error "New-SmbSecurityAccount - The Server parameter requires either the Group or User switch be set." -EA Stop)
             }
            
             # get the domain details so the NetBIOS name can be identified
@@ -1229,7 +1229,7 @@ function New-SmbSecAccount
 PURPOSE:  
 EXPORTED: NO
 #>
-function Read-SMBSecDescriptor
+function Read-SMBSecurityDescriptor
 {
 
     [CmdletBinding()]
@@ -1240,19 +1240,19 @@ function Read-SMBSecDescriptor
         $SecurityDescriptor
     )
 
-    Write-Verbose "Read-SMBSecDescriptor - Begin"
+    Write-Verbose "Read-SMBSecurityDescriptor - Begin"
 
     # SrvsvcDefaultShareInfo is not in the registry by default. Process special rules when SrvsvcDefaultShareInfo is selected.
     if ($SecurityDescriptor -eq "SrvsvcDefaultShareInfo")
     {
-        Write-Verbose "Read-SMBSecDescriptor - Processing special rules for SrvsvcDefaultShareInfo."
+        Write-Verbose "Read-SMBSecurityDescriptor - Processing special rules for SrvsvcDefaultShareInfo."
         # this is value does not appear by default
         $properties = Get-ItemProperty $Script:SMBSecRegPath -Name $SecurityDescriptor -EA SilentlyContinue
         if (-NOT $properties)
         {
-            Write-Verbose "Read-SMBSecDescriptor - SrvsvcDefaultShareInfo was not found in the registry. Returning the default values."
+            Write-Verbose "Read-SMBSecurityDescriptor - SrvsvcDefaultShareInfo was not found in the registry. Returning the default values."
             # SrvsvcDefaultShareInfo not found, build a default SMB SecDesc object
-            return ( New-SMBSecDescriptor -SecurityDescriptor $SecurityDescriptor -SDDLString 'O:SYG:SYD:(A;;FA;;;WD)' )
+            return ( New-SMBSecurityDescriptor -SecurityDescriptor $SecurityDescriptor -SDDLString 'O:SYG:SYD:(A;;FA;;;WD)' )
         }
     }
 
@@ -1263,7 +1263,7 @@ function Read-SMBSecDescriptor
     # enumerate DefaultSecurity 
     try 
     {
-        Write-Verbose "Read-SMBSecDescriptor - Reading $SecurityDescriptor registry properties."
+        Write-Verbose "Read-SMBSecurityDescriptor - Reading $SecurityDescriptor registry properties."
         $properties = Get-ItemProperty $Script:SMBSecRegPath -Name $SecurityDescriptor -EA Stop
         
     }
@@ -1274,7 +1274,7 @@ function Read-SMBSecDescriptor
 
     # get raw bytes from registry
     [byte[]]$rawBytes = $properties."$SecurityDescriptor"
-    Write-Verbose "Read-SMBSecDescriptor - rawBytes: $($rawBytes.ToString())"
+    Write-Verbose "Read-SMBSecurityDescriptor - rawBytes: $($rawBytes.ToString())"
 
     # get the SDDL string
     $tmpSDDL = $converter.BinarySDToSDDL($rawBytes)
@@ -1287,11 +1287,11 @@ function Read-SMBSecDescriptor
         return (Write-Error "Failed to collect the SDDL string." -EA Stop)
     }
 
-    Write-Verbose "Read-SMBSecDescriptor - SDDL String: $strSDDL"
+    Write-Verbose "Read-SMBSecurityDescriptor - SDDL String: $strSDDL"
 
-    Write-Verbose "Read-SMBSecDescriptor - Calling and returning value from New-SMBSecDescriptor."
-    Write-Verbose "Read-SMBSecDescriptor - End"
-    return (New-SMBSecDescriptor -SecurityDescriptor $SecurityDescriptor -SDDLString $strSDDL)
+    Write-Verbose "Read-SMBSecurityDescriptor - Calling and returning value from New-SMBSecurityDescriptor."
+    Write-Verbose "Read-SMBSecurityDescriptor - End"
+    return (New-SMBSecurityDescriptor -SecurityDescriptor $SecurityDescriptor -SDDLString $strSDDL)
 }
 
 
@@ -1311,7 +1311,7 @@ TO-DO:
    - Use SID-only.
    - Make sure no matching SIDs rather than just account name
 #>
-function Add-SMBSecDACL
+function Add-SMBSecurityDACL
 {
     [CmdletBinding()]
     param (
@@ -1328,8 +1328,8 @@ function Add-SMBSecDACL
 
     begin
     {
-        # Write-Verbose "Add-SMBSecDACL - "
-        Write-Verbose "Add-SMBSecDACL - Begin"
+        # Write-Verbose "Add-SMBSecurityDACL - "
+        Write-Verbose "Add-SMBSecurityDACL - Begin"
     }
     
     process
@@ -1378,7 +1378,7 @@ function Add-SMBSecDACL
     
     end
     {
-        Write-Verbose "Add-SMBSecDACL - End"
+        Write-Verbose "Add-SMBSecurityDACL - End"
         if ($PassThru.IsPresent)
         {
             return $SecurityDescriptor
@@ -1398,7 +1398,7 @@ function Add-SMBSecDACL
 PURPOSE:  Removes a DACL from a SecurityDescriptor.
 EXPORTED: YES
 #>
-function Remove-SMBSecDACL
+function Remove-SMBSecurityDACL
 {
     [CmdletBinding()]
     param (
@@ -1415,15 +1415,15 @@ function Remove-SMBSecDACL
 
     begin
     {
-        # Write-Verbose "Remove-SMBSecDACL - "
-        Write-Verbose "Remove-SMBSecDACL - Begin"
+        # Write-Verbose "Remove-SMBSecurityDACL - "
+        Write-Verbose "Remove-SMBSecurityDACL - Begin"
     }
 
     process
     {
         # find the index of the DACL in the SD
         $index = $SecurityDescriptor.DACL.IndexOf($DACL)
-        Write-Verbose "Set-SmbSecDescriptorDACL - Index of DACL: $index"
+        Write-Verbose "Set-SmbSecurityDescriptorDACL - Index of DACL: $index"
 
         if (-NOT $index -or $index -eq -1)
         {
@@ -1433,7 +1433,7 @@ function Remove-SMBSecDACL
         # process the removal
         try 
         {
-            Write-Verbose "Remove-SMBSecDACL - Removing DACL."
+            Write-Verbose "Remove-SMBSecurityDACL - Removing DACL."
             # remove the DACL at the index
             $SecurityDescriptor.DACL.RemoveAt($index)
         }
@@ -1445,7 +1445,7 @@ function Remove-SMBSecDACL
     
     end
     {
-        Write-Verbose "Remove-SMBSecDACL - End"
+        Write-Verbose "Remove-SMBSecurityDACL - End"
         if ($PassThru.IsPresent)
         {
             return $SecurityDescriptor
@@ -1465,7 +1465,7 @@ function Remove-SMBSecDACL
 #region
 
 
-function Copy-SMBSecDACL
+function Copy-SMBSecurityDACL
 {
     [CmdletBinding()]
     param (
@@ -1494,7 +1494,7 @@ PURPOSE:
 EXPORTED: 
 
 TO-DO:
-   - Allow pipelining from Add-SMBSecDACL
+   - Allow pipelining from Add-SMBSecurityDACL
 
 #>
 function Save-SMBSecurity
@@ -1812,7 +1812,7 @@ function Restore-SMBSecurity
 
             # names must all be valid
             $rValname | & { process {
-                if ($_ -notin (Get-SMBSecDescriptorNames))
+                if ($_ -notin (Get-SMBSecurityDescriptorNames))
                 {
                     return (Write-Error "Invalid Security Descriptor found in the reg file: $_" -EA Stop)
                 }
@@ -2357,7 +2357,7 @@ function Find-UserAccount
                 try 
                 {
                     Write-Verbose "Find-UserAccount - Converting to SMBSecAccount."
-                    $SmbSecObj = New-SmbSecAccount $account -EA Stop
+                    $SmbSecObj = New-SmbSecurityAccount $account -EA Stop
                     Write-Verbose "Find-UserAccount - Result $($SmbSecObj.ToString())"
                 }
                 catch 
@@ -2428,12 +2428,12 @@ function Find-UserAccount
                 if ($tmpAccnt)
                 {
                     Write-Debug "Find-UserAccount - Create the SMBSecAccount object using account string."
-                    $SmbSecObj = New-SmbSecAccount $tmpAccnt -EA Stop    
+                    $SmbSecObj = New-SmbSecurityAccount $tmpAccnt -EA Stop    
                 }
                 else
                 {
                     Write-Debug "Find-UserAccount - Create the SMBSecAccount object using SID."
-                    $SmbSecObj = New-SmbSecAccount $Username -EA Stop
+                    $SmbSecObj = New-SmbSecurityAccount $Username -EA Stop
                 }
                 
             }
@@ -2455,7 +2455,7 @@ function Find-UserAccount
             Write-Verbose "Find-UserAccount - Found an account match in the well-known accounts list: $Username"
             try 
             {
-                $SmbSecObj = New-SmbSecAccount $Username -EA Stop    
+                $SmbSecObj = New-SmbSecurityAccount $Username -EA Stop    
             }
             catch 
             {
@@ -2486,7 +2486,7 @@ function Find-UserAccount
             Write-Verbose "Find-UserAccount - Found a local account."
             # return the local account prefixed by the computername to maintain consistency with DACL translation
             # this shouldn't conflict with special accounts likeshould be detected by this point or are compatible with computername\account
-            $SmbSecObj = New-SmbSecAccount $user -EA Stop
+            $SmbSecObj = New-SmbSecurityAccount $user -EA Stop
             return $SmbSecObj
         }
         catch 
@@ -2502,7 +2502,7 @@ function Find-UserAccount
             
             # this line won't run if Get-LocalUser fails
             Write-Verbose "Find-UserAccount - Found a local group."
-            $SmbSecObj = New-SmbSecAccount $user -EA Stop
+            $SmbSecObj = New-SmbSecurityAccount $user -EA Stop
             return $SmbSecObj
         }
         catch 
@@ -2545,7 +2545,7 @@ function Find-UserAccount
         {
             Write-Verbose "Find-UserAccount - Trying to find $user using non-AD module method."
             #$objSecAccount = [SMBSecAccount]::new($user)
-            $objSecAccount = New-SMBSecAccount $user
+            $objSecAccount = New-SmbSecurityAccount $user
             return $objSecAccount
         }
         catch
@@ -2580,11 +2580,11 @@ function Find-UserAccount
 
         $Server = $domainDeets.PDCEmulator
 
-        # rely on the New-SMBSecAccount function to do the work
+        # rely on the New-SmbSecurityAccount function to do the work
         # check for a user first
         try 
         {
-            $SmbSecObj = New-SmbSecAccount -Account $user -Server $Server -User -EA Stop
+            $SmbSecObj = New-SmbSecurityAccount -Account $user -Server $Server -User -EA Stop
             return $SmbSecObj
         }
         catch 
@@ -2595,7 +2595,7 @@ function Find-UserAccount
         # is it a group?
         try 
         {
-            $SmbSecObj = New-SmbSecAccount -Account $user -Server $Server -Group -EA Stop
+            $SmbSecObj = New-SmbSecurityAccount -Account $user -Server $Server -Group -EA Stop
             return $SmbSecObj
         }
         catch 
@@ -2620,28 +2620,28 @@ function Find-UserAccount
 
 # SecurityDescriptor
 Export-ModuleMember -Function Get-SMBSecurity
-Export-ModuleMember -Function New-SMBSecDescriptor
+Export-ModuleMember -Function New-SMBSecurityDescriptor
 
 # Owner
-Export-ModuleMember -Function Set-SMBSecOwner
-Export-ModuleMember -Function New-SMBSecOwner
+Export-ModuleMember -Function Set-SMBSecurityOwner
+Export-ModuleMember -Function New-SMBSecurityOwner
 
 # Group
-Export-ModuleMember -Function Set-SMBSecGroup
-Export-ModuleMember -Function New-SMBSecGroup
+Export-ModuleMember -Function Set-SMBSecurityGroup
+Export-ModuleMember -Function New-SMBSecurityGroup
 
 # DACL
-Export-ModuleMember -Function Set-SMBSecDACL
-Export-ModuleMember -Function Set-SmbSecDescriptorDACL
-Export-ModuleMember -Function New-SMBSecDACL
-Export-ModuleMember -Function Add-SMBSecDACL
-Export-ModuleMember -Function Remove-SMBSecDACL
-Export-ModuleMember -Function Copy-SMBSecDACL
+Export-ModuleMember -Function Set-SMBSecurityDACL
+Export-ModuleMember -Function Set-SmbSecurityDescriptorDACL
+Export-ModuleMember -Function New-SMBSecurityDACL
+Export-ModuleMember -Function Add-SMBSecurityDACL
+Export-ModuleMember -Function Remove-SMBSecurityDACL
+Export-ModuleMember -Function Copy-SMBSecurityDACL
 
 # list constants
-Export-ModuleMember -Function Get-SMBSecDescriptorNames
-Export-ModuleMember -Function Get-SMBSecDescriptorRights
-Export-ModuleMember -Function Get-SMBSecDescription
+Export-ModuleMember -Function Get-SMBSecurityDescriptorNames
+Export-ModuleMember -Function Get-SMBSecurityDescriptorRights
+Export-ModuleMember -Function Get-SMBSecurityDescription
 
 # backup and restore
 Export-ModuleMember -Function Save-SMBSecurity

@@ -47,10 +47,10 @@ BeforeAll {
     $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcDefaultShareInfo
 }
 
-Describe 'Set-SMBSecOwner' {
+Describe 'Set-SMBSecurityOwner' {
     Context " Set the owner of a SecurityDescriptor using a local account" {
         It " Local Administrator." {
-            Set-SMBSecOwner -SecurityDescriptor $SMBSec -Account "Administrator"
+            Set-SMBSecurityOwner -SecurityDescriptor $SMBSec -Account "Administrator"
 
             $SMBSec.Owner.GetType().Name | Should -Be "SMBSecOwner"
 
@@ -61,7 +61,7 @@ Describe 'Set-SMBSecOwner' {
         }
         
         It " Local account." {
-            Set-SMBSecOwner -SecurityDescriptor $SMBSec -Account "LocalTest"
+            Set-SMBSecurityOwner -SecurityDescriptor $SMBSec -Account "LocalTest"
 
             $SMBSec.Owner.GetType().Name | Should -Be "SMBSecOwner"
 
@@ -75,7 +75,7 @@ Describe 'Set-SMBSecOwner' {
 
     Context "Set the owner of a SecurityDescriptor using a domain account." {
         It " Domain TEST\DomainTest." {
-            Set-SMBSecOwner -SecurityDescriptor $SMBSec -Account "TEST\DomainTest"
+            Set-SMBSecurityOwner -SecurityDescriptor $SMBSec -Account "TEST\DomainTest"
 
             $SMBSec.Owner.GetType().Name | Should -Be "SMBSecOwner"
 
@@ -87,10 +87,10 @@ Describe 'Set-SMBSecOwner' {
     }
 }
 
-Describe 'Set-SMBSecGroup' {
+Describe 'Set-SMBSecurityGroup' {
     Context " Set the owner of a SecurityDescriptor using a local account" {
         It " Local Administrators." {
-            Set-SMBSecGroup -SecurityDescriptor $SMBSec -Account "Administrators"
+            Set-SMBSecurityGroup -SecurityDescriptor $SMBSec -Account "Administrators"
 
             $SMBSec.Group.GetType().Name | Should -Be "SMBSecGroup"
 
@@ -101,7 +101,7 @@ Describe 'Set-SMBSecGroup' {
         }
         
         It " Local group." {
-            Set-SMBSecGroup -SecurityDescriptor $SMBSec -Account "LocalGroup"
+            Set-SMBSecurityGroup -SecurityDescriptor $SMBSec -Account "LocalGroup"
 
             $SMBSec.Group.GetType().Name | Should -Be "SMBSecGroup"
 
@@ -115,7 +115,7 @@ Describe 'Set-SMBSecGroup' {
 
     Context "Set the owner of a SecurityDescriptor using a domain account" {
         It " Domain TEST\DomainGroup." {
-            Set-SMBSecGroup -SecurityDescriptor $SMBSec -Account "TEST\DomainGroup"
+            Set-SMBSecurityGroup -SecurityDescriptor $SMBSec -Account "TEST\DomainGroup"
 
             $SMBSec.Group.GetType().Name | Should -Be "SMBSecGroup"
 
@@ -127,17 +127,17 @@ Describe 'Set-SMBSecGroup' {
     }
 }
 
-Describe 'Set-SMBSecDACL and Set-SmbSecDescriptorDACL' {
+Describe 'Set-SMBSecurityDACL and Set-SmbSecurityDescriptorDACL' {
     Context " Modify the DACL (rights) of a SecurityDescriptor" {
         It " Change Access." {
             $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL[4]
-            $NewDACL = Copy-SMBSecDACL $DACL
+            $NewDACL = Copy-SMBSecurityDACL $DACL
 
-            Set-SMBSecDACL -DACL $NewDACL -Access Deny
+            Set-SMBSecurityDACL -DACL $NewDACL -Access Deny
 
-            Set-SmbSecDescriptorDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL -NewDACl $NewDACL
+            Set-SmbSecurityDescriptorDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL -NewDACl $NewDACL
 
             $NewDACL.Access | Should -Be "Deny"
             $SMBSec.DACL[4].Account.Username | Should -Be "Everyone"
@@ -149,11 +149,11 @@ Describe 'Set-SMBSecDACL and Set-SmbSecDescriptorDACL' {
             $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL[4]
-            $NewDACL = Copy-SMBSecDACL $DACL
+            $NewDACL = Copy-SMBSecurityDACL $DACL
 
-            Set-SMBSecDACL -DACL $NewDACL -Right FullControl
+            Set-SMBSecurityDACL -DACL $NewDACL -Right FullControl
 
-            Set-SmbSecDescriptorDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL -NewDACl $NewDACL
+            Set-SmbSecurityDescriptorDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL -NewDACl $NewDACL
 
             $NewDACL.Right | Should -contain "FullControl"
             $SMBSec.DACL[4].Account.Username | Should -Be "Everyone"
@@ -164,11 +164,11 @@ Describe 'Set-SMBSecDACL and Set-SmbSecDescriptorDACL' {
             $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL[4]
-            $NewDACL = Copy-SMBSecDACL $DACL
+            $NewDACL = Copy-SMBSecurityDACL $DACL
 
-            Set-SMBSecDACL -DACL $NewDACL -Account "Authenticated Users"
+            Set-SMBSecurityDACL -DACL $NewDACL -Account "Authenticated Users"
 
-            Set-SmbSecDescriptorDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL -NewDACl $NewDACL
+            Set-SmbSecurityDescriptorDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL -NewDACl $NewDACL
 
             $SMBSec.DACL[4].Account.Account.Value | Should -Be "NT AUTHORITY\Authenticated Users"
         }
