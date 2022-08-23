@@ -44,7 +44,9 @@ BeforeAll {
     }
 
     # used in all tests
-    $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcDefaultShareInfo
+    $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo
+
+    $Script:backup = Backup-SMBSecurity -Path C:\Temp -RegOnly -FilePassThru | Where-Object { $_ -match "^.*\.reg$"}
 }
 
 Describe 'Set-SMBSecurityOwner' {
@@ -130,7 +132,7 @@ Describe 'Set-SMBSecurityGroup' {
 Describe 'Set-SMBSecurityDACL and Set-SmbSecurityDescriptorDACL' {
     Context " Modify the DACL (rights) of a SecurityDescriptor" {
         It " Change Access." {
-            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
+            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL[4]
             $NewDACL = Copy-SMBSecurityDACL $DACL
@@ -146,7 +148,7 @@ Describe 'Set-SMBSecurityDACL and Set-SmbSecurityDescriptorDACL' {
         }
 
         It " Change Rights." {
-            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
+            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL[4]
             $NewDACL = Copy-SMBSecurityDACL $DACL
@@ -161,7 +163,7 @@ Describe 'Set-SMBSecurityDACL and Set-SmbSecurityDescriptorDACL' {
         }
 
         It " Change Account." {
-            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
+            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL[4]
             $NewDACL = Copy-SMBSecurityDACL $DACL
@@ -173,4 +175,9 @@ Describe 'Set-SMBSecurityDACL and Set-SmbSecurityDescriptorDACL' {
             $SMBSec.DACL[4].Account.Account.Value | Should -Be "NT AUTHORITY\Authenticated Users"
         }
     }
+}
+
+AfterAll {
+    Restore-SMBSecurity -File $Script:backup
+    Remove-Item $Script:backup -Force
 }

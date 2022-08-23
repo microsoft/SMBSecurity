@@ -44,43 +44,45 @@ BeforeAll {
     }
 
     # used in all tests
-    $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcDefaultShareInfo
+    $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo
     
+    $Script:backup = Backup-SMBSecurity -Path C:\Temp -RegOnly -FilePassThru | Where-Object { $_ -match "^.*\.reg$"}
+
     Pop-Location
 }
 
 Describe 'Add-SMBSecurityDACL' {
     Context " Add a new DACL to a SecurityDescriptor" {
         It " Authenticated Users." {
+            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo
+
             $DACLSplat = @{
-                SecurityDescriptor = 'SrvsvcDefaultShareInfo'
-                Access             = 'Allow'
-                Right              = 'FullControl'
-                Account            = "Authenticated Users"
+                SecurityDescriptorName = 'SrvsvcDefaultShareInfo'
+                Access                 = 'Allow'
+                Right                  = 'FullControl'
+                Account                = "Authenticated Users"
             }
             
-
             $DACL = New-SMBSecurityDACL @DACLSplat
 
             Add-SMBSecurityDACL -SecurityDescriptor $Script:SMBSec -DACL $DACL
 
-            $sdDACL = $SMBSec.DACL[-1]
+            $sdDACL = $Script:SMBSec.DACL | Where-Object { $_.Account.Username -eq 'Authenticated Users' }
 
             $sdDACL.SecurityDescriptor    | Should -Be 'SrvsvcDefaultShareInfo'
             $sdDACL.Access                | Should -Be 'Allow'
             $sdDACL.Right                 | Should -Be 'FullControl'
             $sdDACL.Account.Account.Value | Should -Be "NT AUTHORITY\Authenticated Users"
-
         }
 
         It " Authenticated Users via pipeline." {
-            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcDefaultShareInfo
+            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo
 
             $DACLSplat = @{
-                SecurityDescriptor = 'SrvsvcDefaultShareInfo'
-                Access             = 'Allow'
-                Right              = 'FullControl'
-                Account            = "Authenticated Users"
+                SecurityDescriptorName = 'SrvsvcDefaultShareInfo'
+                Access                 = 'Allow'
+                Right                  = 'FullControl'
+                Account                = "Authenticated Users"
             }
             
 
@@ -88,7 +90,7 @@ Describe 'Add-SMBSecurityDACL' {
 
             $DACL | Add-SMBSecurityDACL -SecurityDescriptor $Script:SMBSec
 
-            $sdDACL = $SMBSec.DACL[-1]
+            $sdDACL = $Script:SMBSec.DACL | Where-Object { $_.Account.Account.Value -eq 'NT AUTHORITY\Authenticated Users' }
 
             $sdDACL.SecurityDescriptor    | Should -Be 'SrvsvcDefaultShareInfo'
             $sdDACL.Access                | Should -Be 'Allow'
@@ -102,7 +104,7 @@ Describe 'Add-SMBSecurityDACL' {
 Describe 'Remove-SMBSecurityDACL' {
     Context " Remove a DACL from a SecurityDescriptor" {
         It " Authenticated Users." {
-            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
+            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL[4]
 
@@ -113,7 +115,7 @@ Describe 'Remove-SMBSecurityDACL' {
         }
 
         It " Authenticated Users via pipeline." {
-            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptor SrvsvcSharePrintInfo
+            $Script:SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo
 
             $DACL = $Script:SMBSec.DACL | Where-Object {$_.Account.Username -eq "Everyone"}
 
@@ -189,14 +191,14 @@ Describe 'Save-SMBSecurity' {
             #. .\Add-RegKeyMember.ps1
 
             # start state
-            $SMBSecBefore = Get-SMBSecurity -SecurityDescriptor $SD
+            $SMBSecBefore = Get-SMBSecurity -SecurityDescriptorName $SD
             #$sdPropBefore = Get-Item $Script:SMBSecRegPath | Add-RegKeyMember
 
-            # perform sace
+            # perform save
             $null = Save-SMBSecurity -SecurityDescriptor $SMBSecBefore
 
             # start state
-            $SMBSecAfter = Get-SMBSecurity -SecurityDescriptor $SD
+            $SMBSecAfter = Get-SMBSecurity -SecurityDescriptorName $SD
             #$sdPropAfter = Get-Item $Script:SMBSecRegPath | Add-RegKeyMember
 
             # the actuacl Pester tests
@@ -221,3 +223,7 @@ Describe 'Save-SMBSecurity' {
     }
 }
 
+AfterAll {
+    Restore-SMBSecurity -File $Script:backup
+    Remove-Item $Script:backup -Force
+}

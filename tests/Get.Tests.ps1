@@ -38,6 +38,8 @@ BeforeAll {
             return ( Write-Error "Failed to load file $($file.FullName): $_" -EA Stop )
         }
     }
+
+    $Script:backup = Backup-SMBSecurity -Path C:\Temp -RegOnly -FilePassThru | Where-Object { $_ -match "^.*\.reg$"}
 }
 
 
@@ -67,22 +69,22 @@ Describe 'Get-SMBSecurity' {
         ) {
             param ($Filter, $Expected)
 
-            $SMBSec = Get-SMBSecurity -SecurityDescriptor $Filter
+            $SMBSec = Get-SMBSecurity -SecurityDescriptorName $Filter
             $SMBSec.Name | Should -Be $Expected
         }
 
         It "Given an invalid parameter -SecurityDescriptor 'blah', it returns an error and the variable will be NULL." {
             # use -EA SilentlyContinue to supress the error.
-            $SMBSec = Get-SMBSecurity -SecurityDescriptor 'blah' -EA SilentlyContinue
+            $SMBSec = Get-SMBSecurity -SecurityDescriptorName 'blah' -EA SilentlyContinue
             $SMBSec | Should -BeNullOrEmpty
         }
     }
 }
 
 
-Describe 'Get-SMBSecurityDescriptorNames' {
+Describe 'Get-SMBSecurityDescriptorName' {
     It "Given no parameters, it will list all 14 SMB Security Descriptor names as a string list without descriptions." {
-        $SMBSec = Get-SMBSecurityDescriptorNames
+        $SMBSec = Get-SMBSecurityDescriptorName
         $SMBSec.Count | Should -Be 14
     }
 }
@@ -120,7 +122,7 @@ Describe 'Get-SMBSecurityDescription' {
 }
 
 
-Describe 'Get-SMBSecurityDescriptorRights' {
+Describe 'Get-SMBSecurityDescriptorRight' {
     Context "Filter by SecurityDescriptor" {
         It "Given a valid -SecurityDescriptor '<SecurityDescriptor>', it returns a hashtable of available rights." -TestCases @(
             @{ Filter = 'SrvsvcDefaultShareInfo'  ; Expected = 3},
@@ -140,8 +142,13 @@ Describe 'Get-SMBSecurityDescriptorRights' {
         ) {
             param ($Filter, $Expected)
 
-            $SMBSec = Get-SMBSecurityDescriptorRights -SecurityDescriptor $Filter
+            $SMBSec = Get-SMBSecurityDescriptorRight -SecurityDescriptor $Filter
             $SMBSec.Count | Should -Be $Expected
         }
     }
+}
+
+AfterAll {
+    Restore-SMBSecurity -File $Script:backup
+    Remove-Item $Script:backup -Force
 }
