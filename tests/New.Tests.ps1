@@ -42,6 +42,8 @@ BeforeAll {
             return ( Write-Error "Failed to load file $($file.FullName): $_" -EA Stop )
         }
     }
+
+    $Script:backup = Backup-SMBSecurity -Path C:\Temp -RegOnly -FilePassThru | Where-Object { $_ -match "^.*\.reg$"}
 }
 
 
@@ -274,10 +276,10 @@ Describe 'New-SMBSecurityDACL' {
         It 'Creating a DACL for SrvsvcDefaultShareInfo' {
             
             $DACLSplat = @{
-                SecurityDescriptor = 'SrvsvcDefaultShareInfo'
-                Access             = 'Allow'
-                Right              = @('Change', 'Read')
-                Account            = "Administrator"
+                SecurityDescriptorName = 'SrvsvcDefaultShareInfo'
+                Access                 = 'Allow'
+                Right                  = @('Change', 'Read')
+                Account                = "Administrator"
             }
             
 
@@ -302,10 +304,10 @@ Describe 'New-SMBSecurityDACL' {
         It 'Other writes are ignored when FullControl is used.' {
             
             $DACLSplat = @{
-                SecurityDescriptor = 'SrvsvcDefaultShareInfo'
-                Access             = 'Allow'
-                Right              = @('Change', 'Read', 'FullControl')
-                Account            = "Administrator"
+                SecurityDescriptorName = 'SrvsvcDefaultShareInfo'
+                Access                 = 'Allow'
+                Right                  = @('Change', 'Read', 'FullControl')
+                Account                = "Administrator"
             }
             
 
@@ -332,10 +334,10 @@ Describe 'New-SMBSecurityDACL' {
         It 'Creating a DACL for SrvsvcDefaultShareInfo' {
             
             $DACLSplat = @{
-                SecurityDescriptor = 'SrvsvcDefaultShareInfo'
-                Access             = 'Allow'
-                Right              = @('Change', 'Read', 'Cheese')
-                Account            = "Administrator"
+                SecurityDescriptorName = 'SrvsvcDefaultShareInfo'
+                Access                 = 'Allow'
+                Right                  = @('Change', 'Read', 'Cheese')
+                Account                = "Administrator"
             }
             
 
@@ -530,4 +532,9 @@ Describe 'New-SMBSecurityDescriptor' {
             $SD.DACL.Right | Should -Contain "FullControl"
         }
     }
+}
+
+AfterAll {
+    Restore-SMBSecurity -File $Script:backup
+    Remove-Item $Script:backup -Force
 }

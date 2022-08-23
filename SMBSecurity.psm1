@@ -125,15 +125,16 @@ function Get-SMBSecurity
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false)]
+        [Alias("SD","SecurityDescriptor","SDName","Name")]
         [string]
-        $SecurityDescriptor
+        $SecurityDescriptorName
     )
 
     Write-Verbose "Get-SMBSecurity - Begin"
 
-    if (-NOT [string]::IsNullOrEmpty($SecurityDescriptor) -and $SecurityDescriptor -notin ([SMBSecurityDescriptor].GetEnumNames()))
+    if (-NOT [string]::IsNullOrEmpty($SecurityDescriptorName) -and $SecurityDescriptorName -notin ([SMBSecurityDescriptor].GetEnumNames()))
     {
-        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorNames) -join ', ')"
+        Write-Error "'$SecurityDescriptorName' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorName) -join ', ')"
         return $null
     }
     
@@ -141,11 +142,11 @@ function Get-SMBSecurity
     $results = New-Object System.Collections.ArrayList
 
     Write-Verbose "Get-SMBSecurity - Converting binary reg values."
-    if (-NOT [string]::IsNullOrEmpty($SecurityDescriptor))
+    if (-NOT [string]::IsNullOrEmpty($SecurityDescriptorName))
     {
         Write-Verbose "Get-SMBSecurity - Single descriptor."
-        Write-Debug "Get-SMBSecurity - Processing: $SecurityDescriptor"
-        $null = $results.Add((Read-SMBSecurityDescriptor $SecurityDescriptor))
+        Write-Debug "Get-SMBSecurity - Processing: $SecurityDescriptorName"
+        $null = $results.Add((Read-SMBSecurityDescriptor $SecurityDescriptorName))
     }
     else
     {
@@ -153,7 +154,7 @@ function Get-SMBSecurity
 
         foreach ($name in [SMBSecurityDescriptor].GetEnumNames())
         {
-            Write-Debug "Get-SMBSecurity - Processing: $SecurityDescriptor"
+            Write-Debug "Get-SMBSecurity - Processing: $SecurityDescriptorName"
             $null = $results.Add((Read-SMBSecurityDescriptor $name))
         }
     }
@@ -173,20 +174,21 @@ function Get-SMBSecurityDescription
     [CmdletBinding()]
     param (
         [Parameter()]
+        [Alias("SD","SecurityDescriptor","SDName","Name")]
         [string]
-        $SecurityDescriptor
+        $SecurityDescriptorName
     )
     Write-Verbose "Get-SMBSecDesc - Begin"
 
     # test for a valid descriptor name
-    if (-NOT [string]::IsNullOrEmpty($SecurityDescriptor) -and $SecurityDescriptor -notin ([SMBSecurityDescriptor].GetEnumNames()))
+    if (-NOT [string]::IsNullOrEmpty($SecurityDescriptorName) -and $SecurityDescriptorName -notin ([SMBSecurityDescriptor].GetEnumNames()))
     {
-        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorNames) -join ', ')"
+        Write-Error "'$SecurityDescriptorName' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorName) -join ', ')"
         return $null
     }
 
     # return all when no descriptor is passed
-    if ([string]::IsNullOrEmpty($SecurityDescriptor))
+    if ([string]::IsNullOrEmpty($SecurityDescriptorName))
     {
         Write-Verbose "Get-SMBSecDesc - Returning all descriptors and descriptions."
         $result = [List[PSObject]]::new()
@@ -212,7 +214,7 @@ function Get-SMBSecurityDescription
         try 
         {
             Write-Verbose "Get-SMBSecDesc - Getting description."
-            $desc = $Script:SMBSecDescriptorDef."$SecurityDescriptor"    
+            $desc = $Script:SMBSecDescriptorDef."$SecurityDescriptorName"    
         }
         catch 
         {
@@ -249,6 +251,7 @@ function Get-SMBSecurityAccount
         [string]
         $SID
     )
+
     Write-Verbose "Get-SMBSecurityAccount - Begin"
     if (-NOT [string]::IsNullOrEmpty($SID))
     {
@@ -268,7 +271,7 @@ function Get-SMBSecurityAccount
 PURPOSE:  Returns a list of SMB Security Descriptors and their descriptions.
 EXPORTED: YES
 #>
-function Get-SMBSecurityDescriptorNames
+function Get-SMBSecurityDescriptorName
 {
     return ([List[string]]( [SMBSecurityDescriptor].GetEnumNames() ))
 }
@@ -277,23 +280,24 @@ function Get-SMBSecurityDescriptorNames
 PURPOSE:  Returns the available rights for a security descriptor.
 EXPORTED: YES
 #>
-function Get-SMBSecurityDescriptorRights
+function Get-SMBSecurityDescriptorRight
 {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
+        [Alias("SD","SecurityDescriptor","SDName","Name")]
         [string]
-        $SecurityDescriptor
+        $SecurityDescriptorName
     )
     # test for a valid descriptor name
-    if (-NOT [string]::IsNullOrEmpty($SecurityDescriptor) -and $SecurityDescriptor -notin ([SMBSecurityDescriptor].GetEnumNames()))
+    if (-NOT [string]::IsNullOrEmpty($SecurityDescriptorName) -and $SecurityDescriptorName -notin ([SMBSecurityDescriptor].GetEnumNames()))
     {
-        Write-Error "'$SecurityDescriptor' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorNames) -join ', ')"
+        Write-Error "'$SecurityDescriptorName' is an invalid SecurityDescriptor. The valid names are $((Get-SMBSecurityDescriptorName) -join ', ')"
         return $null
     }
 
     # check for FullControl and single permission values
-    $hashTable = Invoke-Expression "`$Script:SMBSec$SecurityDescriptor"
+    $hashTable = Invoke-Expression "`$Script:SMBSec$SecurityDescriptorName"
 
     return $hashTable
 }
@@ -582,7 +586,7 @@ function New-SMBSecurityDescriptor
         [Parameter(Mandatory=$true)]
         #[ValidateScript({ $_ -in ([SMBSecurityDescriptor].GetEnumNames()) })]
         [SMBSecurityDescriptor]
-        $SecurityDescriptor,
+        $SecurityDescriptorName,
 
         [Parameter(Mandatory=$false)]
         [string]
@@ -605,7 +609,7 @@ function New-SMBSecurityDescriptor
     {
         # convert the SDDL to human readable text
         $SDDL = ConvertFrom-SddlString $SDDLString
-        Write-Debug "New-SMBSecurityDescriptor - SecurityDescriptor Name: $SecurityDescriptor"
+        Write-Debug "New-SMBSecurityDescriptor - SecurityDescriptor Name: $SecurityDescriptorName"
         Write-Debug "New-SMBSecurityDescriptor - SDDLString: $strSDDL"
 
         Write-Verbose "New-SMBSecurityDescriptor - Creating the DACL ACE object."
@@ -620,12 +624,12 @@ function New-SMBSecurityDescriptor
         try 
         {
             Write-Verbose "New-SMBSecurityDescriptor - First try."
-            $DACL += Convert-SMBSecString2DACL $SecurityDescriptor $ACEs
+            $DACL += Convert-SMBSecString2DACL $SecurityDescriptorName $ACEs
         }
         catch 
         {
             Write-Verbose "New-SMBSecurityDescriptor - Second try."
-            $DACL += Convert-SMBSecString2DACL $SecurityDescriptor $ACEs            
+            $DACL += Convert-SMBSecString2DACL $SecurityDescriptorName $ACEs            
 
             #$null = $DACL.AddRange($tmpDACL)
         }
@@ -674,7 +678,7 @@ function New-SMBSecurityDescriptor
     try 
     {
         Write-Verbose "New-SMBSecurityDescriptor - Get descriptor description."
-        $desc = Get-SMBSecurityDescription -SecurityDescriptor $SecurityDescriptor -EA Stop
+        $desc = Get-SMBSecurityDescription -SecurityDescriptorName $SecurityDescriptorName -EA Stop
     }
     catch 
     {
@@ -763,7 +767,7 @@ function New-SMBSecurityDescriptor
     # create a results object
     $tmpObj = [PSCustomObject]@{
         PSTypeName       = 'SMBSec.Descriptor'
-        Name             = $SecurityDescriptor
+        Name             = $SecurityDescriptorName
         Description      = $desc
         Owner            = $OwnAccount
         Group            = $GrpAccount
@@ -819,9 +823,9 @@ function New-SMBSecurityDACL
     param (
         [Parameter( Mandatory=$true,
                     Position=0)]
-        #[ValidateScript({ $_ -in ([SMBSecurityDescriptor].GetEnumNames()) })]
-        [SMBSecurityDescriptor]
-        $SecurityDescriptor,
+        [Alias("SD","SecurityDescriptor","SDName","Name")]
+        [string]
+        $SecurityDescriptorName,
 
         [Parameter( Mandatory=$true,
                     Position=1)]
@@ -854,7 +858,7 @@ function New-SMBSecurityDACL
         $failure = $false
 
         # create the SMBSecDaclAce object
-        $tmpDACL = [SMBSecDaclAce]::new($SecurityDescriptor)
+        $tmpDACL = [SMBSecDaclAce]::new($SecurityDescriptorName)
     }
 
     process
@@ -925,7 +929,7 @@ function New-SMBSecurityDACL
                     break
                 }
 
-                "SecurityDescriptor" {break}
+                "SecurityDescriptorName" {break}
 
                 default { Write-Error "Unknown parameter: $_`n $($PSBoundParameters | Format-List * | Out-String)" }
 
@@ -1235,24 +1239,24 @@ function Read-SMBSecurityDescriptor
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false)]
-        [ValidateScript({ $_ -in ([SMBSecurityDescriptor].GetEnumNames()) })]
+        [Alias("SD","SecurityDescriptor","SDName","Name")]
         [string]
-        $SecurityDescriptor
+        $SecurityDescriptorName
     )
 
     Write-Verbose "Read-SMBSecurityDescriptor - Begin"
 
     # SrvsvcDefaultShareInfo is not in the registry by default. Process special rules when SrvsvcDefaultShareInfo is selected.
-    if ($SecurityDescriptor -eq "SrvsvcDefaultShareInfo")
+    if ($SecurityDescriptorName -eq "SrvsvcDefaultShareInfo")
     {
         Write-Verbose "Read-SMBSecurityDescriptor - Processing special rules for SrvsvcDefaultShareInfo."
         # this is value does not appear by default
-        $properties = Get-ItemProperty $Script:SMBSecRegPath -Name $SecurityDescriptor -EA SilentlyContinue
+        $properties = Get-ItemProperty $Script:SMBSecRegPath -Name $SecurityDescriptorName -EA SilentlyContinue
         if (-NOT $properties)
         {
             Write-Verbose "Read-SMBSecurityDescriptor - SrvsvcDefaultShareInfo was not found in the registry. Returning the default values."
             # SrvsvcDefaultShareInfo not found, build a default SMB SecDesc object
-            return ( New-SMBSecurityDescriptor -SecurityDescriptor $SecurityDescriptor -SDDLString 'O:SYG:SYD:(A;;FA;;;WD)' )
+            return ( New-SMBSecurityDescriptor -SecurityDescriptorName $SecurityDescriptorName -SDDLString 'O:SYG:SYD:(A;;FA;;;WD)' )
         }
     }
 
@@ -1263,8 +1267,8 @@ function Read-SMBSecurityDescriptor
     # enumerate DefaultSecurity 
     try 
     {
-        Write-Verbose "Read-SMBSecurityDescriptor - Reading $SecurityDescriptor registry properties."
-        $properties = Get-ItemProperty $Script:SMBSecRegPath -Name $SecurityDescriptor -EA Stop
+        Write-Verbose "Read-SMBSecurityDescriptor - Reading $SecurityDescriptorName registry properties."
+        $properties = Get-ItemProperty $Script:SMBSecRegPath -Name $SecurityDescriptorName -EA Stop
         
     }
     catch 
@@ -1273,7 +1277,7 @@ function Read-SMBSecurityDescriptor
     }
 
     # get raw bytes from registry
-    [byte[]]$rawBytes = $properties."$SecurityDescriptor"
+    [byte[]]$rawBytes = $properties."$SecurityDescriptorName"
     Write-Verbose "Read-SMBSecurityDescriptor - rawBytes: $($rawBytes.ToString())"
 
     # get the SDDL string
@@ -1291,7 +1295,7 @@ function Read-SMBSecurityDescriptor
 
     Write-Verbose "Read-SMBSecurityDescriptor - Calling and returning value from New-SMBSecurityDescriptor."
     Write-Verbose "Read-SMBSecurityDescriptor - End"
-    return (New-SMBSecurityDescriptor -SecurityDescriptor $SecurityDescriptor -SDDLString $strSDDL)
+    return (New-SMBSecurityDescriptor -SecurityDescriptorName $SecurityDescriptorName -SDDLString $strSDDL)
 }
 
 
@@ -1316,6 +1320,7 @@ function Add-SMBSecurityDACL
     [CmdletBinding()]
     param (
         [Parameter( Mandatory = $true)]
+        [PSCustomObject]
         $SecurityDescriptor,
 
         [Parameter( Mandatory = $true, ValueFromPipeline = $true)]
@@ -1403,6 +1408,7 @@ function Remove-SMBSecurityDACL
     [CmdletBinding()]
     param (
         [Parameter( Mandatory = $true)]
+        [PSCustomObject]
         $SecurityDescriptor,
 
         [Parameter( Mandatory = $true, ValueFromPipeline = $true)]
@@ -1422,24 +1428,24 @@ function Remove-SMBSecurityDACL
     process
     {
         # find the index of the DACL in the SD
-        $index = $SecurityDescriptor.DACL.IndexOf($DACL)
-        Write-Verbose "Set-SmbSecurityDescriptorDACL - Index of DACL: $index"
-
-        if (-NOT $index -or $index -eq -1)
+        try
         {
-            return (Write-Error "Could not find a matching DACL in the SecurityDescriptor." -EA Stop)
-        }
+            [int]$index = Find-SMBSecDACLIndex -SecurityDescriptor $SecurityDescriptor -DACL $DACL
 
-        # process the removal
-        try 
-        {
+            Write-Verbose "Remove-SMBSecurityDACL - Index of DACL: $index"
+
+            if ($index -lt 0)
+            {
+                return (Write-Error "Could not find a matching DACL in the SecurityDescriptor." -EA Stop)
+            }
+
             Write-Verbose "Remove-SMBSecurityDACL - Removing DACL."
             # remove the DACL at the index
             $SecurityDescriptor.DACL.RemoveAt($index)
         }
-        catch 
+        catch
         {
-            return (Write-Error "Failed to update the DACL: $_" -EA Stop)
+            return (Write-Error "Failed to remove the DACL: $_" -EA Stop)
         }
     }
     
@@ -1502,6 +1508,7 @@ function Save-SMBSecurity
     [CmdletBinding()]
     param (
         [Parameter()]
+        [PSCustomObject[]]
         $SecurityDescriptor,
 
         [switch]
@@ -1601,7 +1608,9 @@ function Backup-SMBSecurity
     [CmdletBinding()]
     param (
         [Parameter()]
-        $SecurityDescriptor,
+        [Alias("SD","SecurityDescriptor","SDName","Name")]
+        [string[]]
+        $SecurityDescriptorName,
 
         [Parameter()]
         [string]
@@ -1611,7 +1620,10 @@ function Backup-SMBSecurity
         $RegOnly,
 
         [switch]
-        $WithReg
+        $WithReg,
+
+        [switch]
+        $FilePassThru
     )
 
     <#
@@ -1630,6 +1642,12 @@ function Backup-SMBSecurity
     # Write-Verbose "Backup-SMBSecurity - "
     Write-Verbose "Backup-SMBSecurity - Begin"
     
+    if ($FilePassThru.IsPresent)
+    {
+        # stores full file path for each backup
+        $backupFilePaths = [List[string]]::new()
+    }
+
     # save to %LOCALAPPDATA%\SMBSecurity by default        
     # set default path if one wasn't provides
     if ( [string]::IsNullOrEmpty( $Path ) )
@@ -1647,14 +1665,14 @@ function Backup-SMBSecurity
     if (-NOT $RegOnly.IsPresent)
     {
         # if SecurityDescriptor is empty all SDs are backed up
-        if ( [string]::IsNullOrEmpty( $SecurityDescriptor ) -or $SecurityDescriptor.Count -le 0 )
+        if ( [string]::IsNullOrEmpty( $SecurityDescriptorName ) -or $SecurityDescriptorName.Count -le 0 )
         {
             Write-Verbose "Backup-SMBSecurity - Backing up all SDs."
-            [string[]]$SecurityDescriptor = [SMBSecurityDescriptor].GetEnumNames()
+            [string[]]$SecurityDescriptorName = [SMBSecurityDescriptor].GetEnumNames()
         }
         else
         {
-            Write-Verbose "Backup-SMBSecurity - Backing up $($SecurityDescriptor -join '_')`."
+            Write-Verbose "Backup-SMBSecurity - Backing up $($SecurityDescriptorName -join '_')`."
         }
 
         $results = New-Object System.Collections.ArrayList
@@ -1663,7 +1681,7 @@ function Backup-SMBSecurity
         $sdRegProp = Get-ItemProperty -Path $Script:SMBSecRegPath -EA SilentlyContinue
 
         # save individual SDs as CliXML exports of the binary reg data
-        foreach ($sd in $SecurityDescriptor)
+        foreach ($sd in $SecurityDescriptorName)
         {
             Write-Verbose "Backup-SMBSecurity - Reading $sd."
             
@@ -1690,11 +1708,12 @@ function Backup-SMBSecurity
                 }
 
                 # create a unique filename
-                $fileName = "Backup-$($SecurityDescriptor -join '_')-SMBSec-$tmStmp"
+                $fileName = "Backup-$sd-SMBSec-$tmStmp"
 
                 # export the object to CliXML
                 Write-Verbose "Backup-SMBSecurity - Exporting data to CliXML:`n$($results.Name)`n$($results.Binary)"
-                $tmpObj | Export-Clixml -Path "$path\$fileName`.xml" -Depth 20 -Force -Encoding utf8    
+                $tmpObj | Export-Clixml -Path "$path\$fileName`.xml" -Depth 20 -Force -Encoding utf8
+                if ($FilePassThru.IsPresent) { $backupFilePaths += "$path\$fileName`.xml" }
                 Write-Verbose "Backup-SMBSecurity - XML export saved to $path\$fileName`.xml"
 
             }
@@ -1718,12 +1737,22 @@ function Backup-SMBSecurity
             return (Write-Error "Failed to write the reg file backup to '$path': $_" -EA Stop)
         }
 
+        if ($FilePassThru.IsPresent) { $backupFilePaths += "$path\$regBckpFilename" }
+
         Write-Verbose "Backup-SMBSecurity - REG export saved to $path\$regBckpFilename"
     }
 
     # return true if everything worked 
     Write-Verbose "Backup-SMBSecurity - End"
-    return $true
+    
+    if ($FilePassThru.IsPresent) 
+    { 
+        return $backupFilePaths
+    }
+    else
+    {
+        return $true
+    }
 }
 
 <#
@@ -1812,11 +1841,11 @@ function Restore-SMBSecurity
 
             # names must all be valid
             $rValname | & { process {
-                if ($_ -notin (Get-SMBSecurityDescriptorNames))
+                if ($_ -notin (Get-SMBSecurityDescriptorName))
                 {
                     return (Write-Error "Invalid Security Descriptor found in the reg file: $_" -EA Stop)
                 }
-                else { Write-Host "Match: $_"}
+                else { Write-Verbose "Match: $_"}
             }}
 
             # restore the REG file ... at long last
@@ -2611,6 +2640,117 @@ function Find-UserAccount
 }
 
 
+<#
+PURPOSE:  
+EXPORTED: 
+#>
+function Find-SMBSecDACLIndex
+{
+    [CmdletBinding()]
+    param (
+        [Parameter( Mandatory = $true)]
+        [PSCustomObject]
+        $SecurityDescriptor,
+
+        [Parameter( Mandatory = $true, ValueFromPipeline = $true)]
+        [SMBSecDaclAce]
+        $DACL
+    )
+    
+    #Write-Verbose "Find-SMBSecDACLIndex - "
+    Write-Verbose "Find-SMBSecDACLIndex - Begin"
+
+    <#
+        What must match:
+
+           - SD name
+           - Account SID (if SIDs match then the rest will)
+           - Rights must be equal
+    #>
+
+    ## Match SD
+    Write-Verbose "Find-SMBSecDACLIndex - Searching for Security Descriptor name."
+    if ($DACL.SecurityDescriptor -ne $SecurityDescriptor.Name)
+    {
+        return (Write-Error "$($DACL.SecurityDescriptor) does not match the SMB SecurityDescriptor ($($SecurityDescriptor.Name))." -EA Stop)
+    }
+    Write-Verbose "Find-SMBSecDACLIndex - Security Descriptor name found."
+
+
+    ## Match SID
+    Write-Verbose "Find-SMBSecDACLIndex - Searching for a SD DACL with a matching SID."
+
+    # SIDs *MUST* match
+    $fndDACL = $SecurityDescriptor.DACL | Where-Object { $_.Account.SID.Value -eq $DACL.Account.SID.Value }
+
+    if (-NOT $fndDACL)
+    {
+        return (Write-Error "Failed to find a matching DACL in the SecurityDescriptor. No matching SID ($($DACL.Account.SID.Value))." -EA Stop)
+    }
+    Write-Verbose "Find-SMBSecDACLIndex - SID found."
+
+
+    ## Make sure the Rights are equal
+    Write-Verbose "Find-SMBSecDACLIndex - Matching rights."
+
+    # DACL Right count should be greater than 0
+    if ($DACL.Right.Count -le 0)
+    {
+        return (Write-Error "Found an invalid number of Rights in the DACL. Number must be greater than 0, number of rights is equal to $($DACL.Right.Count)." -EA Stop)
+    }
+
+    # DACL Right count should match
+    if ($DACL.Right.Count -ne $fndDACL.Right.Count)
+    {
+        return (Write-Error "Found an invalid number of Rights in the DACL. Number of Rights must match. Rights in DACL: $($DACL.Right.Count), rights in the SMB Security Descriptor: $($fndDACL.Right.Count)" -EA Stop)
+    }
+
+    # tracks whether a right is missing from the DACL
+    $missingMatch = @()
+    $fndDACL.Right | ForEach-Object { if ($_ -notin $DACL.Right) { $missingMatch += $_; break } }
+
+    if ($missingMatch.Count -gt 0)
+    {
+        return (Write-Error "Rights mismatch. The following Right(s) were not found in the SMB Security Descriptor: $($missingMatch -join ', ')" -EA Stop)
+    }
+
+    Write-Verbose "Find-SMBSecDACLIndex - Rights matched."
+
+    Write-Verbose "Find-SMBSecDACLIndex - End: Success!"
+    
+    # DACL match succeeded!
+    # now get the index
+    # try the easy way first
+    Write-Verbose "Find-SMBSecDACLIndex - Find index using IndexOf()."
+    $index = $SecurityDescriptor.DACL.Indexof($DACL)
+
+    # if the index is -1 (less than 0) then no match was found by IndexOf, use alternate method
+    if ($idex -lt 0)
+    {
+        Write-Verbose "Find-SMBSecDACLIndex - IndexOf failed. Using backup method."
+        Write-Debug "Find-SMBSecDACLIndex - DACL SID: $($DACL.Account.SID.Value)"
+        $index = -1
+        for ($i = 0; $i -lt $SecurityDescriptor.DACL.Count; $i++)
+        {
+            Write-Debug "Find-SMBSecDACLIndex - Test index: $i"
+            Write-Debug "Find-SMBSecDACLIndex - SD SID: $($SecurityDescriptor.DACL[$i].Account.SID.Value)"
+            
+            if ($SecurityDescriptor.DACL[$i].Account.SID.Value -eq $DACL.Account.SID.Value)
+            {
+                Write-Verbose "Find-SMBSecDACLIndex - Found index at $i."
+                $index = $i
+                break
+            }
+        }
+    }
+
+    Write-Verbose "Find-SMBSecDACLIndex - Returning $index"
+    Write-Verbose "Find-SMBSecDACLIndex - End"
+    return $index
+    
+}
+
+
 #endregion MISC
 
 
@@ -2639,8 +2779,8 @@ Export-ModuleMember -Function Remove-SMBSecurityDACL
 Export-ModuleMember -Function Copy-SMBSecurityDACL
 
 # list constants
-Export-ModuleMember -Function Get-SMBSecurityDescriptorNames
-Export-ModuleMember -Function Get-SMBSecurityDescriptorRights
+Export-ModuleMember -Function Get-SMBSecurityDescriptorName
+Export-ModuleMember -Function Get-SMBSecurityDescriptorRight
 Export-ModuleMember -Function Get-SMBSecurityDescription
 
 # backup and restore

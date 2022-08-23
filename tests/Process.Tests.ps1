@@ -42,9 +42,15 @@ BeforeAll {
             return ( Write-Error "Failed to load file $($file.FullName): $_" -EA Stop )
         }
     }
+
+    $Script:backup = Backup-SMBSecurity -Path C:\Temp -RegOnly -FilePassThru | Where-Object { $_ -match "^.*\.reg$"}
 }
 
+<#
 
+This test covers the process of replacing Everyone as the DefaultShareInfo with Authenticated Users.
+
+#>
 
 Describe 'Add a DACL' {
     Context ' Add Authenticated Users to SrvsvcDefaultShareInfo' {
@@ -56,16 +62,18 @@ Describe 'Add a DACL' {
             Remove-SMBSecurityDACL $SMBSec $SMBSec.DACL[1]
             Save-SMBSecurity $SMBSec
             $SMBSec
+
+            Invoke-Pester
             
             #>
 
 
             # create the DACL
             $DACLSplat = @{
-                SecurityDescriptor = 'SrvsvcDefaultShareInfo'
-                Access             = 'Allow'
-                Right              = 'FullControl'
-                Account            = "Authenticated Users"
+                SecurityDescriptorName = 'SrvsvcDefaultShareInfo'
+                Access                 = 'Allow'
+                Right                  = 'FullControl'
+                Account                = "Authenticated Users"
             }
             
             $newDACL = New-SMBSecurityDACL @DACLSplat
@@ -146,13 +154,137 @@ Describe 'Add a DACL' {
 Describe 'Modify a DACL' {
     Context ' Modify Authenticated Users in SrvsvcDefaultShareInfo.' {
         It ' Change FullControl to Read' {
+
+             <#
+            smbsec
+            $SMBSec = Get-SMBSecurity SrvsvcDefaultShareInfo
+            Remove-SMBSecurityDACL $SMBSec $SMBSec.DACL[1]
+            Save-SMBSecurity $SMBSec
+            $SMBSec
+
+            Invoke-Pester
+            
+            #>
+
+            # get the SrvsvcDefaultShareInfo decriptor object
+            $SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo
+
+            # create a copy of the Authenticated Users DACL
+            $DACL = $SMBSec.DACL | Where-Object { $_.Account.Username -eq "Authenticated Users" }
+            $NewDACL = Copy-SMBSecurityDACL $DACL
+
+            # validating newDACL
+            $NewDACL.SecurityDescriptor | Should -Be "SrvsvcDefaultShareInfo"
+            $NewDACL.SecurityDescriptor.GetType().Name | Should -Be 'SMBSecurityDescriptor'
+
+            $NewDACL.Access | Should -Be "Allow"
+            $NewDACL.Access.GetType().Name | Should -Be 'SMBSecAccess'
+
+            $NewDACL.Right.Count | Should -Be 1
+            $NewDACL.Right | Should -Contain "FullControl"
+            $NewDACL.Right.GetType().Name | Should -Be 'String[]'
+
+            $NewDACL.Account.Account.Value | Should -Be "NT AUTHORITY\Authenticated Users"
+            $NewDACL.Account.GetType().Name | Should -Be 'SMBSecAccount'
+
+
+            # Modify the DACL
+            Set-SMBSecurityDACL -DACL $NewDACL -Right Read
+
+            # validate Right changed
+            $NewDACL.Right | Should -Contain "Read"
+
+            # set the DACL on the SD
+            Set-SmbSecurityDescriptorDACL -SecurityDescriptor $SMBSec -DACL $DACL -NewDACl $NewDACL
+
+            # validate the change on the SD
+            $sdDACL = $SMBSec.DACL | Where-Object { $_.Account.Username -eq "Authenticated Users" }
+
+            $sdDACL.Right | Should -Contain "Read"
+
+
+            # save the SD
+            Save-SMBSecurity -SecurityDescriptor $SMBSec
+
+            # udpate SMBSec and validate change worked
+            $SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo
+            $DACL = $SMBSec.DACL | Where-Object { $_.Account.Username -eq "Authenticated Users" }
+
+            # validating newDACL
+            $DACL.SecurityDescriptor | Should -Be "SrvsvcDefaultShareInfo"
+            $DACL.SecurityDescriptor.GetType().Name | Should -Be 'SMBSecurityDescriptor'
+
+            $DACL.Access | Should -Be "Allow"
+            $DACL.Access.GetType().Name | Should -Be 'SMBSecAccess'
+
+            $DACL.Right.Count | Should -Be 1
+            $DACL.Right | Should -Contain "Read"
+            $DACL.Right.GetType().Name | Should -Be 'String[]'
+
+            $DACL.Account.Account.Value | Should -Be "NT AUTHORITY\Authenticated Users"
+            $DACL.Account.GetType().Name | Should -Be 'SMBSecAccount'
         }
     }
 }
 
 Describe 'Remove a DACL' {
-    Context ' Remove Authenticated Users from SrvsvcDefaultShareInfo' {
-        It ' Deleting Authenticated Users.' {
+    Context ' Remove from SrvsvcDefaultShareInfo' {
+        It ' The Everyone group.' {
+             <#
+            smbsec
+            $SMBSec = Get-SMBSecurity SrvsvcDefaultShareInfo
+            Remove-SMBSecurityDACL $SMBSec $SMBSec.DACL[1]
+            Save-SMBSecurity $SMBSec
+            $SMBSec
+
+            Invoke-Pester
+            
+            #>
+
+            # get the SrvsvcDefaultShareInfo decriptor object
+            $SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo
+
+            $DACL = $SMBSec.DACL | Where-Object {$_.Account.Username -eq "Everyone"}
+
+            $DACL.SecurityDescriptor | Should -Be "SrvsvcDefaultShareInfo"
+            $DACL.SecurityDescriptor.GetType().Name | Should -Be 'SMBSecurityDescriptor'
+
+            $DACL.Access | Should -Be "Allow"
+            $DACL.Access.GetType().Name | Should -Be 'SMBSecAccess'
+
+            $DACL.Right.Count | Should -Be 1
+            $DACL.Right | Should -Contain "FullControl"
+            $DACL.Right.GetType().Name | Should -Be 'String[]'
+
+            $DACL.Account.Username | Should -Be "Everyone"
+            $DACL.Account.GetType().Name | Should -Be 'SMBSecAccount'
+
+            # remove the DACL
+            $DACL | Remove-SMBSecurityDACL -SecurityDescriptor $SMBSec
+
+            # validate
+            $SMBSec.DACL.Account.Username | Should -Not -Contain "Everyone"
+
+
+            # save change
+            Save-SMBSecurity -SecurityDescriptor $SMBSec
+
+            # update the SrvsvcDefaultShareInfo decriptor object
+            $SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo
+
+            $DACL = $SMBSec.DACL | Where-Object {$_.Account.Username -eq "Everyone"}
+
+            # validate
+            $DACL | Should -BeNullOrEmpty
+            $SMBSec.DACL.Count | Should -Be 1
+
+            $SMBSec.DACL[0].Account.Username | Should -Be "Authenticated Users"
+            $SMBSec.DACL[0].Right | Should -Contain "Read"
         }
     }
+}
+
+AfterAll {
+    Restore-SMBSecurity -File $Script:backup
+    Remove-Item $Script:backup -Force
 }
