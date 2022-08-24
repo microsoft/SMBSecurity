@@ -286,5 +286,16 @@ Describe 'Remove a DACL' {
 
 AfterAll {
     Restore-SMBSecurity -File $Script:backup
-    Remove-Item $Script:backup -Force
+    
+    # do file cleanup so it doesn't interfere with other tests
+    $paths = "C:\Temp",  "$ENV:LOCALAPPDATA\SMBSecurity"
+
+    foreach ($path in $paths)
+    {
+        $files = Get-ChildItem "$path" -Filter "SMBSec-*.reg"
+        $files | ForEach-Object { Remove-Item $_.FullName -Force }
+
+        $files = Get-ChildItem "$path" -Filter "Backup-*-SMBSec-*.xml"
+        $files | ForEach-Object { Remove-Item $_.FullName -Force }
+    }   
 }

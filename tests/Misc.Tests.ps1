@@ -129,6 +129,121 @@ Describe 'Remove-SMBSecurityDACL' {
 
 
 Describe 'Backup-SMBSecurity' {
+    Context ' Run standalone' {
+        It ' No parameters' {
+            $pathRoot = "$ENV:LOCALAPPDATA\SMBSecurity"
+
+            $result = Backup-SMBSecurity
+
+            Start-Sleep -m 500
+
+            $result | Should -Not -BeNullOrEmpty
+
+            $files = Get-ChildItem "$pathRoot" -Filter "Backup-*-SMBSec-*.xml"
+            $files.FullName | Should -Exist
+            $files.Count | Should -Be 14
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+        }
+
+        It ' With -FilePassThru' {
+            $result = Backup-SMBSecurity -FilePassThru
+
+            Start-Sleep -m 500
+
+            $result | Should -Not -BeNullOrEmpty
+
+            $files = Get-Item $result
+            $files | Should -Exist
+            $files.Count | Should -Be 14
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+        }
+
+        It ' With -FilePassThru -RegOnly' {
+            $result = Backup-SMBSecurity -FilePassThru -RegOnly
+
+            Start-Sleep -m 500
+
+            $result | Should -Not -BeNullOrEmpty
+
+            $files = Get-Item $result
+            $files | Should -Exist
+            $files.Count | Should -Be 1
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+        }
+
+        It ' With -FilePassThru -WithReg' {
+            $result = Backup-SMBSecurity -FilePassThru -WithReg
+
+            Start-Sleep -m 500
+
+            $result | Should -Not -BeNullOrEmpty
+
+            $files = Get-Item $result
+            $files | Should -Exist
+            $files.Count | Should -Be 15
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+        }
+
+        It ' With -Path -FilePassThru' {
+            $path = "C:\Temp"
+            $result = Backup-SMBSecurity -Path $path -FilePassThru
+
+            Start-Sleep -m 500
+
+            $result | Should -Not -BeNullOrEmpty
+            $result | Should -BeLike "$path*"
+
+            $files = Get-Item $result
+            $files | Should -Exist
+            $files.Count | Should -Be 14
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+        }
+
+        It ' With -Path -FilePassThru -RegOnly' {
+            $path = "C:\Temp"
+            $result = Backup-SMBSecurity -Path $path -FilePassThru -RegOnly
+
+            Start-Sleep -m 500
+
+            $result | Should -Not -BeNullOrEmpty
+            $result | Should -BeLike "$path*"
+
+            $files = Get-Item $result
+            $files | Should -Exist
+            $files.Count | Should -Be 1
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+        }
+
+        It ' With -Path -FilePassThru -WithReg' {
+            $path = "C:\Temp"
+            $result = Backup-SMBSecurity -Path $path -FilePassThru -WithReg
+
+            Start-Sleep -m 500
+
+            $result | Should -Not -BeNullOrEmpty
+            $result | Should -BeLike "$path*"
+
+            $files = Get-Item $result
+            $files | Should -Exist
+            $files.Count | Should -Be 15
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+        }
+    }
+
     Context ' Backup a single SD' {
         It ' Test all SDs.'  -TestCases @(
             @{ SD = 'SrvsvcDefaultShareInfo' },
@@ -150,16 +265,71 @@ Describe 'Backup-SMBSecurity' {
 
             $pathRoot = "$ENV:LOCALAPPDATA\SMBSecurity"
 
-            $result = Backup-SMBSecurity -SecurityDescriptor $SD
+            $result = Backup-SMBSecurity -SecurityDescriptor $SD -FilePassThru
 
-            $result | Should -Be $true
-            (Get-ChildItem "$pathRoot" -Filter "Backup-$SD`-SMBSec-*").FullName | Should -Exist
+            $result | Should -Not -BeNullOrEmpty
+            (Get-Item "$pathRoot").FullName | Should -Exist
 
             # archive the backups for future tests
-            $null = mkdir "$pathRoot\Archive" -Force
-            Get-ChildItem "$pathRoot" -Filter "*.xml" | Move-Item -Destination "$pathRoot\Archive" -Force
+            $null = Remove-Item "$result" -Force
+        }
+
+        It ' Test all SDs with custom path.'  -TestCases @(
+            @{ SD = 'SrvsvcDefaultShareInfo' },
+            @{ SD = 'SrvsvcShareAdminConnect'},
+            @{ SD = 'SrvsvcStatisticsInfo'   }, 
+            @{ SD = 'SrvsvcFile'             },
+            @{ SD = 'SrvsvcSessionInfo'      },
+            @{ SD = 'SrvsvcConfigInfo'       },
+            @{ SD = 'SrvsvcTransportEnum'    },
+            @{ SD = 'SrvsvcShareFileInfo'    },
+            @{ SD = 'SrvsvcSharePrintInfo'   },
+            @{ SD = 'SrvsvcShareChange'      },
+            @{ SD = 'SrvsvcShareConnect'     },
+            @{ SD = 'SrvsvcShareAdminInfo'   },
+            @{ SD = 'SrvsvcConnection'       },
+            @{ SD = 'SrvsvcServerDiskEnum'   }
+        ) {
+            param ($SD)
+
+            $pathRoot = "C:\Temp"
+
+            $result = Backup-SMBSecurity -SecurityDescriptor $SD -Path $pathRoot -FilePassThru
+
+            $result | Should -Not -BeNullOrEmpty
+            (Get-Item "$pathRoot").FullName | Should -Exist
+
+            # remove the backup
+            $null = Remove-Item "$result" -Force
         }
     }
+    
+    Context ' Backup to reg file' {
+        It ' To automatic path' {
+            $pathRoot = "$ENV:LOCALAPPDATA\SMBSecurity"
+
+            $result = Backup-SMBSecurity -RegOnly -FilePassThru
+
+            $result | Should -Not -BeNullOrEmpty
+            (Get-Item "$pathRoot").FullName | Should -Exist
+
+            # cleanup
+            $null = Remove-Item "$result" -Force
+        }
+
+        It ' To custom path' {
+            $pathRoot = "C:\Temp"
+
+            $result = Backup-SMBSecurity -Path $pathRoot -RegOnly -FilePassThru
+
+            $result | Should -Not -BeNullOrEmpty
+            (Get-Item "$pathRoot").FullName | Should -Exist
+
+            # archive the backups for future tests
+            $null = Remove-Item "$result" -Force
+        }
+    }
+
 }
 
 
@@ -221,9 +391,60 @@ Describe 'Save-SMBSecurity' {
 
         }
     }
+
+    Context ' With custom backup path' {
+        It ' -BackupPath' {
+            $path = "C:\temp"
+            $SD = 'SrvsvcDefaultShareInfo'
+
+            $SMBSec = Get-SMBSecurity -SecurityDescriptorName $SD
+
+            $null = Save-SMBSecurity -SecurityDescriptor $SMBSec -BackupPath $path
+
+            $files = Get-ChildItem "$path" -Filter "Backup-*-SMBSec-*.xml"
+            $files.FullName | Should -Exist
+            $files.Count | Should -Be 1
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+        }
+
+        It ' -BackupPath -BackupWithRegFile' {
+            $path = "C:\temp"
+            $SD = 'SrvsvcDefaultShareInfo'
+
+            $SMBSec = Get-SMBSecurity -SecurityDescriptorName $SD
+
+            $null = Save-SMBSecurity -SecurityDescriptor $SMBSec -BackupPath $path -BackupWithRegFile
+
+            $files = Get-ChildItem "$path" -Filter "Backup-*-SMBSec-*.xml"
+            $files.FullName | Should -Exist
+            $files.Count | Should -Be 1
+
+            # cleanup 
+            $null = Remove-Item $files.FullName -Force
+
+            $files = Get-ChildItem "$path" -Filter "SMBSec-*.reg"
+            $files.FullName | Should -Exist
+            # count should be 2 because of the BeforeAll backup
+            $files.Count | Should -Be 2
+        }
+    }
+
 }
 
 AfterAll {
     Restore-SMBSecurity -File $Script:backup
-    Remove-Item $Script:backup -Force
+    
+    # do file cleanup so it doesn't interfere with other tests
+    $paths = "C:\Temp",  "$ENV:LOCALAPPDATA\SMBSecurity"
+
+    foreach ($path in $paths)
+    {
+        $files = Get-ChildItem "$path" -Filter "SMBSec-*.reg"
+        $files | ForEach-Object { Remove-Item $_.FullName -Force }
+
+        $files = Get-ChildItem "$path" -Filter "Backup-*-SMBSec-*.xml"
+        $files | ForEach-Object { Remove-Item $_.FullName -Force }
+    }    
 }
