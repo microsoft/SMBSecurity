@@ -1507,9 +1507,15 @@ function Save-SMBSecurity
 {
     [CmdletBinding()]
     param (
-        [Parameter()]
+        [Parameter(Mandatory=$true)]
         [PSCustomObject[]]
         $SecurityDescriptor,
+
+        [string]
+        $BackupPath = $null,
+
+        [switch]
+        $BackupWithRegFile,
 
         [switch]
         $Force
@@ -1553,9 +1559,74 @@ function Save-SMBSecurity
 
     # execute a registry back
     # bail if the backup fails, unless Force is set
+    Write-Verbose "Save-SMBSecurity - Attempting backup"
     try
     {
-        $null = Backup-SMBSecurity -SecurityDescriptor $SecurityDescriptor.Name -EA Stop
+        # first make sure BackupPath is valid
+        if (-NOT [string]::IsNullOrEmpty($BackupPath))
+        {
+            if ((Test-Path "$BackupPath" -IsValid))
+            {
+                Write-Verbose "Save-SMBSecurity - Backup path is valid."
+                # check if it exists
+                $fndBackupPath = Get-Item "$BackupPath" -EA SilentlyContinue
+
+                if ( -NOT $fndBackupPath )
+                {
+                    Write-Verbose "Save-SMBSecurity - Backup path not found. Trying to create it."
+                    # try to create it if not
+                    $null = New-Item "$BackupPath" -Force -EA Stop
+                    
+                    $fndBackupPath = Get-Item "$BackupPath" -EA SilentlyContinue
+                    if (-NOT $fndBackupPath )
+                    {
+                        Write-Verbose "Save-SMBSecurity - Could not create backup path. Switching to automatic path."
+                        Write-Warning "Failed to create the backup path. The automatic backup path will be used: $ENV:LOCALAPPDATA\SMBSecurity"
+                        $BackupPath = $null
+                    }
+                }
+            }
+            else 
+            {
+                Write-Verbose "Save-SMBSecurity - Backup path is invalid. Switching to automatic path."
+                Write-Warning "The backup path is invalid. The automatic backup path will be used: $ENV:LOCALAPPDATA\SMBSecurity"
+                $BackupPath = $null
+            }
+        }
+
+        ## go through backup scenarios
+        # save to auto backup path when no BackupPath
+        if ([string]::IsNullOrEmpty($BackupPath))
+        {
+            # Add -WithReg when -BackupWithRegFile present
+            if ($BackupWithRegFile.IsPresent)
+            {
+                Write-Verbose "Save-SMBSecurity - Auto backup with reg."
+                $null = Backup-SMBSecurity -SecurityDescriptor $SecurityDescriptor.Name -WithReg -EA Stop
+            }
+            # otherwise, only backup individual SDs
+            else 
+            {
+                Write-Verbose "Save-SMBSecurity - Auto backup without reg."
+                $null = Backup-SMBSecurity -SecurityDescriptor $SecurityDescriptor.Name -EA Stop
+            }
+        }
+        # BackupFile has been validated at this point, no further validation needed
+        else 
+        {
+            # Add -WithReg and -Path
+            if ($BackupWithRegFile.IsPresent)
+            {
+                Write-Verbose "Save-SMBSecurity - Custom path backup with reg."
+                $null = Backup-SMBSecurity -SecurityDescriptor $SecurityDescriptor.Name -Path $BackupPath -WithReg -EA Stop
+            }
+            # otherwise, only add -Path
+            else 
+            {
+                Write-Verbose "Save-SMBSecurity - Custom path backup without reg."
+                $null = Backup-SMBSecurity -SecurityDescriptor $SecurityDescriptor.Name -Path $BackupPath -EA Stop
+            }
+        }
     }
     catch
     {
@@ -1575,23 +1646,13 @@ function Save-SMBSecurity
         # convert SMBSec SD to binary SD
         try
         {
-            $binSD = Convert-SMBSecDesc2Binary $sd
+            $binSD = Convert-SMBSecDesc2Binary $sd -EA Stop
+            $null = Write-SMBSecDescriptor -SecurityDescriptor $sd.Name -BinSD $binSD -EA Stop
         }
         catch
         {
-            return (Write-Error "Failed to convert the SecurityDescriptor to BinarySD format: $_" -EA Stop)
-        }
-
-        # write binary SD to registry
-        try 
-        {
-            $null = Write-SMBSecDescriptor -SecurityDescriptor $sd.Name -BinSD $binSD
-        }
-        catch 
-        {
-            return (Write-Error "Failed to write BinarySD to the registry: $_" -EA Stop)
-        }
-        
+            return (Write-Error "SMB SD save failed: $_" -EA Stop)
+        }        
     }
 
     Write-Verbose "Save-SMBSecurity - End"
