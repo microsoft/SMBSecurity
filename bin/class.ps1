@@ -857,7 +857,7 @@ class SMBSecOwner
     [string]
     ToString()
     {
-        return "$($this.Owner.Account.Value)"
+        return "$($this.Account.Value)"
     }
 }
 
@@ -952,7 +952,7 @@ class SMBSecGroup
     [string]
     ToString()
     {
-        return "$($this.Group.Account.Value)"
+        return "$($this.Account.Value)"
     }
 }
 
