@@ -581,6 +581,15 @@ function Set-SmbSecurityDescriptorDACL
 PURPOSE:  Creates a [PSCustomObject] containing all the details of an SMB security descriptor.
 EXPORTED: YES
 #>
+
+<#
+
+TO-DO:
+
+- Create parameter sets.
+
+#>
+
 function New-SMBSecurityDescriptor
 {
     [CmdletBinding()]
@@ -983,10 +992,10 @@ function New-SMBSecurityOwner
         {
             $Account = $Account.Value
         }
-        elseif ($Account -is [SMBSecAccount]) 
+        elseif ($Account -is [SMBSecAccount] -or $Account -is [SMBSecOwner]) 
         {
-            # make sure there is an account in the object
-            if ([string]::IsNullOrEmpty($Account.Owner.Account.Value))
+            # make sure there is an SID in the object
+            if ([string]::IsNullOrEmpty($Account.SID.Value))
             {
                 $skipCheck = $true
             }
@@ -1054,15 +1063,17 @@ function New-SMBSecurityGroup
         Write-Verbose "New-SMBSecurityGroup - Begin"
 
         $skipCheck = $false
+
+        $skipCheck = $false
         if ($Account -is [System.Security.Principal.SecurityIdentifier] -or $Account -is [System.Security.Principal.NTAccount])
         {
             $Account = $Account.Value
         }
         # 
-        elseif ($Account -is [SMBSecAccount]) 
+        elseif ($Account -is [SMBSecAccount] -or $Account -is [SMBSecGroup]) 
         {
-            # make sure there is an account in the object
-            if ([string]::IsNullOrEmpty($Account.Owner.Account.Value))
+            # make sure there is an SID in the object
+            if ([string]::IsNullOrEmpty($Account.SID.Value))
             {
                 $skipCheck = $true
             }

@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-SMBSecurityDescriptor
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Creates an SMBSecurityDescriptor object. }}
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ New-SMBSecurityDescriptor [-SecurityDescriptorName] <SMBSecurityDescriptor> [[-S
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Creates an SMBSecurityDescriptor object. This cmdlet can be used in advanced scripting scenarios. The recommendation is to use Get-SMBSecurity and modify the esisting SMB SecurityDescriptor rather than building the SMBSecurityDescriptor manually. }}
 
 ## EXAMPLES
 
@@ -32,10 +32,10 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -DACL
-{{ Fill DACL Description }}
+{{ An array of one or more DACLs to add to the SMBSecurityDescriptor. The DACL must originate from Copy-SMBSecurityDACL or New-SMBSecurityDACL and the DACL's SecurityDescriptor property must match the SecurityDescriptor's Name, because each SMB SecurityDescriptor has a unique set of rights. Attempting to add a DACL with a mismatched SMBSecurityDescriptor will result in an error. }}
 
 ```yaml
-Type: Object
+Type:  System.Collections.ArrayList
 Parameter Sets: (All)
 Aliases:
 
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Group
-{{ Fill Group Description }}
+{{ The primary group for the Security Descriptor. This should be 'NT AUTHORITY\SYSTEM'. }}
 
 ```yaml
 Type: Object
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Owner
-{{ Fill Owner Description }}
+{{ The owner of the Security Descriptor. This should be 'NT AUTHORITY\SYSTEM'. }}
 
 ```yaml
 Type: Object
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -SDDLString
-{{ Fill SDDLString Description }}
+{{ Creates the SMBSecurityDescriptor based on a compatible SDDL string. }}
 
 ```yaml
 Type: String
@@ -92,10 +92,10 @@ Accept wildcard characters: False
 ```
 
 ### -SecurityDescriptorName
-{{ Fill SecurityDescriptorName Description }}
+{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}
 
 ```yaml
-Type: SMBSecurityDescriptor
+Type: String
 Parameter Sets: (All)
 Aliases:
 Accepted values: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, SrvsvcDefaultShareInfo
@@ -120,3 +120,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki

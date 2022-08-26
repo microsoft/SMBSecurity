@@ -8,7 +8,7 @@ schema: 2.0.0
 # Save-SMBSecurity
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Commits changes made to SMBSecurityDescriptor(s) to the system. }}
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Save-SMBSecurity [-SecurityDescriptor] <PSObject[]> [[-BackupPath] <String>] [-B
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Commits changes made to SMBSecurityDescriptor(s) to the system. Running this command will automatically generate a backup prior to the committing the change. }}
 
 ## EXAMPLES
 
@@ -32,7 +32,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -BackupPath
-{{ Fill BackupPath Description }}
+{{ Path to the directory (folder) where backups will be written to. The automatic backup path (%LOCALAPPDATA%\\SMBSecurity) is used when this parameter is not set. }}
 
 ```yaml
 Type: String
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -BackupWithRegFile
-{{ Fill BackupWithRegFile Description }}
+{{ Creates a full registry-based backup in addition to individual XML-based backup(s). The BackupPath is honored, when set; otherwise, the automatic backup path (%LOCALAPPDATA%\\SMBSecurity) is used.  }}
 
 ```yaml
 Type: SwitchParameter
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-{{ Fill Force Description }}
+{{ By default, changes are not committed to the system when the backup fails. The Force parameter will commit changes even if the backup fails. }}
 
 ```yaml
 Type: SwitchParameter
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecurityDescriptor
-{{ Fill SecurityDescriptor Description }}
+{{ The SMBSecurityDescriptor object to be committed to the registry. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}
 
 ```yaml
 Type: PSObject[]
@@ -104,3 +104,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki

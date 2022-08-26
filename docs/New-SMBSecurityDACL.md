@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-SMBSecurityDACL
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Creates a DACL for a specific SMB SecurityDescriptor (SD). }}
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ New-SMBSecurityDACL [-SecurityDescriptorName] <String> [-Access] <SMBSecAccess> 
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Creates a DACL for a specific SMB SecurityDescriptor (SD). A DACL must be created for a specific SMB SD because each DACL has a unique set of rights. }}
 
 ## EXAMPLES
 
@@ -32,7 +32,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Access
-{{ Fill Access Description }}
+{{ Allow or Deny the the Right(s) for the Account. Please note that Deny overrules Allow. }}
 
 ```yaml
 Type: SMBSecAccess
@@ -48,7 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -Account
-{{ Fill Account Description }}
+{{ The user account or group that the Right(s) will apply to. }}
 
 ```yaml
 Type: Object
@@ -63,7 +63,7 @@ Accept wildcard characters: False
 ```
 
 ### -Rights
-{{ Fill Rights Description }}
+{{ What permissions the account will (Allow) or will not (Deny) have for SMB SecurityDescriptor. }}
 
 ```yaml
 Type: String[]
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecurityDescriptorName
-{{ Fill SecurityDescriptorName Description }}
+{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}
 
 ```yaml
 Type: String
@@ -105,3 +105,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki

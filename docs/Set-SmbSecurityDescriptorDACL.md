@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-SmbSecurityDescriptorDACL
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Replaces the existing DACL in an SecurityDescriptor with a modified version of that DACL. }}
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Set-SmbSecurityDescriptorDACL [-SecurityDescriptor] <PSObject> [-DACL] <SMBSecDa
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Replaces the existing DACL in an SecurityDescriptor with a modified version of that DACL. The NewDACL should be created using Copy-SMBSecurityDACL. }}
 
 ## EXAMPLES
 
@@ -32,7 +32,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -DACL
-{{ Fill DACL Description }}
+{{ The existing DACL that is being replaced. }}
 
 ```yaml
 Type: SMBSecDaclAce
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -NewDACL
-{{ Fill NewDACL Description }}
+{{ The DACL replacing the existing one in the SecurityDescriptor. }}
 
 ```yaml
 Type: SMBSecDaclAce
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecurityDescriptor
-{{ Fill SecurityDescriptor Description }}
+{{ The SMBSecurityDescriptor object where the DACL is being replaced. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}
 
 ```yaml
 Type: PSObject
@@ -89,3 +89,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki

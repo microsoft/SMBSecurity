@@ -8,7 +8,7 @@ schema: 2.0.0
 # Backup-SMBSecurity
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Creates a file-based copy of an SMB SecurityDescriptor (SD). }}
 
 ## SYNTAX
 
@@ -18,21 +18,21 @@ Backup-SMBSecurity [[-SecurityDescriptorName] <String[]>] [[-Path] <String>] [-R
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Creates a file-based copy of an SMB SecurityDescriptor (SD). Individual SMB SDs are written as XML files. A full, or registry, backup file is written as a REG file. These files can by used by Restore-SMBSecurity to quickly revert changes. When no backup path is set the automatic backup path is used: %LOCALAPPDATA%\SMBSecurity. }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $result = Backup-SMBSecurity }}
 ```
 
-{{ Add example description here }}
+{{ Backs up all SMB Security Descriptors (SD) individually. A total of 14 XML files will be created in the automatic backup path (%LOCALAPPDATA%\SMBSecurity). }}
 
 ## PARAMETERS
 
 ### -FilePassThru
-{{ Fill FilePassThru Description }}
+{{ Returns an array of full paths to each file created by Backup-SMBSecurity. }}
 
 ```yaml
 Type: SwitchParameter
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -Path
-{{ Fill Path Description }}
+{{ Sets the backup path. The automatic backup path (%LOCALAPPDATA%\SMBSecurity) is used when the path is not set or is invalid. }}
 
 ```yaml
 Type: String
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -RegOnly
-{{ Fill RegOnly Description }}
+{{ Only a full registry export-based backup is created. Individual backups using XML files are not created. }}
 
 ```yaml
 Type: SwitchParameter
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecurityDescriptorName
-{{ Fill SecurityDescriptorName Description }}
+{{ The name(s) of the SMB SecurityDescriptor(s) to be backed up. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}
 
 ```yaml
 Type: String[]
@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -WithReg
-{{ Fill WithReg Description }}
+{{ Creates a full registry export-based backup in addition to the individual XML-based backup.  }}
 
 ```yaml
 Type: SwitchParameter
@@ -119,3 +119,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki

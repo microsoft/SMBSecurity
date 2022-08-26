@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-SMBSecurityDACL
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Alters the settings of an SMB Security Descriptor (SD) DACL. }}
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Set-SMBSecurityDACL [-DACL] <SMBSecDaclAce> [[-Account] <Object>] [[-Access] <Ob
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Alters the settings of an SMB Security Descriptor (SD) DACL. }}
 
 ## EXAMPLES
 
@@ -32,7 +32,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Access
-{{ Fill Access Description }}
+{{ Allow or Deny the the Right(s) for the Account. Please note that Deny overrules Allow. }}
 
 ```yaml
 Type: Object
@@ -48,7 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -Account
-{{ Fill Account Description }}
+{{ The user account or group that the Right(s) will apply to. }}
 
 ```yaml
 Type: Object
@@ -63,7 +63,7 @@ Accept wildcard characters: False
 ```
 
 ### -DACL
-{{ Fill DACL Description }}
+{{ The DACL object being modified. }}
 
 ```yaml
 Type: SMBSecDaclAce
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-{{ Fill PassThru Description }}
+{{ Outputs the results to the success stream. }}
 
 ```yaml
 Type: SwitchParameter
@@ -93,7 +93,7 @@ Accept wildcard characters: False
 ```
 
 ### -Right
-{{ Fill Right Description }}
+{{ What permissions the account will (Allow) or will not (Deny) have for SMB SecurityDescriptor. }}
 
 ```yaml
 Type: String[]
@@ -120,3 +120,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki
