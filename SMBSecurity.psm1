@@ -12,8 +12,6 @@ using namespace System.Security.Principal
 
 TO-DO:
 
-- Fix SMBSecurityDescriptor ToString output.
-
 
 #>
 
@@ -24,11 +22,13 @@ GENERAL MODULE GUIDELINES AND INFORMATION:
 
     - Err on the side of caution. When in doubt, fail the command and output an error.    
     - Use ArrayLists for collections. The Classes and Functions will expect them, and it helps a little with performance.
-    - Classes are stored in .\bin\class.ps1 and are used to enforce data structures for the module.
-    - Enums are stored in .\bin\enum.ps1.
+       - May switch to [System.Collections.Generic.List[]] in the next version.
+    - Classes and enums are stored in .\bin\class.ps1 and are used to enforce data structures for the module.
+       - Classes won't use an enum unless it's in the same file.
     - Hashtables are stored in .\bin\hashtable.ps1.
     - Enums and hashtables are used for quick lookups of static data. Some consolidation of the two might be needed...
     - sddl_flags.json is a constructed list of ACE values based on crawling the SDDL docs: https://docs.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language
+       - This currently doesn't do anything.
     - Use Write-Verbose and Write-Debug to output optional troubleshooting information.
        - Add the function name to output.
        - Example:
@@ -36,14 +36,15 @@ GENERAL MODULE GUIDELINES AND INFORMATION:
             Write-[Verbose|Debug] "Function-Name - Comment about what's going on. What's in variable: $variable"
 
         - Use Verbose for output that is generally good for troubleshooting.
-        - Use Debug for loops and when the information does not seem as helpful for general troubleshooting.
-    - Document your code. The documentation can be in the form of a comment or Write-[Verbose|Debug], but make sure you tell other what's going on to ease debugging.
+        - Use Debug for loops and when the information only helps with deep troubleshooting.
+    - Document your code. The documentation can be in the form of a comment or Write-[Verbose|Debug], but make sure you tell others what's going on to ease debugging.
     - Do not use the Global variable scope! Local and Script scopes only!
     - Export only the functions that are required to perform SMB security work.
     - Use "$null = <command>" to prevent unwanted output to the console. Do not use Out-Null whenever possible. Example, when adding an element to an ArrayList: $null = $results.Add(...)
     - Test your inputs and outputs! Try-Catch[-Finally] is your friend: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_try_catch_finally
     - Avoid using "throw", use 'return (Write-Error "<error>" -EA Stop)' instead. Throw does some weird stuff with classes and layered commands.
     - Functions are sorted by verb (Get, Set, Add, New, etc.) regions.
+    - Use approved PowerShell verbs only: https://docs.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7.2
 
 #>
 
@@ -125,7 +126,7 @@ function Get-SMBSecurity
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false)]
-        [Alias("SD","SecurityDescriptor","SDName","Name")]
+        [Alias("SDName","Name")]
         [string]
         $SecurityDescriptorName
     )
@@ -174,7 +175,7 @@ function Get-SMBSecurityDescription
     [CmdletBinding()]
     param (
         [Parameter()]
-        [Alias("SD","SecurityDescriptor","SDName","Name")]
+        [Alias("SDName","Name")]
         [string]
         $SecurityDescriptorName
     )
@@ -285,7 +286,7 @@ function Get-SMBSecurityDescriptorRight
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
-        [Alias("SD","SecurityDescriptor","SDName","Name")]
+        [Alias("SDName","Name")]
         [string]
         $SecurityDescriptorName
     )
@@ -297,9 +298,10 @@ function Get-SMBSecurityDescriptorRight
     }
 
     # check for FullControl and single permission values
-    $hashTable = Invoke-Expression "`$Script:SMBSec$SecurityDescriptorName"
+    #$hashTable = Invoke-Expression "`$Script:SMBSec$SecurityDescriptorName"
+    $hashTable = Get-Variable "SMBSec$SecurityDescriptorName" -Scope Script
 
-    return $hashTable
+    return ($hashTable.Value)
 }
 
 #endregion GET
@@ -577,7 +579,7 @@ function Set-SmbSecurityDescriptorDACL
 
 <#
 PURPOSE:  Creates a [PSCustomObject] containing all the details of an SMB security descriptor.
-EXPORTED: NO
+EXPORTED: YES
 #>
 function New-SMBSecurityDescriptor
 {
@@ -824,7 +826,7 @@ function New-SMBSecurityDACL
     param (
         [Parameter( Mandatory=$true,
                     Position=0)]
-        [Alias("SD","SecurityDescriptor","SDName","Name")]
+        [Alias("SDName","Name")]
         [string]
         $SecurityDescriptorName,
 
@@ -1240,7 +1242,7 @@ function Read-SMBSecurityDescriptor
     [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false)]
-        [Alias("SD","SecurityDescriptor","SDName","Name")]
+        [Alias("SDName","Name")]
         [string]
         $SecurityDescriptorName
     )
@@ -1645,7 +1647,7 @@ function Backup-SMBSecurity
     [CmdletBinding()]
     param (
         [Parameter()]
-        [Alias("SD","SecurityDescriptor","SDName","Name")]
+        [Alias("SDName","Name")]
         [string[]]
         $SecurityDescriptorName,
 
@@ -1809,6 +1811,12 @@ function Restore-SMBSecurity
     if ($null -eq $File)
     {
         Start-SuperFancyUI
+
+        # exit function if there are no restore files - i.e. user selectes [Q]uit
+        if ($script:restoreFileSelection.Count -le 0)
+        {
+            return $null
+        }
     }
     else
     {
@@ -2001,7 +2009,8 @@ function ConvertTo-SMBSecSDDLString
 
         # SMBSec ACE layout
         # (ace_type;;rights;object_guid;;;account_sid)
-        $hashTable = Invoke-Expression "`$Script:SMBSec$($SecurityDescriptor.Name)"
+        #$hashTable = Invoke-Expression "`$Script:SMBSec$($SecurityDescriptor.Name)"
+        $hashTable = (Get-Variable "SMBSec$($SecurityDescriptor.Name)" -Scope Script).Value
         Write-Verbose "ConvertTo-SMBSecSDDLString - Rights hashtable for $Script:SMBSec$($SecurityDescriptor.Name):`n$($hashTable | Format-Table | Out-String)"
 
         $strSDDL += "D:"
@@ -2078,7 +2087,7 @@ function Convert-SMBSecString2DACL
     param (
         [Parameter()]
         [SMBSecurityDescriptor]
-        $SecurityDescriptor,
+        $SecurityDescriptorName,
 
         [Parameter()]
         [string[]]
@@ -2154,7 +2163,7 @@ function Convert-SMBSecString2DACL
         #$arrRights = New-Object System.Collections.ArrayList
 
         # SrvsvcDefaultShareInfo only has a single right per ACE (FullConttrol, Change, Read), do not split!
-        if ($SecurityDescriptor -eq "SrvsvcDefaultShareInfo")
+        if ($SecurityDescriptorName -eq "SrvsvcDefaultShareInfo")
         {
             $tmpRight = $Script:SMBSecSrvsvcDefaultShareInfo.Keys | Where-Object { $Script:SMBSecSrvsvcDefaultShareInfo[$_] -eq $strPerms }
             Write-Debug "Convert-SMBSecString2DACL - Translated ACE Rights: $tmpRight"
@@ -2171,12 +2180,13 @@ function Convert-SMBSecString2DACL
         else
         {
             # check for FullControl and single permission values
-            $hashTable = Invoke-Expression "`$Script:SMBSec$SecurityDescriptor"
+            #$hashTable = Invoke-Expression "`$Script:SMBSec$SecurityDescriptorName"
+            $hashTable = (Get-Variable "SMBSec$SecurityDescriptorName" -Scope Script).Value
             Write-Debug "Convert-SMBSecString2DACL - Hashtable: `n$($hashTable | Out-String)"
 
             if (-NOT $hashTable)
             {
-                return (Write-Error "Convert-SMBSecString2DACL - Failed to load $SecurityDescriptor hashtable SMBSec$SecurityDescriptor." -EA Stop)
+                return (Write-Error "Convert-SMBSecString2DACL - Failed to load $SecurityDescriptorName hashtable SMBSec$SecurityDescriptorName." -EA Stop)
             }
 
             if ($hashTable.ContainsValue($strPerms))
@@ -2227,10 +2237,10 @@ function Convert-SMBSecString2DACL
         
 
 
-        Write-Verbose "Convert-SMBSecString2DACL - Create DACL object for $SecurityDescriptor."
+        Write-Verbose "Convert-SMBSecString2DACL - Create DACL object for $SecurityDescriptorName."
         Write-Debug @"
 Convert-SMBSecString2DACL - DACL parts:
-SecurityDescriptor : $SecurityDescriptor ( $($SecurityDescriptor.GetType().Name) )
+SecurityDescriptor : $SecurityDescriptorName ( $($SecurityDescriptorName.GetType().Name) )
 account            : $($account.Account) ( $($account.GetType().Name) )
 access             : $access ( $($access.GetType().Name) )
 arrRights          : $arrRights ( $($arrRights.GetType().Name) )
@@ -2238,7 +2248,7 @@ arrRights          : $arrRights ( $($arrRights.GetType().Name) )
 
         try 
         {
-            $DaclAce = [SMBSecDaclAce]::New($SecurityDescriptor, $account, $access, $arrRights)
+            $DaclAce = [SMBSecDaclAce]::New($SecurityDescriptorName, $account, $access, $arrRights)
             Write-Verbose "Convert-SMBSecString2DACL - DaclAce:`n`n$($DaclAce.ToStringList())"
             $DACL += $DaclAce
             Write-Verbose "Convert-SMBSecString2DACL - Currently $($DACL.Count) DACLs."
