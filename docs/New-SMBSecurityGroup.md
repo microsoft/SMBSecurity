@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-SMBSecurityGroup
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Creates an SMBSecGroup object. }}
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ New-SMBSecurityGroup [-Account] <Object> [-ForceDomain] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Creates an SMBSecGroup object. The group can be added to the SMBSecurityDescriptor via Set-SMBSecurityGroup. The command will fail if the account's SID cannot be resolved by the system. }}
 
 ## EXAMPLES
 
@@ -31,7 +31,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Account
-{{ Fill Account Description }}
+{{ The group name. String SID or account/group name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in '[username|group]', 'domain\\[username|group]', and '[username|group]@domain' format. }}
 
 ```yaml
 Type: Object
@@ -46,7 +46,7 @@ Accept wildcard characters: False
 ```
 
 ### -ForceDomain
-{{ Fill ForceDomain Description }}
+{{ [Experimental] Certain domain configurations, namely Azure AD joined, may cause the Account lookup to fail. This parameter adds extra domain lookup logic that should be AAD compatible. Hybrid joined and traditional AD joined systems should not need this parameter. }}
 
 ```yaml
 Type: SwitchParameter
@@ -73,3 +73,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki

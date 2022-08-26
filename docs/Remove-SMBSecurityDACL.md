@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-SMBSecurityDACL
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Removes a DACL from an SMBSecurityDescriptor. }}
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Remove-SMBSecurityDACL [-SecurityDescriptor] <PSObject> [-DACL] <SMBSecDaclAce> 
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Removes a DACL from an SMBSecurityDescriptor. This does not commit the change to the system, it only modifies the SMBSecurityDescriptor. The Save-SMBSecurity cmdlet is used to commit changes to a SMBSecurityDescriptor to the system. }}
 
 ## EXAMPLES
 
@@ -32,7 +32,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -DACL
-{{ Fill DACL Description }}
+{{ The DACL being removed to the SMBSecurityDescriptor. The DACL must be an exact match to a DACL in the SMBSecurityDescriptor object. }}
 
 ```yaml
 Type: SMBSecDaclAce
@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-{{ Fill PassThru Description }}
+{{ Outputs the modified SMBSecurityDescriptor to the success stream. }}
 
 ```yaml
 Type: SwitchParameter
@@ -62,7 +62,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecurityDescriptor
-{{ Fill SecurityDescriptor Description }}
+{{ The SMBSecurityDescriptor object where the DACL should be removed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}
 
 ```yaml
 Type: PSObject
@@ -89,3 +89,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki

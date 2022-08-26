@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-SMBSecurityGroup
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Replaces the Group in a SecurityDescriptor. }}
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Set-SMBSecurityGroup [-SecurityDescriptor] <PSObject> [[-Account] <String>] [-Pa
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Replaces the Group in a SecurityDescriptor. }}
 
 ## EXAMPLES
 
@@ -31,7 +31,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -Account
-{{ Fill Account Description }}
+{{ The group name. String SID or account/group name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in '[username|group]', 'domain\\[username|group]', and '[username|group]@domain' format. }}
 
 ```yaml
 Type: String
@@ -46,7 +46,7 @@ Accept wildcard characters: False
 ```
 
 ### -PassThru
-{{ Fill PassThru Description }}
+{{ Returns the result to the success stream. }}
 
 ```yaml
 Type: SwitchParameter
@@ -61,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecurityDescriptor
-{{ Fill SecurityDescriptor Description }}
+{{ The SMBSecurityDescriptor object where the Owner will be changed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}
 
 ```yaml
 Type: PSObject
@@ -88,3 +88,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki

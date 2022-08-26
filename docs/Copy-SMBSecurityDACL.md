@@ -8,7 +8,7 @@ schema: 2.0.0
 # Copy-SMBSecurityDACL
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+{{ Creates a cloned copy of a DACL. }}
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Copy-SMBSecurityDACL [[-DACL] <SMBSecDaclAce>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+{{ Creates a cloned copy of a DACL. This is used by the modify DACL process when using Set-SmbSecurityDescriptorDACL. }}
 
 ## EXAMPLES
 
@@ -31,7 +31,7 @@ PS C:\> {{ Add example code here }}
 ## PARAMETERS
 
 ### -DACL
-{{ Fill DACL Description }}
+{{ The DACL object to be copied. In general, this should be a DACL in an SMBSecurityDescriptor object. }}
 
 ```yaml
 Type: SMBSecDaclAce
@@ -58,3 +58,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
+https://github.com/microsoft/SMBSecurity/wiki
