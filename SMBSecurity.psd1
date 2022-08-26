@@ -70,7 +70,7 @@ PowerShellVersion = '5.1'
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
 ScriptsToProcess = @('.\bin\class.ps1',
                      '.\bin\constants.ps1'
-                     '.\bin\enum.ps1',
+                     #'.\bin\enum.ps1',
                      '.\bin\hashtable.ps1')
 
 # Type files (.ps1xml) to be loaded when importing this module
