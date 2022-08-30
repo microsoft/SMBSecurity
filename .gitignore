@@ -353,3 +353,4 @@ MigrationBackup/
 .gitignore
 tests/Update-Files.ps1
 tests/outpath.txt
+.out
