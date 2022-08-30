@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -28,14 +28,12 @@ PS C:\> {{ Get-SMBSecurity }}
 
 {{ Returns an array of SMBSecurityDescriptors for all SMB SDs on the system. }}
 
-
 ### Example 2
 ```powershell
 PS C:\> {{ $sdDefaultShareInfo = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
 ```
 
 {{ Returns a single SMBSecurityDescriptor object for SrvsvcDefaultShareInfo. }}
-
 
 ## PARAMETERS
 
@@ -67,4 +65,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Get-SMBSecurity](https://github.com/microsoft/SMBSecurity/wiki/Get%E2%80%90SMBSecurity)

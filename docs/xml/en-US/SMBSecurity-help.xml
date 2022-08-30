@@ -1,0 +1,2363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<helpItems schema="maml" xmlns="http://msh">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Add-SMBSecurityDACL</command:name>
+      <command:verb>Add</command:verb>
+      <command:noun>SMBSecurityDACL</command:noun>
+      <maml:description>
+        <maml:para>{{ Adds a DACL to an SMBSecurityDescriptor. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Adds a DACL to an SMBSecurityDescriptor.  }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Add-SMBSecurityDACL</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>SecurityDescriptor</maml:name>
+          <maml:description>
+            <maml:para>{{ The SMBSecurityDescriptor object where the DACL should be added. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+          <dev:type>
+            <maml:name>PSObject</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+          <maml:name>DACL</maml:name>
+          <maml:description>
+            <maml:para>{{ The DACL being added to the SMBSecurityDescriptor. The DACL must originate from Copy-SMBSecurityDACL or New-SMBSecurityDACL and the DACL's SecurityDescriptor property must match the SecurityDescriptor's Name, because each SMB SecurityDescriptor has a unique set of rights. Attempting to add a DACL with a mismatched SMBSecurityDescriptor will result in an error. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecDaclAce</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>{{ Outputs the modified SMBSecurityDescriptor to the success stream. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+        <maml:name>DACL</maml:name>
+        <maml:description>
+          <maml:para>{{ The DACL being added to the SMBSecurityDescriptor. The DACL must originate from Copy-SMBSecurityDACL or New-SMBSecurityDACL and the DACL's SecurityDescriptor property must match the SecurityDescriptor's Name, because each SMB SecurityDescriptor has a unique set of rights. Attempting to add a DACL with a mismatched SMBSecurityDescriptor will result in an error. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>{{ Outputs the modified SMBSecurityDescriptor to the success stream. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>SecurityDescriptor</maml:name>
+        <maml:description>
+          <maml:para>{{ The SMBSecurityDescriptor object where the DACL should be added. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+        <dev:type>
+          <maml:name>PSObject</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\&gt; {{ $DACLSplat = @{
+               SecurityDescriptorName = 'SrvsvcDefaultShareInfo'
+               Access                 = 'Allow'
+               Right                  = 'FullControl'
+               Account                = 'Authenticated Users'
+           } }}
+PS C:\&gt; {{ $DACL = New-SMBSecurityDACL @DACLSplat }}
+PS C:\&gt; {{ Add-SMBSecurityDACL -SecurityDescriptor $SD -DACL $DACL }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ The SrvsvcDefaultShareInfo SMB SecurityDescriptor (SD) is assigned to $SD. A DACL that Allows the "Authenticated Users" special identity group FullControl is create. Then the DACL is then added to the SD. NOTE: This does not save the change to the system. See Save-SMBSecurity. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Add-SMBSecurityDACL</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Add%E2%80%90SMBSecurityDACL</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Backup-SMBSecurity</command:name>
+      <command:verb>Backup</command:verb>
+      <command:noun>SMBSecurity</command:noun>
+      <maml:description>
+        <maml:para>{{ Creates a file-based copy of an SMB SecurityDescriptor (SD). }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Creates a file-based copy of an SMB SecurityDescriptor (SD). Individual SMB SDs are written as XML files. A full, or registry, backup file is written as a REG file. These files can by used by Restore-SMBSecurity to quickly revert changes. When no backup path is set the automatic backup path is used: %LOCALAPPDATA%\SMBSecurity. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Backup-SMBSecurity</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+          <maml:name>SecurityDescriptorName</maml:name>
+          <maml:description>
+            <maml:para>{{ The name(s) of the SMB SecurityDescriptor(s) to be backed up. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Path</maml:name>
+          <maml:description>
+            <maml:para>{{ Sets the backup path. The automatic backup path (%LOCALAPPDATA%\SMBSecurity) is used when the path is not set or is invalid. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>FilePassThru</maml:name>
+          <maml:description>
+            <maml:para>{{ Returns an array of full paths to each file created by Backup-SMBSecurity. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>RegOnly</maml:name>
+          <maml:description>
+            <maml:para>{{ Only a full registry export-based backup is created. Individual backups using XML files are not created. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>WithReg</maml:name>
+          <maml:description>
+            <maml:para>{{ Creates a full registry export-based backup in addition to the individual XML-based backup.  }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>FilePassThru</maml:name>
+        <maml:description>
+          <maml:para>{{ Returns an array of full paths to each file created by Backup-SMBSecurity. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Path</maml:name>
+        <maml:description>
+          <maml:para>{{ Sets the backup path. The automatic backup path (%LOCALAPPDATA%\SMBSecurity) is used when the path is not set or is invalid. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>RegOnly</maml:name>
+        <maml:description>
+          <maml:para>{{ Only a full registry export-based backup is created. Individual backups using XML files are not created. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+        <maml:name>SecurityDescriptorName</maml:name>
+        <maml:description>
+          <maml:para>{{ The name(s) of the SMB SecurityDescriptor(s) to be backed up. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>WithReg</maml:name>
+        <maml:description>
+          <maml:para>{{ Creates a full registry export-based backup in addition to the individual XML-based backup.  }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Backup-SMBSecurity }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Backs up all SMB Security Descriptors (SD) individually. A total of 14 XML files will be created in the automatic backup path %LOCALAPPDATA%\SMBSecurity (PowerShell: $ENV:LOCALAPPDATA\SMBSecurity). }}</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Backup-SMBSecurity -RegOnly }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Backs up all SMB Security Descriptors (SD) to a single REG file. The files will be saved to the automatic backup path, %LOCALAPPDATA%\SMBSecurity. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 3 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Backup-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo -Path C:\Backups\SMBSecurity -WithReg }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Backs up the SrvsvcDefaultShareInfo SMB SecurityDescriptor to an XML file, and all SMB Security Descriptors (SD) to a single REG file. The files will be saved to the custom backup path, C:\Backups\SMBSecurity. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 4 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $files = Backup-SMBSecurity -Path C:\Backups\SMBSecurity -WithReg -FilePassThru }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ All SMB SecurityDescriptor will be backed up individually to XML files and as a single REG file. The files will be saved to the custom backup path, C:\Backups\SMBSecurity. The full file paths will be returned and stored in the $files variable. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Backup-SMBSecurity</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Backup%E2%80%90SMBSecurity</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Copy-SMBSecurityDACL</command:name>
+      <command:verb>Copy</command:verb>
+      <command:noun>SMBSecurityDACL</command:noun>
+      <maml:description>
+        <maml:para>{{ Creates a cloned copy of a DACL. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Creates a cloned copy of a DACL. This is used by the modify DACL process in conjunction with  Set-SmbSecurityDescriptorDACL. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Copy-SMBSecurityDACL</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>DACL</maml:name>
+          <maml:description>
+            <maml:para>{{ The DACL object to be copied. In general, this should be a DACL in an SMBSecurityDescriptor object. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecDaclAce</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>DACL</maml:name>
+        <maml:description>
+          <maml:para>{{ The DACL object to be copied. In general, this should be a DACL in an SMBSecurityDescriptor object. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\&gt; {{ $DACL = $SMBSec.DACL | Where-Object { $_.Account.Username -eq "Authenticated Users" } }}
+PS C:\&gt; {{ $NewDACL = Copy-SMBSecurityDACL $DACL }}
+PS C:\&gt; {{ Set-SMBSecurityDACL -DACL $NewDACL -Right Read }}
+PS C:\&gt; {{ Set-SmbSecurityDescriptorDACL -SecurityDescriptor $SMBSec -DACL $DACL -NewDACl $NewDACL }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ This example creates a copy of the "Authenticated Users" DACL. The copied DACL is modified and then used to update the SMBSecurityDescriptor. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Copy-SMBSecurityDACL</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Copy%E2%80%90SMBSecurityDACL</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-SMBSecurity</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SMBSecurity</command:noun>
+      <maml:description>
+        <maml:para>{{ Retrieves one or more SMB SecurityDescriptor. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Retrieves one or more SMB SecurityDescriptor (SD) from the local registry. The SDs are converted into an SMBSecurityDescriptor object that can be used to modify the SMB server security capabilities of the Windows computer. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SMBSecurity</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+          <maml:name>SecurityDescriptorName</maml:name>
+          <maml:description>
+            <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+        <maml:name>SecurityDescriptorName</maml:name>
+        <maml:description>
+          <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Get-SMBSecurity }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Returns an array of SMBSecurityDescriptors for all SMB SDs on the system. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $sdDefaultShareInfo = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Returns a single SMBSecurityDescriptor object for SrvsvcDefaultShareInfo. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-SMBSecurity</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Get%E2%80%90SMBSecurity</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-SMBSecurityDescription</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SMBSecurityDescription</command:noun>
+      <maml:description>
+        <maml:para>{{ Returns a brief SMB SecurityDescriptor (SD) description for a given SD name. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Returns a brief SMB SecurityDescriptor (SD) description for a given SD name. All SMB SD name and descriptions are returned when no name is passed. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SMBSecurityDescription</maml:name>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+          <maml:name>SecurityDescriptorName</maml:name>
+          <maml:description>
+            <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+        <maml:name>SecurityDescriptorName</maml:name>
+        <maml:description>
+          <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Get-SMBSecurityDescription }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Returns the name and description of all SMB SecurityDescriptors. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- Example 2 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Get-SMBSecurityDescription -SecurityDescriptorName SrvsvcDefaultShareInfo }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Returns the description of the SrvsvcDefaultShareInfo SMB SecurityDescriptors. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-SMBSecurityDescription</maml:linkText>
+        <maml:uri></maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-SMBSecurityDescriptorName</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SMBSecurityDescriptorName</command:noun>
+      <maml:description>
+        <maml:para>{{ Returns a list of all SMB SecurityDescriptor names. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Returns a list of all SMB SecurityDescriptor names. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SMBSecurityDescriptorName</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters />
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Get-SMBSecurityDescriptorName }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Returns a list of all SMB SecurityDescriptor names. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-SMBSecurityDescriptorName</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Get%E2%80%90SMBSecurityDescriptorName</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Get-SMBSecurityDescriptorRight</command:name>
+      <command:verb>Get</command:verb>
+      <command:noun>SMBSecurityDescriptorRight</command:noun>
+      <maml:description>
+        <maml:para>{{ Returns a hashtable of valid rights for the given SMB SecurityDescriptor (SD). }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Returns a hashtable of valid rights for the given SMB SecurityDescriptor (SD). The hashtable invludes the right name, which is used other SMBSecurity cmdlets like Set-SMBSecurityDACL, with its corresponding DACL value. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-SMBSecurityDescriptorRight</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+          <maml:name>SecurityDescriptorName</maml:name>
+          <maml:description>
+            <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+        <maml:name>SecurityDescriptorName</maml:name>
+        <maml:description>
+          <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ Get-SMBSecurityDescriptorRight -SecurityDescriptorName SrvsvcDefaultShareInfo }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Outputs a hashtable of valid rights for the SrvsvcDefaultShareInfo SMB SD. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Get-SMBSecurityDescriptorRight</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Get%E2%80%90SMBSecurityDescriptorRight</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-SMBSecurityDACL</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>SMBSecurityDACL</command:noun>
+      <maml:description>
+        <maml:para>{{ Creates a DACL for a specific SMB SecurityDescriptor (SD). }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Creates a DACL for a specific SMB SecurityDescriptor (SD). A DACL must be created for a specific SMB SD because each DACL has a unique set of rights. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-SMBSecurityDACL</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+          <maml:name>SecurityDescriptorName</maml:name>
+          <maml:description>
+            <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Access</maml:name>
+          <maml:description>
+            <maml:para>{{ Allow or Deny the the Right(s) for the Account. Please note that Deny overrules Allow. }}</maml:para>
+          </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">Allow</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Deny</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">SMBSecAccess</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecAccess</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>Rights</maml:name>
+          <maml:description>
+            <maml:para>{{ What permissions the account will (Allow) or will not (Deny) have for SMB SecurityDescriptor. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>Account</maml:name>
+          <maml:description>
+            <maml:para>{{ The user account or group that the Right(s) will apply to. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Access</maml:name>
+        <maml:description>
+          <maml:para>{{ Allow or Deny the the Right(s) for the Account. Please note that Deny overrules Allow. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecAccess</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecAccess</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>Account</maml:name>
+        <maml:description>
+          <maml:para>{{ The user account or group that the Right(s) will apply to. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>Rights</maml:name>
+        <maml:description>
+          <maml:para>{{ What permissions the account will (Allow) or will not (Deny) have for SMB SecurityDescriptor. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="SDName, Name">
+        <maml:name>SecurityDescriptorName</maml:name>
+        <maml:description>
+          <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $DACLSplat = @{
+                SecurityDescriptor = 'SrvsvcDefaultShareInfo'
+                Access             = 'Allow'
+                Right              = 'FullControl'
+                Account            = "Administrators"
+            } }}
+PS C:\&gt; {{ $DACL = New-SMBSecurityDACL @DACLSplat }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ This sample creates a DACL for the SrvsvcDefaultShareInfo SMB SecurityDescriptor. This DACL object can be added to an SMBSecurityDescriptor object to modify the permission set. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-SMBSecurityDACL</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/New%E2%80%90SMBSecurityDACL</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-SMBSecurityDescriptor</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>SMBSecurityDescriptor</command:noun>
+      <maml:description>
+        <maml:para>{{ Creates an SMBSecurityDescriptor object. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Creates an SMBSecurityDescriptor object. This cmdlet can be used in advanced scripting scenarios. The recommendation is to use Get-SMBSecurity and modify the esisting SMB SecurityDescriptor rather than building the SMBSecurityDescriptor manually. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-SMBSecurityDescriptor</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>SecurityDescriptorName</maml:name>
+          <maml:description>
+            <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+          </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcConfigInfo</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcConnection</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcFile</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcServerDiskEnum</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcSessionInfo</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcShareAdminConnect</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcShareAdminInfo</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcShareChange</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcShareConnect</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcShareFileInfo</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcSharePrintInfo</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcStatisticsInfo</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcTransportEnum</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">SrvsvcDefaultShareInfo</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">SMBSecurityDescriptor</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecurityDescriptor</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>SDDLString</maml:name>
+          <maml:description>
+            <maml:para>{{ Creates the SMBSecurityDescriptor based on a compatible SDDL string. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>Owner</maml:name>
+          <maml:description>
+            <maml:para>{{ The owner of the Security Descriptor. This should be 'NT AUTHORITY\SYSTEM'. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>Group</maml:name>
+          <maml:description>
+            <maml:para>{{ The primary group for the Security Descriptor. This should be 'NT AUTHORITY\SYSTEM'. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+          <maml:name>DACL</maml:name>
+          <maml:description>
+            <maml:para>{{ An array of one or more DACLs to add to the SMBSecurityDescriptor. The DACL must originate from Copy-SMBSecurityDACL or New-SMBSecurityDACL and the DACL's SecurityDescriptor property must match the SecurityDescriptor's Name, because each SMB SecurityDescriptor has a unique set of rights. Attempting to add a DACL with a mismatched SMBSecurityDescriptor will result in an error. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="4" aliases="none">
+        <maml:name>DACL</maml:name>
+        <maml:description>
+          <maml:para>{{ An array of one or more DACLs to add to the SMBSecurityDescriptor. The DACL must originate from Copy-SMBSecurityDACL or New-SMBSecurityDACL and the DACL's SecurityDescriptor property must match the SecurityDescriptor's Name, because each SMB SecurityDescriptor has a unique set of rights. Attempting to add a DACL with a mismatched SMBSecurityDescriptor will result in an error. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>Group</maml:name>
+        <maml:description>
+          <maml:para>{{ The primary group for the Security Descriptor. This should be 'NT AUTHORITY\SYSTEM'. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>Owner</maml:name>
+        <maml:description>
+          <maml:para>{{ The owner of the Security Descriptor. This should be 'NT AUTHORITY\SYSTEM'. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>SDDLString</maml:name>
+        <maml:description>
+          <maml:para>{{ Creates the SMBSecurityDescriptor based on a compatible SDDL string. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>SecurityDescriptorName</maml:name>
+        <maml:description>
+          <maml:para>{{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecurityDescriptor</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecurityDescriptor</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $DACLs = @() }}
+PS C:\&gt; {{ $DACLSplat = @{ }}
+PS C:\&gt; {{     SecurityDescriptor = 'SrvsvcDefaultShareInfo' }}
+PS C:\&gt; {{     Access             = 'Allow' }}
+PS C:\&gt; {{     Right              = 'FullControl' }}
+PS C:\&gt; {{     Account            = "Administrators" }}
+PS C:\&gt; {{ } }}
+PS C:\&gt; {{ $DACL = New-SMBSecurityDACL @DACLSplat }}
+PS C:\&gt; {{ $DACLSplat2 = @{ }}
+PS C:\&gt; {{     SecurityDescriptor = 'SrvsvcDefaultShareInfo' }}
+PS C:\&gt; {{     Access             = 'Allow' }}
+PS C:\&gt; {{     Right              = 'Read' }}
+PS C:\&gt; {{     Account            = "Authenticated Users" }}
+PS C:\&gt; {{ } }}
+PS C:\&gt; {{ $DACL2 = New-SMBSecurityDACL @DACLSplat2 }}
+PS C:\&gt; {{ $DACLs += $DACL }}
+PS C:\&gt; {{ $DACLs += $DACL2 }}
+PS C:\&gt; {{ $account = "NT AUTHORITY\SYSTEM" }}
+PS C:\&gt; {{ $Owner = New-SMBSecurityOwner -Account $account }}
+PS C:\&gt; {{ $Group = New-SMBSecurityGroup -Account $account }}
+PS C:\&gt; {{ $SD = New-SMBSecurityDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $GroupPS -DACL $DACLs }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Creates a complete, new SMBSecurityDescriptor from scratch. This can be used to replace the existing SMB SD.</maml:para>
+          <maml:para>WARNING! This method should be used with extreme caution! Microsoft does not recommend using this method without significant testing and the understanding that this could cause unexpected results. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-SMBSecurityDescriptor</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/New%E2%80%90SMBSecurityDescriptor</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-SMBSecurityGroup</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>SMBSecurityGroup</command:noun>
+      <maml:description>
+        <maml:para>{{ Creates an SMBSecGroup object. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Creates an SMBSecGroup object. The group can be added to the SMBSecurityDescriptor via Set-SMBSecurityGroup. The command will fail if the account's SID cannot be resolved by the system. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-SMBSecurityGroup</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+          <maml:name>Account</maml:name>
+          <maml:description>
+            <maml:para>{{ The group name. String SID or account/group name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in '[username|group]', 'domain\[username|group]', and '[username|group]@domain' format. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ForceDomain</maml:name>
+          <maml:description>
+            <maml:para>{{ [Experimental] Certain domain configurations, namely Azure AD joined, may cause the Account lookup to fail. This parameter adds extra domain lookup logic that should be AAD compatible. Hybrid joined and traditional AD joined systems should not need this parameter. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+        <maml:name>Account</maml:name>
+        <maml:description>
+          <maml:para>{{ The group name. String SID or account/group name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in '[username|group]', 'domain\[username|group]', and '[username|group]@domain' format. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ForceDomain</maml:name>
+        <maml:description>
+          <maml:para>{{ [Experimental] Certain domain configurations, namely Azure AD joined, may cause the Account lookup to fail. This parameter adds extra domain lookup logic that should be AAD compatible. Hybrid joined and traditional AD joined systems should not need this parameter. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $account = "NT AUTHORITY\SYSTEM" }}
+PS C:\&gt; {{ $Group = New-SMBSecurityGroup -Account $account }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Creates an SMBSecurity Group using the SYSTEM account. This is the recommended group account. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-SMBSecurityGroup</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/New%E2%80%90SMBSecurityGroup</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>New-SMBSecurityOwner</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>SMBSecurityOwner</command:noun>
+      <maml:description>
+        <maml:para>{{ Creates an SMBSecOwner object. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Creates an SMBSecOwner object. The owner can be added to the SMBSecurityDescriptor via Set-SMBSecurityOwner. The command will fail if the account's SID cannot be resolved by the system. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-SMBSecurityOwner</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+          <maml:name>Account</maml:name>
+          <maml:description>
+            <maml:para>{{ The owner name. String SID or account name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in 'username', 'domain\username', and 'user@domain' format. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>ForceDomain</maml:name>
+          <maml:description>
+            <maml:para>{{ [Experimental] Certain domain configurations, namely Azure AD joined, may cause the Account lookup to fail. This parameter adds extra domain lookup logic that should be AAD compatible. Hybrid joined and traditional AD joined systems should not need this parameter. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+        <maml:name>Account</maml:name>
+        <maml:description>
+          <maml:para>{{ The owner name. String SID or account name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in 'username', 'domain\username', and 'user@domain' format. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>ForceDomain</maml:name>
+        <maml:description>
+          <maml:para>{{ [Experimental] Certain domain configurations, namely Azure AD joined, may cause the Account lookup to fail. This parameter adds extra domain lookup logic that should be AAD compatible. Hybrid joined and traditional AD joined systems should not need this parameter. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $account = "NT AUTHORITY\SYSTEM" }}
+PS C:\&gt; {{ $Owner = New-SMBSecurityOwner -Account $account }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Creates an SMBSecurity Owner using the SYSTEM account. This is the recommended owner account. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>New-SMBSecurityOwner</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/New%E2%80%90SMBSecurityOwner</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-SMBSecurityDACL</command:name>
+      <command:verb>Remove</command:verb>
+      <command:noun>SMBSecurityDACL</command:noun>
+      <maml:description>
+        <maml:para>{{ Removes a DACL from an SMBSecurityDescriptor. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Removes a DACL from an SMBSecurityDescriptor. This does not commit the change to the system, it only modifies the SMBSecurityDescriptor. The Save-SMBSecurity cmdlet is used to commit changes to a SMBSecurityDescriptor to the system. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-SMBSecurityDACL</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>SecurityDescriptor</maml:name>
+          <maml:description>
+            <maml:para>{{ The SMBSecurityDescriptor object where the DACL should be removed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+          <dev:type>
+            <maml:name>PSObject</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+          <maml:name>DACL</maml:name>
+          <maml:description>
+            <maml:para>{{ The DACL being removed to the SMBSecurityDescriptor. The DACL must be an exact match to a DACL in the SMBSecurityDescriptor object. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecDaclAce</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>{{ Outputs the modified SMBSecurityDescriptor to the success stream. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+        <maml:name>DACL</maml:name>
+        <maml:description>
+          <maml:para>{{ The DACL being removed to the SMBSecurityDescriptor. The DACL must be an exact match to a DACL in the SMBSecurityDescriptor object. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>{{ Outputs the modified SMBSecurityDescriptor to the success stream. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>SecurityDescriptor</maml:name>
+        <maml:description>
+          <maml:para>{{ The SMBSecurityDescriptor object where the DACL should be removed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+        <dev:type>
+          <maml:name>PSObject</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo }}
+PS C:\&gt; {{ $DACL = $SD | Where-Object {$_.Account.Username -eq "Everyone"} }}
+PS C:\&gt; {{ $DACL | Remove-SMBSecurityDACL -SecurityDescriptor $SD }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ This example removes the Everyone group DACL from the SrvsvcSharePrintInfo SMB SecurityDescriptor. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Remove-SMBSecurityDACL</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Remove%E2%80%90SMBSecurityDACL</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Remove-SMBSecurityDACL</command:name>
+      <command:verb>Remove</command:verb>
+      <command:noun>SMBSecurityDACL</command:noun>
+      <maml:description>
+        <maml:para>{{ Removes a DACL from an SMBSecurityDescriptor. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Removes a DACL from an SMBSecurityDescriptor. This does not commit the change to the system, it only modifies the SMBSecurityDescriptor. The Save-SMBSecurity cmdlet is used to commit changes to a SMBSecurityDescriptor to the system. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Remove-SMBSecurityDACL</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>SecurityDescriptor</maml:name>
+          <maml:description>
+            <maml:para>{{ The SMBSecurityDescriptor object where the DACL should be removed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+          <dev:type>
+            <maml:name>PSObject</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+          <maml:name>DACL</maml:name>
+          <maml:description>
+            <maml:para>{{ The DACL being removed to the SMBSecurityDescriptor. The DACL must be an exact match to a DACL in the SMBSecurityDescriptor object. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecDaclAce</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>{{ Outputs the modified SMBSecurityDescriptor to the success stream. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="1" aliases="none">
+        <maml:name>DACL</maml:name>
+        <maml:description>
+          <maml:para>{{ The DACL being removed to the SMBSecurityDescriptor. The DACL must be an exact match to a DACL in the SMBSecurityDescriptor object. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>{{ Outputs the modified SMBSecurityDescriptor to the success stream. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>SecurityDescriptor</maml:name>
+        <maml:description>
+          <maml:para>{{ The SMBSecurityDescriptor object where the DACL should be removed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+        <dev:type>
+          <maml:name>PSObject</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo }}
+PS C:\&gt; {{ $DACL = $SD | Where-Object {$_.Account.Username -eq "Everyone"} }}
+PS C:\&gt; {{ $DACL | Remove-SMBSecurityDACL -SecurityDescriptor $SD }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ This example removes the Everyone group DACL from the SrvsvcSharePrintInfo SMB SecurityDescriptor. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Remove-SMBSecurityDACL</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Restore%E2%80%90SMBSecurity</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Save-SMBSecurity</command:name>
+      <command:verb>Save</command:verb>
+      <command:noun>SMBSecurity</command:noun>
+      <maml:description>
+        <maml:para>{{ Commits changes made to SMBSecurityDescriptor(s) to the system. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Commits changes made to SMBSecurityDescriptor(s) to the system. Running this command will automatically generate a backup prior to the committing the change. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Save-SMBSecurity</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>SecurityDescriptor</maml:name>
+          <maml:description>
+            <maml:para>{{ The SMBSecurityDescriptor object to be committed to the registry. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSObject[]</command:parameterValue>
+          <dev:type>
+            <maml:name>PSObject[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>BackupPath</maml:name>
+          <maml:description>
+            <maml:para>{{ Path to the directory (folder) where backups will be written to. The automatic backup path (%LOCALAPPDATA%\SMBSecurity) is used when this parameter is not set. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>BackupWithRegFile</maml:name>
+          <maml:description>
+            <maml:para>{{ Creates a full registry-based backup in addition to individual XML-based backup(s). The BackupPath is honored, when set; otherwise, the automatic backup path (%LOCALAPPDATA%\SMBSecurity) is used.  }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>Force</maml:name>
+          <maml:description>
+            <maml:para>{{ By default, changes are not committed to the system when the backup fails. The Force parameter will commit changes even if the backup fails. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>BackupPath</maml:name>
+        <maml:description>
+          <maml:para>{{ Path to the directory (folder) where backups will be written to. The automatic backup path (%LOCALAPPDATA%\SMBSecurity) is used when this parameter is not set. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>BackupWithRegFile</maml:name>
+        <maml:description>
+          <maml:para>{{ Creates a full registry-based backup in addition to individual XML-based backup(s). The BackupPath is honored, when set; otherwise, the automatic backup path (%LOCALAPPDATA%\SMBSecurity) is used.  }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>Force</maml:name>
+        <maml:description>
+          <maml:para>{{ By default, changes are not committed to the system when the backup fails. The Force parameter will commit changes even if the backup fails. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>SecurityDescriptor</maml:name>
+        <maml:description>
+          <maml:para>{{ The SMBSecurityDescriptor object to be committed to the registry. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSObject[]</command:parameterValue>
+        <dev:type>
+          <maml:name>PSObject[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\&gt; {{ $DACL = $SMBSec.DACL | Where-Object {$_.Account.Username -eq "Everyone"} }}
+PS C:\&gt; {{ $DACL | Remove-SMBSecurityDACL -SecurityDescriptor $SMBSec }}
+PS C:\&gt; {{ Save-SMBSecurity -SecurityDescriptor $SMBSec }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ This example removes the Everyone group DACL from the SrvsvcSharePrintInfo SMB SecurityDescriptor, and then saves the change to the system. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Save-SMBSecurity</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Save%E2%80%90SMBSecurity</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-SMBSecurityDACL</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>SMBSecurityDACL</command:noun>
+      <maml:description>
+        <maml:para>{{ Alters the settings of an SMB Security Descriptor (SD) DACL. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Alters the settings of an SMB Security Descriptor (SD) DACL. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-SMBSecurityDACL</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>DACL</maml:name>
+          <maml:description>
+            <maml:para>{{ The DACL object being modified. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecDaclAce</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Account</maml:name>
+          <maml:description>
+            <maml:para>{{ The user account or group that the Right(s) will apply to. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>Access</maml:name>
+          <maml:description>
+            <maml:para>{{ Allow or Deny the the Right(s) for the Account. Please note that Deny overrules Allow. }}</maml:para>
+          </maml:description>
+          <command:parameterValueGroup>
+            <command:parameterValue required="false" command:variableLength="false">Allow</command:parameterValue>
+            <command:parameterValue required="false" command:variableLength="false">Deny</command:parameterValue>
+          </command:parameterValueGroup>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+          <maml:name>Right</maml:name>
+          <maml:description>
+            <maml:para>{{ What permissions the account will (Allow) or will not (Deny) have for SMB SecurityDescriptor. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+          <dev:type>
+            <maml:name>String[]</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>{{ Outputs the results to the success stream. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>Access</maml:name>
+        <maml:description>
+          <maml:para>{{ Allow or Deny the the Right(s) for the Account. Please note that Deny overrules Allow. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Account</maml:name>
+        <maml:description>
+          <maml:para>{{ The user account or group that the Right(s) will apply to. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>DACL</maml:name>
+        <maml:description>
+          <maml:para>{{ The DACL object being modified. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>{{ Outputs the results to the success stream. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="3" aliases="none">
+        <maml:name>Right</maml:name>
+        <maml:description>
+          <maml:para>{{ What permissions the account will (Allow) or will not (Deny) have for SMB SecurityDescriptor. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String[]</command:parameterValue>
+        <dev:type>
+          <maml:name>String[]</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo }}
+PS C:\&gt; {{ $DACL = $SD.DACL | Where-Object {$_.Account.Username -eq "DomianGroup"} }}
+PS C:\&gt; {{ $NewDACL = Copy-SMBSecurityDACL $DACL }}
+PS C:\&gt; {{ Set-SMBSecurityDACL -DACL $NewDACL -Access Deny }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Creates the SrvsvcSharePrintInfo SMBSecurityDescriptor and then copies the DACL using the DomainGroup account. The DACL is modified to Deny this group access to SrvsvcSharePrintInfo SD. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-SMBSecurityDACL</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Set%E2%80%90SMBSecurityDACL</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-SmbSecurityDescriptorDACL</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>SmbSecurityDescriptorDACL</command:noun>
+      <maml:description>
+        <maml:para>{{ Replaces the existing DACL in an SecurityDescriptor with a modified version of that DACL. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Replaces the existing DACL in an SecurityDescriptor with a modified version of that DACL. The NewDACL should be created using Copy-SMBSecurityDACL. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-SmbSecurityDescriptorDACL</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+          <maml:name>SecurityDescriptor</maml:name>
+          <maml:description>
+            <maml:para>{{ The SMBSecurityDescriptor object where the DACL is being replaced. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+          <dev:type>
+            <maml:name>PSObject</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>DACL</maml:name>
+          <maml:description>
+            <maml:para>{{ The existing DACL that is being replaced. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecDaclAce</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>NewDACL</maml:name>
+          <maml:description>
+            <maml:para>{{ The DACL replacing the existing one in the SecurityDescriptor. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+          <dev:type>
+            <maml:name>SMBSecDaclAce</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>DACL</maml:name>
+        <maml:description>
+          <maml:para>{{ The existing DACL that is being replaced. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>NewDACL</maml:name>
+        <maml:description>
+          <maml:para>{{ The DACL replacing the existing one in the SecurityDescriptor. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">SMBSecDaclAce</command:parameterValue>
+        <dev:type>
+          <maml:name>SMBSecDaclAce</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="0" aliases="none">
+        <maml:name>SecurityDescriptor</maml:name>
+        <maml:description>
+          <maml:para>{{ The SMBSecurityDescriptor object where the DACL is being replaced. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+        <dev:type>
+          <maml:name>PSObject</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>None</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo }}
+PS C:\&gt; {{ $DACL = $SD.DACL | Where-Object {$_.Account.Username -eq "DomianGroup"} }}
+PS C:\&gt; {{ $NewDACL = Copy-SMBSecurityDACL $DACL }}
+PS C:\&gt; {{ Set-SMBSecurityDACL -DACL $NewDACL -Access Deny }}
+PS C:\&gt; {{ Set-SmbSecurityDescriptorDACL -SecurityDescriptor $SD -DACL $DACL -NewDACl $NewDACL }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Creates the SrvsvcSharePrintInfo SMBSecurityDescriptor and then copies the DACL using the DomainGroup account. The DACL is modified to Deny this group access to SrvsvcSharePrintInfo SD. The changes are updated to the SMB SD. }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-SmbSecurityDescriptorDACL</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Set%E2%80%90SmbSecurityDescriptorDACL</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-SMBSecurityGroup</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>SMBSecurityGroup</command:noun>
+      <maml:description>
+        <maml:para>{{ Replaces the Group in a SecurityDescriptor. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Replaces the Group in a SecurityDescriptor. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-SMBSecurityGroup</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+          <maml:name>SecurityDescriptor</maml:name>
+          <maml:description>
+            <maml:para>{{ The SMBSecurityDescriptor object where the Owner will be changed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+          <dev:type>
+            <maml:name>PSObject</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Account</maml:name>
+          <maml:description>
+            <maml:para>{{ The group name. String SID or account/group name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in '[username|group]', 'domain\[username|group]', and '[username|group]@domain' format. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>{{ Returns the result to the success stream. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Account</maml:name>
+        <maml:description>
+          <maml:para>{{ The group name. String SID or account/group name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in '[username|group]', 'domain\[username|group]', and '[username|group]@domain' format. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>{{ Returns the result to the success stream. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+        <maml:name>SecurityDescriptor</maml:name>
+        <maml:description>
+          <maml:para>{{ The SMBSecurityDescriptor object where the Owner will be changed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+        <dev:type>
+          <maml:name>PSObject</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.Management.Automation.PSObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\&gt; {{ Set-SMBSecurityGroup -SecurityDescriptor $SMBSec -Account "Administrators" }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Changes the primary group of the SrvsvcDefaultShareInfo SMB SecurityDescriptor to the Administrators group.</maml:para>
+          <maml:para>WARNING! Extreme caution should be used when chaning SMB SecurityDescriptor group! }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-SMBSecurityGroup</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Set%E2%80%90SMBSecurityGroup</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
+      <command:name>Set-SMBSecurityOwner</command:name>
+      <command:verb>Set</command:verb>
+      <command:noun>SMBSecurityOwner</command:noun>
+      <maml:description>
+        <maml:para>{{ Replaces the Owner in a SecurityDescriptor. }}</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>{{ Replaces the Owner in a SecurityDescriptor. }}</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-SMBSecurityOwner</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+          <maml:name>SecurityDescriptor</maml:name>
+          <maml:description>
+            <maml:para>{{ The SMBSecurityDescriptor object where the Owner will be changed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+          <dev:type>
+            <maml:name>PSObject</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>Account</maml:name>
+          <maml:description>
+            <maml:para>{{ The owner name. String SID or account name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in 'username', 'domain\username', and 'user@domain' format. }}</maml:para>
+          </maml:description>
+          <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+          <dev:type>
+            <maml:name>Object</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+          <maml:name>PassThru</maml:name>
+          <maml:description>
+            <maml:para>{{ Returns the result to the success stream. }}</maml:para>
+          </maml:description>
+          <dev:type>
+            <maml:name>SwitchParameter</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>False</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>Account</maml:name>
+        <maml:description>
+          <maml:para>{{ The owner name. String SID or account name, [System.Security.Principal.NTAccount], [System.Security.Principal.SecurityIdentifier] (SID), [SMBSecAccount], and ,[SMBSecGroup] objects are accepted. Strings accept input in 'username', 'domain\username', and 'user@domain' format. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">Object</command:parameterValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="named" aliases="none">
+        <maml:name>PassThru</maml:name>
+        <maml:description>
+          <maml:para>{{ Returns the result to the success stream. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="false" variableLength="false">SwitchParameter</command:parameterValue>
+        <dev:type>
+          <maml:name>SwitchParameter</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>False</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="True (ByValue)" position="0" aliases="none">
+        <maml:name>SecurityDescriptor</maml:name>
+        <maml:description>
+          <maml:para>{{ The SMBSecurityDescriptor object where the Owner will be changed. The SMBSecurityDescriptor object must originate from Get-SMBSecurity. }}</maml:para>
+        </maml:description>
+        <command:parameterValue required="true" variableLength="false">PSObject</command:parameterValue>
+        <dev:type>
+          <maml:name>PSObject</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes>
+      <command:inputType>
+        <dev:type>
+          <maml:name>System.Management.Automation.PSObject</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:inputType>
+    </command:inputTypes>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Object</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para></maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- Example 1 --------------------------</maml:title>
+        <dev:code>PS C:\&gt; {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\&gt; {{ Set-SMBSecurityOwner -SecurityDescriptor $SMBSec -Account "Administrator" }}</dev:code>
+        <dev:remarks>
+          <maml:para>{{ Changes the owner of the SrvsvcDefaultShareInfo SMB SecurityDescriptor to the Administrator account.</maml:para>
+          <maml:para>WARNING! Extreme caution should be used when chaning SMB SecurityDescriptor owner! }}</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks>
+      <maml:navigationLink>
+        <maml:linkText>Set-SMBSecurityOwner</maml:linkText>
+        <maml:uri>https://github.com/microsoft/SMBSecurity/wiki/Set%E2%80%90SMBSecurityOwner</maml:uri>
+      </maml:navigationLink>
+    </command:relatedLinks>
+  </command:command>
+</helpItems>

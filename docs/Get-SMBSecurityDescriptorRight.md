@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -58,4 +58,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Get-SMBSecurityDescriptorRight](https://github.com/microsoft/SMBSecurity/wiki/Get%E2%80%90SMBSecurityDescriptorRight)

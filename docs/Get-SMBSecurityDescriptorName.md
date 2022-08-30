@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -13,7 +13,7 @@ schema: 2.0.0
 ## SYNTAX
 
 ```
-Get-SMBSecurityDescriptorName
+Get-SMBSecurityDescriptorName [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,6 +30,9 @@ PS C:\> {{ Get-SMBSecurityDescriptorName }}
 
 ## PARAMETERS
 
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
 ## INPUTS
 
 ### None
@@ -40,4 +43,5 @@ PS C:\> {{ Get-SMBSecurityDescriptorName }}
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Get-SMBSecurityDescriptorName](https://github.com/microsoft/SMBSecurity/wiki/Get%E2%80%90SMBSecurityDescriptorName)

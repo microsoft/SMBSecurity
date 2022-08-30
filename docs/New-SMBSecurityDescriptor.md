@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -24,10 +24,32 @@ New-SMBSecurityDescriptor [-SecurityDescriptorName] <SMBSecurityDescriptor> [[-S
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $DACLs = @() }}
+PS C:\> {{ $DACLSplat = @{ }}
+PS C:\> {{     SecurityDescriptor = 'SrvsvcDefaultShareInfo' }}
+PS C:\> {{     Access             = 'Allow' }}
+PS C:\> {{     Right              = 'FullControl' }}
+PS C:\> {{     Account            = "Administrators" }}
+PS C:\> {{ } }}
+PS C:\> {{ $DACL = New-SMBSecurityDACL @DACLSplat }}
+PS C:\> {{ $DACLSplat2 = @{ }}
+PS C:\> {{     SecurityDescriptor = 'SrvsvcDefaultShareInfo' }}
+PS C:\> {{     Access             = 'Allow' }}
+PS C:\> {{     Right              = 'Read' }}
+PS C:\> {{     Account            = "Authenticated Users" }}
+PS C:\> {{ } }}
+PS C:\> {{ $DACL2 = New-SMBSecurityDACL @DACLSplat2 }}
+PS C:\> {{ $DACLs += $DACL }}
+PS C:\> {{ $DACLs += $DACL2 }}
+PS C:\> {{ $account = "NT AUTHORITY\SYSTEM" }}
+PS C:\> {{ $Owner = New-SMBSecurityOwner -Account $account }}
+PS C:\> {{ $Group = New-SMBSecurityGroup -Account $account }}
+PS C:\> {{ $SD = New-SMBSecurityDescriptor -SecurityDescriptor "SrvsvcDefaultShareInfo" -Owner $Owner -Group $GroupPS -DACL $DACLs }}
 ```
 
-{{ Add example description here }}
+{{ Creates a complete, new SMBSecurityDescriptor from scratch. This can be used to replace the existing SMB SD.
+
+WARNING! This method should be used with extreme caution! Microsoft does not recommend using this method without significant testing and the understanding that this could cause unexpected results. }}
 
 ## PARAMETERS
 
@@ -35,7 +57,7 @@ PS C:\> {{ Add example code here }}
 {{ An array of one or more DACLs to add to the SMBSecurityDescriptor. The DACL must originate from Copy-SMBSecurityDACL or New-SMBSecurityDACL and the DACL's SecurityDescriptor property must match the SecurityDescriptor's Name, because each SMB SecurityDescriptor has a unique set of rights. Attempting to add a DACL with a mismatched SMBSecurityDescriptor will result in an error. }}
 
 ```yaml
-Type:  System.Collections.ArrayList
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
@@ -95,7 +117,7 @@ Accept wildcard characters: False
 {{ The name of the SMB SecurityDescriptor. The valid set of names are: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, and SrvsvcDefaultShareInfo. }}
 
 ```yaml
-Type: String
+Type: SMBSecurityDescriptor
 Parameter Sets: (All)
 Aliases:
 Accepted values: SrvsvcConfigInfo, SrvsvcConnection, SrvsvcFile, SrvsvcServerDiskEnum, SrvsvcSessionInfo, SrvsvcShareAdminConnect, SrvsvcShareAdminInfo, SrvsvcShareChange, SrvsvcShareConnect, SrvsvcShareFileInfo, SrvsvcSharePrintInfo, SrvsvcStatisticsInfo, SrvsvcTransportEnum, SrvsvcDefaultShareInfo
@@ -120,4 +142,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[New-SMBSecurityDescriptor](https://github.com/microsoft/SMBSecurity/wiki/New%E2%80%90SMBSecurityDescriptor)

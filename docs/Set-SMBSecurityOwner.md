@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -23,10 +23,13 @@ Set-SMBSecurityOwner [-SecurityDescriptor] <PSObject> [[-Account] <Object>] [-Pa
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\> {{ Set-SMBSecurityOwner -SecurityDescriptor $SMBSec -Account "Administrator" }}
 ```
 
-{{ Add example description here }}
+{{ Changes the owner of the SrvsvcDefaultShareInfo SMB SecurityDescriptor to the Administrator account.
+
+WARNING! Extreme caution should be used when chaning SMB SecurityDescriptor owner! }}
 
 ## PARAMETERS
 
@@ -88,4 +91,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Set-SMBSecurityOwner](https://github.com/microsoft/SMBSecurity/wiki/Set%E2%80%90SMBSecurityOwner)

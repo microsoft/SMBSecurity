@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -24,10 +24,31 @@ Backup-SMBSecurity [[-SecurityDescriptorName] <String[]>] [[-Path] <String>] [-R
 
 ### Example 1
 ```powershell
-PS C:\> {{ $result = Backup-SMBSecurity }}
+PS C:\> {{ Backup-SMBSecurity }}
 ```
 
-{{ Backs up all SMB Security Descriptors (SD) individually. A total of 14 XML files will be created in the automatic backup path (%LOCALAPPDATA%\SMBSecurity). }}
+{{ Backs up all SMB Security Descriptors (SD) individually. A total of 14 XML files will be created in the automatic backup path %LOCALAPPDATA%\SMBSecurity (PowerShell: $ENV:LOCALAPPDATA\SMBSecurity). }}
+
+### Example 2
+```powershell
+PS C:\> {{ Backup-SMBSecurity -RegOnly }}
+```
+
+{{ Backs up all SMB Security Descriptors (SD) to a single REG file. The files will be saved to the automatic backup path, %LOCALAPPDATA%\SMBSecurity. }}
+
+### Example 3
+```powershell
+PS C:\> {{ Backup-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo -Path C:\Backups\SMBSecurity -WithReg }}
+```
+
+{{ Backs up the SrvsvcDefaultShareInfo SMB SecurityDescriptor to an XML file, and all SMB Security Descriptors (SD) to a single REG file. The files will be saved to the custom backup path, C:\Backups\SMBSecurity. }}
+
+### Example 4
+```powershell
+PS C:\> {{ $files = Backup-SMBSecurity -Path C:\Backups\SMBSecurity -WithReg -FilePassThru }}
+```
+
+{{ All SMB SecurityDescriptor will be backed up individually to XML files and as a single REG file. The files will be saved to the custom backup path, C:\Backups\SMBSecurity. The full file paths will be returned and stored in the $files variable. }}
 
 ## PARAMETERS
 
@@ -119,4 +140,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Backup-SMBSecurity](https://github.com/microsoft/SMBSecurity/wiki/Backup%E2%80%90SMBSecurity)

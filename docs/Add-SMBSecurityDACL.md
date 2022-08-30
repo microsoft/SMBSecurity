@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -23,10 +23,18 @@ Add-SMBSecurityDACL [-SecurityDescriptor] <PSObject> [-DACL] <SMBSecDaclAce> [-P
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\> {{ $DACLSplat = @{
+               SecurityDescriptorName = 'SrvsvcDefaultShareInfo'
+               Access                 = 'Allow'
+               Right                  = 'FullControl'
+               Account                = 'Authenticated Users'
+           } }}
+PS C:\> {{ $DACL = New-SMBSecurityDACL @DACLSplat }}
+PS C:\> {{ Add-SMBSecurityDACL -SecurityDescriptor $SD -DACL $DACL }}
 ```
 
-{{ Add example description here }}
+{{ The SrvsvcDefaultShareInfo SMB SecurityDescriptor (SD) is assigned to $SD. A DACL that Allows the "Authenticated Users" special identity group FullControl is create. Then the DACL is then added to the SD. NOTE: This does not save the change to the system. See Save-SMBSecurity. }}
 
 ## PARAMETERS
 
@@ -88,4 +96,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+[Add-SMBSecurityDACL](https://github.com/microsoft/SMBSecurity/wiki/Add%E2%80%90SMBSecurityDACL)

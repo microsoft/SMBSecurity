@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -23,10 +23,11 @@ New-SMBSecurityOwner [-Account] <Object> [-ForceDomain] [<CommonParameters>]
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $account = "NT AUTHORITY\SYSTEM" }}
+PS C:\> {{ $Owner = New-SMBSecurityOwner -Account $account }}
 ```
 
-{{ Add example description here }}
+{{ Creates an SMBSecurity Owner using the SYSTEM account. This is the recommended owner account. }}
 
 ## PARAMETERS
 
@@ -73,4 +74,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[New-SMBSecurityOwner](https://github.com/microsoft/SMBSecurity/wiki/New%E2%80%90SMBSecurityOwner)

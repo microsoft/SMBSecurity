@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -24,10 +24,12 @@ Remove-SMBSecurityDACL [-SecurityDescriptor] <PSObject> [-DACL] <SMBSecDaclAce> 
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo }}
+PS C:\> {{ $DACL = $SD | Where-Object {$_.Account.Username -eq "Everyone"} }}
+PS C:\> {{ $DACL | Remove-SMBSecurityDACL -SecurityDescriptor $SD }}
 ```
 
-{{ Add example description here }}
+{{ This example removes the Everyone group DACL from the SrvsvcSharePrintInfo SMB SecurityDescriptor. }}
 
 ## PARAMETERS
 
@@ -89,4 +91,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Remove-SMBSecurityDACL](https://github.com/microsoft/SMBSecurity/wiki/Remove%E2%80%90SMBSecurityDACL)
