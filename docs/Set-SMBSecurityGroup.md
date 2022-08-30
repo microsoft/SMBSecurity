@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -23,10 +23,13 @@ Set-SMBSecurityGroup [-SecurityDescriptor] <PSObject> [[-Account] <String>] [-Pa
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\> {{ Set-SMBSecurityGroup -SecurityDescriptor $SMBSec -Account "Administrators" }}
 ```
 
-{{ Add example description here }}
+{{ Changes the primary group of the SrvsvcDefaultShareInfo SMB SecurityDescriptor to the Administrators group.
+
+WARNING! Extreme caution should be used when chaning SMB SecurityDescriptor group! }}
 
 ## PARAMETERS
 
@@ -88,4 +91,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Set-SMBSecurityGroup](https://github.com/microsoft/SMBSecurity/wiki/Set%E2%80%90SMBSecurityGroup)

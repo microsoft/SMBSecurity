@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -17,16 +17,20 @@ Copy-SMBSecurityDACL [[-DACL] <SMBSecDaclAce>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Creates a cloned copy of a DACL. This is used by the modify DACL process when using Set-SmbSecurityDescriptorDACL. }}
+{{ Creates a cloned copy of a DACL. This is used by the modify DACL process in conjunction with  Set-SmbSecurityDescriptorDACL. }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $SMBSec = Get-SMBSecurity -SecurityDescriptorName SrvsvcDefaultShareInfo }}
+PS C:\> {{ $DACL = $SMBSec.DACL | Where-Object { $_.Account.Username -eq "Authenticated Users" } }}
+PS C:\> {{ $NewDACL = Copy-SMBSecurityDACL $DACL }}
+PS C:\> {{ Set-SMBSecurityDACL -DACL $NewDACL -Right Read }}
+PS C:\> {{ Set-SmbSecurityDescriptorDACL -SecurityDescriptor $SMBSec -DACL $DACL -NewDACl $NewDACL }}
 ```
 
-{{ Add example description here }}
+{{ This example creates a copy of the "Authenticated Users" DACL. The copied DACL is modified and then used to update the SMBSecurityDescriptor. }}
 
 ## PARAMETERS
 
@@ -58,4 +62,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Copy-SMBSecurityDACL](https://github.com/microsoft/SMBSecurity/wiki/Copy%E2%80%90SMBSecurityDACL)

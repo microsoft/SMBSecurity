@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -24,10 +24,13 @@ Set-SMBSecurityDACL [-DACL] <SMBSecDaclAce> [[-Account] <Object>] [[-Access] <Ob
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcSharePrintInfo }}
+PS C:\> {{ $DACL = $SD.DACL | Where-Object {$_.Account.Username -eq "DomianGroup"} }}
+PS C:\> {{ $NewDACL = Copy-SMBSecurityDACL $DACL }}
+PS C:\> {{ Set-SMBSecurityDACL -DACL $NewDACL -Access Deny }}
 ```
 
-{{ Add example description here }}
+{{ Creates the SrvsvcSharePrintInfo SMBSecurityDescriptor and then copies the DACL using the DomainGroup account. The DACL is modified to Deny this group access to SrvsvcSharePrintInfo SD. }}
 
 ## PARAMETERS
 
@@ -120,4 +123,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[Set-SMBSecurityDACL](https://github.com/microsoft/SMBSecurity/wiki/Set%E2%80%90SMBSecurityDACL)

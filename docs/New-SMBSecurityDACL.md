@@ -1,4 +1,4 @@
----
+﻿---
 external help file: SMBSecurity-help.xml
 Module Name: SMBSecurity
 online version:
@@ -24,10 +24,16 @@ New-SMBSecurityDACL [-SecurityDescriptorName] <String> [-Access] <SMBSecAccess> 
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> {{ $DACLSplat = @{
+                SecurityDescriptor = 'SrvsvcDefaultShareInfo'
+                Access             = 'Allow'
+                Right              = 'FullControl'
+                Account            = "Administrators"
+            } }}
+PS C:\> {{ $DACL = New-SMBSecurityDACL @DACLSplat }}
 ```
 
-{{ Add example description here }}
+{{ This sample creates a DACL for the SrvsvcDefaultShareInfo SMB SecurityDescriptor. This DACL object can be added to an SMBSecurityDescriptor object to modify the permission set. }}
 
 ## PARAMETERS
 
@@ -105,4 +111,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-https://github.com/microsoft/SMBSecurity/wiki
+
+[New-SMBSecurityDACL](https://github.com/microsoft/SMBSecurity/wiki/New%E2%80%90SMBSecurityDACL)
