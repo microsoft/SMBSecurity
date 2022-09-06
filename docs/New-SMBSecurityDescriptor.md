@@ -25,19 +25,19 @@ New-SMBSecurityDescriptor [-SecurityDescriptorName] <SMBSecurityDescriptor> [[-S
 ### Example 1
 ```powershell
 PS C:\> {{ $DACLs = @() }}
-PS C:\> {{ $DACLSplat = @{ }}
-PS C:\> {{     SecurityDescriptor = 'SrvsvcDefaultShareInfo' }}
-PS C:\> {{     Access             = 'Allow' }}
-PS C:\> {{     Right              = 'FullControl' }}
-PS C:\> {{     Account            = "Administrators" }}
-PS C:\> {{ } }}
+PS C:\> {{ $DACLSplat = @{ 
+               SecurityDescriptor = 'SrvsvcDefaultShareInfo'
+               Access             = 'Allow'
+               Right              = 'FullControl'
+               Account            = "Administrators"
+           } }}
 PS C:\> {{ $DACL = New-SMBSecurityDACL @DACLSplat }}
-PS C:\> {{ $DACLSplat2 = @{ }}
-PS C:\> {{     SecurityDescriptor = 'SrvsvcDefaultShareInfo' }}
-PS C:\> {{     Access             = 'Allow' }}
-PS C:\> {{     Right              = 'Read' }}
-PS C:\> {{     Account            = "Authenticated Users" }}
-PS C:\> {{ } }}
+PS C:\> {{ $DACLSplat2 = @{
+               SecurityDescriptor = 'SrvsvcDefaultShareInfo'
+               Access             = 'Allow'
+               Right              = 'Read'
+               Account            = "Authenticated Users"
+           } }}
 PS C:\> {{ $DACL2 = New-SMBSecurityDACL @DACLSplat2 }}
 PS C:\> {{ $DACLs += $DACL }}
 PS C:\> {{ $DACLs += $DACL2 }}
