@@ -104,6 +104,8 @@ $script:BackupPath = "$ENV:LOCALAPPDATA\SMBSecurity"
 # selected backups - this is a generic list on purpose, because ArrayList doesn't work right with the UI for some reason
 $script:restoreFileSelection = [List[PSCustomObject]]::new()
 
+# the default share permissions
+$Script:SrvsvcDefaultShareInfoSDDL = 'O:SYG:SYD:(A;;0x1200a9;;;WD)'
 
 
 <#
@@ -805,16 +807,16 @@ DACL        : {4}
 
     $tmpObj | Add-Member -MemberType ScriptMethod -Name ToString -Value { "Name        : {0}`nDescription : {1}`nOwner       : {2}`nGroup       : {3}`nDACL        : {4}" -f $this.Name, `
                                                                                                                                                                              $this.Description, `
-                                                                                                                                                                             $this.Owner.Account.ToString(), `
-                                                                                                                                                                             $this.Group.Account.ToString(), `
+                                                                                                                                                                             $this.Account.ToString(), `
+                                                                                                                                                                             $this.Account.ToString(), `
                                                                                                                                                                              $(($this.DACL | ForEach-Object {$_.ToString()}) -join ', ') } -Force
 
 
     $tmpObj | Add-Member -MemberType ScriptMethod -Name ToBoxString -Value { "`tName        : {0}`n`tDescription : {1}`n`tOwner       : {2}`n`tGroup       : {3}`n`tDACL        : `n{4}" -f `
                                                                                                                                                                                 $this.Name, `
                                                                                                                                                                                 $this.Description, `
-                                                                                                                                                                                $this.Owner.Account.ToString(), `
-                                                                                                                                                                                $this.Group.Account.ToString(), `
+                                                                                                                                                                                $this.Account.ToString(), `
+                                                                                                                                                                                $this.Account.ToString(), `
                                                                                                                                                                                 "`n`t`t$(($this.DACL | ForEach-Object {$_.ToString()}) -join "`n`t`t")" } -Force
 
     Write-Verbose "New-SMBSecurityDescriptor - Returning SMBSecurity object:`n $($tmpObj | Format-Table | Out-String)"
@@ -1268,9 +1270,9 @@ function Read-SMBSecurityDescriptor
         $properties = Get-ItemProperty $Script:SMBSecRegPath -Name $SecurityDescriptorName -EA SilentlyContinue
         if (-NOT $properties)
         {
-            Write-Verbose "Read-SMBSecurityDescriptor - SrvsvcDefaultShareInfo was not found in the registry. Returning the default values."
+            Write-Verbose "Read-SMBSecurityDescriptor - SrvsvcDefaultShareInfo was not found in the registry. Returning the default value: $Script:SrvsvcDefaultShareInfoSDDL"
             # SrvsvcDefaultShareInfo not found, build a default SMB SecDesc object
-            return ( New-SMBSecurityDescriptor -SecurityDescriptorName $SecurityDescriptorName -SDDLString 'O:SYG:SYD:(A;;FA;;;WD)' )
+            return ( New-SMBSecurityDescriptor -SecurityDescriptorName $SecurityDescriptorName -SDDLString $Script:SrvsvcDefaultShareInfoSDDL )
         }
     }
 
@@ -1623,7 +1625,7 @@ function Save-SMBSecurity
 
     foreach ($sd in $SecurityDescriptor)
     {
-        Write-Verbose "Save-SMBSecurity - sd: $sd"
+        Write-Verbose "Save-SMBSecurity - sd: $($sd.Name)"
         # convert SMBSec SD to binary SD
         try
         {
@@ -1747,8 +1749,8 @@ function Backup-SMBSecurity
                 else
                 {
                     # create the default descriptor for SrvsvcDefaultShareInfo and backup that
-                    $dfltInfo = 'O:SYG:SYD:(A;;FA;;;WD)'
-                    [byte[]]$tmpBin = Convert-SMBSecDesc2Binary $dfltInfo
+                    #$dfltInfo = 'O:SYG:SYD:(A;;0x1200a9;;;WD)'
+                    [byte[]]$tmpBin = Convert-SMBSecDesc2Binary $Script:SrvsvcDefaultShareInfoSDDL
                 }
                 Write-Verbose "Backup-SMBSecurity - Result: $($tmpBin -join ',')"
 
@@ -1985,7 +1987,7 @@ function ConvertTo-SMBSecSDDLString
 
     foreach ($secDesc in $SecurityDescriptor)
     {
-        Write-Verbose "ConvertTo-SMBSecSDDLString - secDesc: $secDesc"
+        Write-Verbose "ConvertTo-SMBSecSDDLString - secDesc: $($secDesc.Name)"
         # add the owner
         $Owner = $Script:SMBSecSIDAccnt.GetEnumerator() | Where-Object { $_.Value -eq $secDesc.Owner.Account.Value }
         Write-Verbose "ConvertTo-SMBSecSDDLString - Converting the owner, $owner, to SDDL value."

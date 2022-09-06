@@ -253,7 +253,7 @@ Describe 'Remove a DACL' {
             $DACL.Access.GetType().Name | Should -Be 'SMBSecAccess'
 
             $DACL.Right.Count | Should -Be 1
-            $DACL.Right | Should -Contain "FullControl"
+            $DACL.Right | Should -Contain "Read"
             $DACL.Right.GetType().Name | Should -Be 'String[]'
 
             $DACL.Account.Username | Should -Be "Everyone"
