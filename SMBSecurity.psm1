@@ -1446,7 +1446,7 @@ function Remove-SMBSecurityDACL
         # find the index of the DACL in the SD
         try
         {
-            [int]$index = Find-SMBSecDACLIndex -SecurityDescriptor $SecurityDescriptor -DACL $DACL
+            [int]$index = Find-SMBSecDACLIndex -SecurityDescriptor $SecurityDescriptor -DACL $DACL -EA Stop
 
             Write-Verbose "Remove-SMBSecurityDACL - Index of DACL: $index"
 
@@ -1457,7 +1457,22 @@ function Remove-SMBSecurityDACL
 
             Write-Verbose "Remove-SMBSecurityDACL - Removing DACL."
             # remove the DACL at the index
-            $SecurityDescriptor.DACL.RemoveAt($index)
+
+            # there's a bug in this implementation where there's a single object in the ArrayList
+            # ArrayLists needs to be replaced by Generic list to fix this, I think
+            #$SecurityDescriptor.DACL.RemoveAt($index)
+
+            # temp workaround
+            $newDaclArr = [ArrayList]::new()
+
+            0..($SecurityDescriptor.DACL.Count - 1) | ForEach-Object {
+                if ($_ -ne $index)
+                {
+                    $newDaclArr += $SecurityDescriptor.DACL[$_]
+                }
+            }
+
+            $SecurityDescriptor.DACL = $newDaclArr
         }
         catch
         {
