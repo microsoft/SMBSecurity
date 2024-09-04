@@ -1,7 +1,8 @@
 
-| :warning: WARNING          |
-|:---------------------------|
-| This module is currently in development and is considered pre-release software. Please use with caution!      |
+| :warning: WARNING :warning:  |
+|:-----------------------------|
+| Development on this project has ended in a pre-release state. **Please use with extreme caution!** |
+| This project can be used AS-IS, with no warranties, guarantees, or support of any kind! A registry setting backup file is created prior to any change being committed. Use that reg file to restore the previous state, then restart the Server (LanmanServer) service to restore the old security state. |
 
 
 
