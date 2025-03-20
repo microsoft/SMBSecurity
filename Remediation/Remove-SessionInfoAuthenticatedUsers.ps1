@@ -1,18 +1,24 @@
-# commands to remove Authenticated Users from SrvsvcSessionInfo with the SMBSecurity PowerShell module.
+# Commands to remove Authenticated Users from SrvsvcSessionInfo with the SMBSecurity PowerShell module.
+# This file might need to be unblocked before it will run in PowerShell! See line 14.
+#requires -RunAsAdministrator
 
 [CmdletBinding()]
 param (
     # Path to the SMBSecurity module files.
     [Parameter()]
     [string]
-    $smbSecPath = "C:\Scripts\SMBSecurity"
+    $smbSecPath = $PWD.Path
 )
 
 # make sure the SMBSecurity script files are unblocked.
 Get-ChildItem "$smbSecPath" -Include "*.ps*1" -Recurse | Unblock-File
 
 # import the module
-Import-Module "$smbSecPath\SMBSecurity.psm1" -Force
+try {
+    Import-Module "$smbSecPath\SMBSecurity.psm1" -Force -EA Stop
+} catch {
+    throw "Failed to import the SMBSecurity module. Is the path to SMBSecurity.psm1 correct? The path used is $smbSecPath`."
+}
 
 # get the current state of the SrvsvcSessionInfo security descriptor (SD)
 $SD = Get-SMBSecurity -SecurityDescriptorName SrvsvcSessionInfo
