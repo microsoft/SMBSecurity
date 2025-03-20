@@ -42,7 +42,8 @@ if ($DACL) {
 # export the modified SrvsvcSessionInfo registry value
 reg.exe export HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity "$($PWD.Path)\SMBSecurityDescriptors.reg" /y
 $binRaw = Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity" -Name SrvsvcSessionInfo | ForEach-Object SrvsvcSessionInfo
-$binString = $binRaw -join "$("{0:X2}" -f $_)"
+[string]$binString = "" 
+$binRaw | Foreach-Object {$binString += "$("{0:X2}" -f $_)"}
 
 $backupFile = Get-ChildItem "$ENV:LOCALAPPDATA\SMBSecurity" -Filter "Backup-SrvsvcSessionInfo-SMBSec*.xml" | Sort-Object -Descending | Select-Object -First 1
 
