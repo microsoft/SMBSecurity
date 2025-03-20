@@ -1439,6 +1439,7 @@ function Remove-SMBSecurityDACL
     {
         # Write-Verbose "Remove-SMBSecurityDACL - "
         Write-Verbose "Remove-SMBSecurityDACL - Begin"
+        #Write-Verbose "Remove-SMBSecurityDACL - SD:`n($SecurityDescriptor | Format-List | Out-String)."
     }
 
     process
@@ -1446,6 +1447,7 @@ function Remove-SMBSecurityDACL
         # find the index of the DACL in the SD
         try
         {
+            Write-Verbose "Remove-SMBSecurityDACL - Searching for the index of $DACL in $($SecurityDescriptor.Name)."
             [int]$index = Find-SMBSecDACLIndex -SecurityDescriptor $SecurityDescriptor -DACL $DACL -EA Stop
 
             Write-Verbose "Remove-SMBSecurityDACL - Index of DACL: $index"
@@ -2276,7 +2278,16 @@ arrRights          : $arrRights ( $($arrRights.GetType().Name) )
 
         try 
         {
-            $DaclAce = [SMBSecDaclAce]::New($SecurityDescriptorName, $account, $access, $arrRights)
+            #$DaclAce = [SMBSecDaclAce]::New($SecurityDescriptorName, $account, $access, $arrRights)
+            $DaclAce = [SMBSecDaclAce]::New($SecurityDescriptorName)
+            # add the rest
+            Write-Verbose "Convert-SMBSecString2DACL - Set: account = $($account.Account)"
+            $DaclAce.SetAccount($account)
+            Write-Verbose "Convert-SMBSecString2DACL - Set: access = $access"
+            $DaclAce.SetAccess($access)
+            Write-Verbose "Convert-SMBSecString2DACL - Set: rights = $($arrRights -join ', ')"
+            $DaclAce.SetRights($arrRights)
+
             Write-Verbose "Convert-SMBSecString2DACL - DaclAce:`n`n$($DaclAce.ToStringList())"
             $DACL += $DaclAce
             Write-Verbose "Convert-SMBSecString2DACL - Currently $($DACL.Count) DACLs."
@@ -2967,12 +2978,12 @@ function Confirm-SMBSecurityDACL
     }
 
 
-    ## Right ##
-    Write-Verbose "Check 5: Right is [string[]]"
+    ## Right - Ignoring for now ##
+    <#Write-Verbose "Check 5: Right is [string[]]"
     if ($DACL.Right -isnot [string[]])
     {
         return (Write-Error "Invalid DACL - Right is not type [string[]]." -EA Stop)
-    }
+    }#>
 
     Write-Verbose "Check 6: At least one right is listed"
     if ( $DACL.Right.Count -lt 1 -or [string]::IsNullOrEmpty( $DACL.Right[0] ) )
@@ -3025,3 +3036,63 @@ Export-ModuleMember -Function Restore-SMBSecurity
 #Export-ModuleMember -Function ConvertTo-SMBSecSDDLString
 #Export-ModuleMember -Function Convert-SMBSecString2DACL
 #Export-ModuleMember -Function Convert-SMBSecDesc2Binary
+
+
+### Add type accelerators ###
+#region type accelerators
+# add type accelerators so the classes will export with Import-Module
+# https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_classes?view=powershell-7.4#exporting-classes-with-type-accelerators
+
+# Define the types to export with type accelerators.
+$ExportableTypes =@(
+    [SMBSecAccount]
+    [SMBSecOwner]
+    [SMBSecGroup]
+    [SMBSecDaclAce]
+    [SMBSecurityDescriptor]
+    [SMBSecPermissions]
+    [SMBSecAccess]
+    [SMBSecSrvsvcConfigInfo]
+    [SMBSecSrvsvcConnection]
+    [SMBSecSrvsvcFile]
+    [SMBSecSrvsvcServerDiskEnum]
+    [SMBSecSrvsvcSessionInfo]
+    [SMBSecSrvsvcShareAdminInfo]
+    [SMBSecSrvsvcShareFileInfo]
+    [SMBSecSrvsvcSharePrintInfo]
+    [SMBSecSrvsvcShareConnect]
+    [SMBSecSrvsvcShareAdminConnect]
+    [SMBSecSrvsvcStatisticsInfo]
+    [SMBSecSrvsvcDefaultShareInfo]
+    [SMBSecSrvsvcTransportEnum]
+    [SMBSecSrvsvcShareChange]
+)
+
+# Get the internal TypeAccelerators class to use its static methods.
+$TypeAcceleratorsClass = [psobject].Assembly.GetType(
+    'System.Management.Automation.TypeAccelerators'
+)
+
+# Ensure none of the types would clobber an existing type accelerator.
+$ExistingTypeAccelerators = $TypeAcceleratorsClass::Get
+foreach ($Type in $ExportableTypes) {
+    # don't clobber a type accelerator with the same name.
+    if ($Type.FullName -in $ExistingTypeAccelerators.Keys) {
+        # silently throw a message to the verbose stream
+        Write-Verbose @"
+Unable to register type accelerator[$($Type.FullName)]. The Accelerator already exists.
+"@
+
+    } else {
+        # Add the type accelerator
+        $TypeAcceleratorsClass::Add($Type.FullName, $Type)
+    }
+}
+
+# Remove type accelerators when the module is removed.
+$MyInvocation.MyCommand.ScriptBlock.Module.OnRemove = {
+    foreach($Type in $ExportableTypes) {
+        $TypeAcceleratorsClass::Remove($Type.FullName)
+    }
+}.GetNewClosure()
+#endregion type accelerators
