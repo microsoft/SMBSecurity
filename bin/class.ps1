@@ -969,7 +969,7 @@ class SMBSecDaclAce
     [SMBSecurityDescriptor]$SecurityDescriptor
     [SMBSecAccount]$Account
     [SMBSecAccess]$Access
-    [string[]]$Right # permission control will be handled by the functions and methods
+    [array]$Right # permission control will be handled by the functions and methods
 
     ## constructors ##
     #region 
@@ -977,11 +977,14 @@ class SMBSecDaclAce
     SMBSecDaclAce([SMBSecurityDescriptor]$SecDesc)
     {
         Write-Verbose "[SMBSecDaclAce] - Begin"
-        Write-Verbose "[SMBSecDaclAce] - Creating class with SecDesc"
+        Write-Verbose "[SMBSecDaclAce] - Creating class with SecDesc only: $SecDesc"
         $this.SecurityDescriptor = $SecDesc
-        $this.Account            = $null
+        Write-Verbose "[SMBSecDaclAce] - Default to Administrators"
+        $this.Account            = [SMBSecAccount]::new('BUILTIN\Administrators')
+        Write-Verbose "[SMBSecDaclAce] - Default to Deny"
         $this.Access             = "Deny"
-        $this.Right              = $null
+        Write-Verbose "[SMBSecDaclAce] - Default to FullControl"
+        $this.Right              = 'FullControl'
         Write-Verbose "[SMBSecDaclAce] - End"
     }
 
@@ -1139,9 +1142,10 @@ class SMBSecDaclAce
         # if FullControl is part of the permissions, set that and break because the rest don't matter
         if ($Right -contains "FullControl")
         {
-            $this.Right = "FullControl"
+            $r = "FullControl" 
+            $this.Right = $r
             Write-Verbose "[SMBSecDaclAce] - SetRight: Set to FullControl. Ignoring other rights."
-            break
+            return
         }
 
         # validate the rights match the SecDesc
