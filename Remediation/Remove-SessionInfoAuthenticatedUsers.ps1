@@ -26,7 +26,14 @@ $DACL = $SD.Dacl | Where-Object {$_.Account.Username -eq "Authenticated Users"}
 
 if ($DACL) {
     try {
+        # remove Authenticated Users
         $DACL | Remove-SMBSecurityDACL -SecurityDescriptor $SD -EA Stop
+
+        # save the change
+        $bkupPathFnd = Get-Item "$ENV:LOCALAPPDATA\SMBSecurity" -EA SilentlyContinue
+        if (-NOT $bkupPathFnd) {
+            $null = mkdir $bkupPathFnd -Force
+        }
         Save-SMBSecurity -SecurityDescriptor $SD -EA Stop
 
         # refresh
