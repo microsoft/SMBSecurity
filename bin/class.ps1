@@ -510,7 +510,8 @@ class SMBSecAccount
             $tmpAccnt = $Obj.Value
 
             # check against well known local accounts
-            [array]$tmpResults = $Script:SMBSecReservedLocalAccounts.GetEnumerator() | ForEach-Object { if ($_.Value -eq $tmpAccnt -or $_.Value -match $tmpAccnt) {$_}}
+            # 21 Mar 2025: Escaped  "$_.Value -match $tmpAccnt" to prevent this error: [SMBSecAccount]::CreateAccountByNTAccount() - Unable to find a matching SID: parsing "BUILTIN\Power Users" - Malformed \p{X} character escape. 
+            [array]$tmpResults = $Script:SMBSecReservedLocalAccounts.GetEnumerator() | ForEach-Object { if ($_.Value -eq $tmpAccnt -or $_.Value -match [regex]::Escape($tmpAccnt)) {$_}}
 
             if ($tmpResults.Count -eq 1)
             {
