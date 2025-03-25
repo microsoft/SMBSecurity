@@ -73,6 +73,7 @@ if ($DACL) {
     }
 } else {
     Write-Host "Authenticated Users not found in the SrvsvcSessionInfo security descriptor. No changes were made."
+    return
 }
 
 # export the modified SrvsvcSessionInfo registry value
