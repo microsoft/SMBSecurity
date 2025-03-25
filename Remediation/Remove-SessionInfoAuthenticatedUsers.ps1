@@ -7,8 +7,35 @@ param (
     # Path to the SMBSecurity module files.
     [Parameter()]
     [string]
-    $smbSecPath = $PWD.Path
+    $smbSecPath = $null
 )
+
+# make sure the app data directory is there
+$appDataDir = "$ENV:LOCALAPPDATA\SMBSecurity"
+$appDirFnd = Get-Item $appDataDir -EA SilentlyContinue
+
+if (-NOT $appDirFnd) {
+    # create the directory
+    $null = New-Item -Path $appDataDir -ItemType Directory -Force -EA SilentlyContinue
+    Start-Sleep 1
+}
+
+if (-NOT $smbSecPath) {
+    # is the script in a Remediation dir?
+    $isRemDir = Split-Path $PSScriptRoot -Leaf
+    if ($isRemDir -eq 'Remediation') {
+        # Assume the dir structure is as-in from GitHub and the module is in the parent directory
+        $smbSecPath = Split-Path $PSScriptRoot -Parent
+    } elseif ($isRemDir -eq 'SMBSecurity') {
+        $smbSecPath = $PSScriptRoot
+    }
+}
+
+# look for the module file in the smbSecPath
+$modFnd = Get-Item "$smbSecPath\SMBSecurity.psm1" -EA SilentlyContinue
+if (-NOT $modFnd) {
+    throw "Failed to find the SMBSecurity.psm1 module."
+}
 
 # make sure the SMBSecurity script files are unblocked.
 Get-ChildItem "$smbSecPath" -Include "*.ps*1" -Recurse | Unblock-File
@@ -34,6 +61,8 @@ if ($DACL) {
         if (-NOT $bkupPathFnd) {
             $null = mkdir $bkupPathFnd -Force
         }
+        $beforeName = "$($PWD.Path)\SMBSecurityDescriptors_before_$([datetime]::Now.ToFileTime()).reg"
+        reg.exe export HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity $beforeName /y
         Save-SMBSecurity -SecurityDescriptor $SD -EA Stop
 
         # refresh
@@ -47,7 +76,8 @@ if ($DACL) {
 }
 
 # export the modified SrvsvcSessionInfo registry value
-reg.exe export HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity "$($PWD.Path)\SMBSecurityDescriptors.reg" /y
+$afterName = "$($PWD.Path)\SMBSecurityDescriptors_after_$([datetime]::Now.ToFileTime()).reg"
+reg.exe export HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity $afterName /y
 $binRaw = Get-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\DefaultSecurity" -Name SrvsvcSessionInfo | ForEach-Object SrvsvcSessionInfo
 [string]$binString = "" 
 $binRaw | Foreach-Object {$binString += "$("{0:X2}" -f $_)"}
@@ -57,9 +87,11 @@ $backupFile = Get-ChildItem "$ENV:LOCALAPPDATA\SMBSecurity" -Filter "Backup-Srvs
 Write-Host -ForegroundColor Green @"
 
 
-The backup file is located at: $($backupFile.FullName)
+The SMBSecurity backup file is located at: $($backupFile.FullName)
 
-The updated DefaultSecurity key has been exported to: $($PWD.Path)\SMBSecurityDescriptors.reg
+The updated DefaultSecurity key has been exported to: $afterName
+
+The reg key backup file, before the change, has been exported to: $beforeName
 
 The binary string for the updated SrvsvcSessionInfo registry value is:
 
